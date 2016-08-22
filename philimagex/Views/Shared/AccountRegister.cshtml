@@ -1,50 +1,60 @@
 ﻿@using philimagex.Models
 @model philimagex.Models.RegisterViewModel
 
-<section id="loginForm">
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <br /><br /><br /><br />@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                <div class="login-form-pad">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4>Register</h4>
-                        </div>
-                        <div class="panel-body">
-                            @Html.AntiForgeryToken()
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user fa-fw"></i></span>
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Username" })
-                            </div>                           
-                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-
-                            <div class="login-space"></div>
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-key fa-fw"></i></span>
-                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <!-- Section -->
+    <section>
+        @{ Response.Redirect("~/Manage/Index"); }
+    </section>
+}
+else
+{
+    <section id="loginForm">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <br /><br /><br /><br />@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    <div class="login-form-pad">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4>Register</h4>
                             </div>
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            <div class="panel-body">
+                                @Html.AntiForgeryToken()
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user fa-fw"></i></span>
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Username" })
+                                </div>
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
 
-                            <div class="login-space"></div>
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-key fa-fw"></i></span>
-                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                                <div class="login-space"></div>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-key fa-fw"></i></span>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                </div>
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+                                <div class="login-space"></div>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-key fa-fw"></i></span>
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                                </div>
+                                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                             </div>
-                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="panel-footer">
-                            <input type="submit" value="Register" class="btn btn-success btn-block btn-lg" />
+                            <div class="panel-footer">
+                                <input type="submit" value="Register" class="btn btn-success btn-block btn-lg" />
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
+            <div class="col-md-4"></div>
         </div>
-        <div class="col-md-4"></div>
-    </div>
-
-</section>
+    </section>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
