@@ -168,3 +168,14 @@ footer {
 p.copyright {
     margin: 15px 0 0;
 }
+
+/* Custom CSS */
+.login-form-pad {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.login-space {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

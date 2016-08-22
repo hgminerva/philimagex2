@@ -287,6 +287,10 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Software\Index.cshtml" />
+    <Content Include="Views\Shared\AccountLogin.cshtml" />
+    <Content Include="Views\Shared\HomeHeader.cshtml" />
+    <Content Include="Views\Shared\HomeFooter.cshtml" />
+    <Content Include="Views\Shared\AccountRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
