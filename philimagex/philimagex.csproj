@@ -238,6 +238,7 @@
     <Content Include="Images\intro-bg.jpg" />
     <Content Include="Images\ipad.png" />
     <Content Include="Images\phones.png" />
+    <Content Include="Images\xray.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -291,6 +292,7 @@
     <Content Include="Views\Shared\HomeHeader.cshtml" />
     <Content Include="Views\Shared\HomeFooter.cshtml" />
     <Content Include="Views\Shared\AccountRegister.cshtml" />
+    <Content Include="Views\Shared\ManageIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
