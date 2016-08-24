@@ -23,6 +23,6 @@ namespace philimagex.Models
         public Int32 BodyPartId { get; set; }
         public String BodyPart { get; set; }
         public Int32 UserId { get; set; }
-        public String UserId { get; set; }
+        public String User { get; set; }
     }
 }
