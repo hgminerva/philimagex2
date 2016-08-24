@@ -33,8 +33,42 @@
                         <div class="panel-heading">
                             <h4>Modality</h4>
                         </div>
+                        <div class="panel-heading">
+                            <table style="width: 100%" border="0">
+                                <tr>
+                                    <td style="width: 50%">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                            <input type="text" class="form-control input-sm" id="InputFilter" placeholder="Search">
+                                        </div>
+                                    </td>
+                                    <td style="width: 50%" align="right">
+                                        <button class="btn btn-primary"><i class="fa fa-plus fa-fw"></i>Add</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="panel-body">
 
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="btn-group col-md-7" id="naviagtionPageGrid">
+                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToFirstPageGrid">
+                                        <span class="glyphicon glyphicon-fast-backward"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToPreviousPageGrid">
+                                        <span class="glyphicon glyphicon-step-backward"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnCurrentPageGrid"></button>
+                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToNextPageGrid">
+                                        <span class="glyphicon glyphicon-step-forward"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToLastPageGrid">
+                                        <span class="glyphicon glyphicon-fast-forward"></span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
