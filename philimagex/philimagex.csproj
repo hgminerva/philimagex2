@@ -478,7 +478,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="wijmo\controls\cultures\wijmo.culture.de.d.ts" />
     <TypeScriptCompile Include="wijmo\controls\cultures\wijmo.culture.de.ts" />
     <TypeScriptCompile Include="wijmo\controls\cultures\wijmo.culture.en-GB.d.ts" />
