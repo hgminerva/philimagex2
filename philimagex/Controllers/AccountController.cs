@@ -154,7 +154,11 @@ namespace philimagex.Controllers
             if (ModelState.IsValid)
             {
                 //var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Username };
+                var user = new ApplicationUser { 
+                    UserName = model.Username, 
+                    FullName = model.FullName 
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -167,6 +171,19 @@ namespace philimagex.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     //return RedirectToAction("Index", "Home");
+
+                    // after register, store in mst user database table
+                    Data.philimagexdbDataContext db = new Data.philimagexdbDataContext();
+                    Data.MstUser newMstUser = new Data.MstUser();
+                    newMstUser.UserName = model.Username;
+                    newMstUser.FullName = model.FullName;
+                    newMstUser.Address = model.Address;
+                    newMstUser.ContactNumber = model.ContactNumber;
+                    newMstUser.UserTypeId = (from d in db.MstUserTypes select d.Id).FirstOrDefault();
+                    newMstUser.AspNetUserId = user.Id;
+                    db.MstUsers.InsertOnSubmit(newMstUser);
+                    db.SubmitChanges();
+
                     return RedirectToAction("Index", "Manage");
                 }
                 AddErrors(result);

@@ -74,6 +74,18 @@ namespace philimagex.Models
         //public string Email { get; set; }
 
         [Required]
+        [Display(Name = "FullName")]
+        public string FullName { get; set; }
+
+        [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        [Required]
+        [Display(Name = "Contact Number")]
+        public string ContactNumber { get; set; }
+
+        [Required]
         [Display(Name = "Username")]
         public string Username { get; set; }
 
