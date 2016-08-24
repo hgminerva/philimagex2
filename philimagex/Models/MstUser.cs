@@ -16,6 +16,6 @@ namespace philimagex.Models
         public String ContactNumber { get; set; }
         public Int32 UserTypeId { get; set; }
         public String UserType { get; set; }
-        public Int32 AspNetUserId { get; set; }
+        public String AspNetUserId { get; set; }
     }
 }

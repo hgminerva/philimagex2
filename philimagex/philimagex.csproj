@@ -165,6 +165,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\ApiBodyPartsController.cs" />
+    <Compile Include="ApiControllers\ApiModalityController.cs" />
+    <Compile Include="ApiControllers\ApiModalityProcedureController.cs" />
+    <Compile Include="ApiControllers\ApiProcedureController.cs" />
+    <Compile Include="ApiControllers\ApiProcedureResultController.cs" />
+    <Compile Include="ApiControllers\ApiUserController.cs" />
+    <Compile Include="ApiControllers\ApiUserDoctorController.cs" />
+    <Compile Include="ApiControllers\ApiUserRateController.cs" />
+    <Compile Include="ApiControllers\ApiUserTypeController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -462,7 +471,6 @@
     <Content Include="wijmo\styles\themes\wijmo.theme.zen.less" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ApiControllers\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

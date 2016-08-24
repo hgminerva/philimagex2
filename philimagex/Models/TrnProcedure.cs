@@ -16,7 +16,7 @@ namespace philimagex.Models
         public String PatientName { get; set; }
         public String Gender { get; set; }
         public String DateOfBirth { get; set; }
-        public String Age { get; set; }
+        public Int32 Age { get; set; }
         public String Particulars { get; set; }
         public Int32 ModalityId { get; set; }
         public String Modality { get; set; }
