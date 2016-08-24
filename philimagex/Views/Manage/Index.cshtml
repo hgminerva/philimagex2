@@ -19,5 +19,15 @@
     <!-- Scripts -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+        // Launch Software
+        function btnLaunchSoftwareOnclick() {
+            $("#btnLaunchSoftware").prop("disabled", true);
+            document.getElementById("btnLaunchSoftware").innerHTML = "<i class='fa fa-spinner fa-spin fa-fw'></i> Launching Software";
+            setTimeout(function () {
+                window.location = "/Software/Index";
+            }, 1500);
+        }
+    </script>
 </body>
 </html>

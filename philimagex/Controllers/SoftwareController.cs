@@ -8,8 +8,44 @@ namespace philimagex.Controllers
 {
     public class SoftwareController : Controller
     {
-        // GET: Software
+        [Authorize]
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Modality()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult BodyParts()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult User()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Rate()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Procedure()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Reports()
         {
             return View();
         }

@@ -1,7 +1,85 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DMTiPACS - Dashboard</title>
 
-<h2>Index</h2>
+    <!-- Styles  -->
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <!-- Navbar -->
+    @Html.Partial("HomeHeader")
 
+    <!-- Section Side -->
+    <section class="software-section">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Dashboard</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="/Software/Modality" class="btn btn-primary btn-block btn-lg">
+                                <i class="fa fa-stethoscope fa-fw fa-5x"></i>
+                                <br /><br />
+                                Modality
+                            </a>
+                            <br />
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/Software/BodyParts" class="btn btn-primary btn-block btn-lg">
+                                <i class="fa fa-male fa-fw fa-5x"></i>
+                                <br /><br />
+                                Body Parts
+                            </a>
+                            <br />
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/Software/User" class="btn btn-primary btn-block btn-lg">
+                                <i class="fa fa-key fa-fw fa-5x"></i>
+                                <br /><br />
+                                User
+                            </a>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="/Software/Rate" class="btn btn-primary btn-block btn-lg">
+                                <i class="fa fa-star-half-full fa-fw fa-5x"></i>
+                                <br /><br />
+                                Rate
+                            </a>
+                            <br />
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/Software/Procedure" class="btn btn-primary btn-block btn-lg">
+                                <i class="fa fa-clipboard fa-fw fa-5x"></i>
+                                <br /><br />
+                                Procedure
+                            </a>
+                            <br />
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/Software/Reports" class="btn btn-primary btn-block btn-lg">
+                                <i class="fa fa-print fa-fw fa-5x"></i>
+                                <br /><br />
+                                Reports
+                            </a>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>
