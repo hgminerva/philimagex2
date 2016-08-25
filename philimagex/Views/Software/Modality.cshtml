@@ -49,7 +49,7 @@
                             </table>
                         </div>
                         <div class="panel-body">
-
+                            <div id="flexGrid"></div>
                         </div>
                         <div class="panel-footer">
                             <div class="row">
@@ -80,7 +80,29 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script type="text/javascript">
+        var flexGrid = wijmo.grid.FlexGrid;
+        var flexView = wijmo.collections.CollectionView;
 
+        function initGrid() {
+            flexGrid = new wijmo.grid.FlexGrid('#flexGrid', {
+                autoGenerateColumns: false,
+                selectionMode : 'Row',
+                columns: [
+                    {
+                        Header: ' ',
+                        Binding: 'edit',
+                        isReadOnly: true,
+                        isContentHtml: true,
+                        width: 65,
+                        align: center
+                    }
+                ]
+            });
+        }
+
+        $(document).ready(function () {
+            initGrid()
+        });
     </script>
 </body>
 </html>
