@@ -51,7 +51,7 @@
                             </table>
                         </div>
                         <div class="panel-body">
-                            <div id="grid"></div>
+                            <div id="grid" class="grid"></div>
                         </div>
                         <div class="panel-footer">
                             <div class="row">
@@ -76,7 +76,7 @@
                         <div class="modal fade" id="addModality" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form role="form">
+                                    <form id="formModality" role="form">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             <h4 id="modal-title" class="modal-title">Add Modality Procedure</h4>
@@ -141,6 +141,7 @@
         var list;
         var modality;
         var cmbModality;
+        var observableArray;
 
         var btnFirstPageGrid4;
         var btnPreviousPageGrid;
@@ -155,12 +156,10 @@
 
         function initList() {
             var results = list;
-            var observableArray = new wijmo.collections.ObservableArray();
+            observableArray = new wijmo.collections.ObservableArray();
             if (results.length > 0) {
                 for (i = 0; i < results.length; i++) {
                     observableArray.push({
-                        EditId: "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='cmdEditButton_OnClick()'><i class='fa fa-edit'></i> Edit</button>",
-                        DeleteId: "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='cmdDeleteButton_OnClick()'><i class='fa fa-trash'></i> Delete</button>",
                         Id: results[i]["Id"],
                         Modality: results[i]["Modality"],
                         ModalityId: results[i]["ModalityId"],
@@ -168,97 +167,112 @@
                         ModalityResultTemplate: results[i]["ModalityResultTemplate"]
                     });
                 }
-                collection = new wijmo.collections.CollectionView(observableArray);
-                btnCurrentPageGrid.innerHTML = (collection.pageIndex + 1) + ' / ' + collection.pageCount;
-
-                collection.canFilter = true;
-                collection.pageSize = 15;
-
-                //Filter
-                var filterText = '';
-                $('#InputFilter').keydown(function () {
-                    filterText = this.value.toLowerCase();
-                    collection.refresh();
-                });
-                collection.filter = function (item) {
-                    return !filterText || (item.BodyPart.toLowerCase().indexOf(filterText) > -1);
-                }
-                collection.collectionChanged.addHandler(function (sender, args) {
-                    updateNavigateButtonsCollection();
-
-                });
-                collection.currentChanged.addHandler(function (sender, args) {
-                    updateNavigateButtonsCollection();
-                });
-
-
-                //Flex Grid
-                grid = new wijmo.grid.FlexGrid('#grid');
-                grid.initialize({
-                    columns: [
-                        {
-                            "header": "Edit",
-                            "binding": "EditId",
-                            "width": 60,
-                            "align": "center",
-                            "isContentHtml": true
-                        },
-                        {
-                            "header": "Delete",
-                            "binding": "DeleteId",
-                            "width": 70,
-                            "align": "center",
-                            "isContentHtml": true
-
-                        },
-                        {
-                            "header": "Modality",
-                            "binding": "Modality",
-                            "align": "left",
-                            "allowSorting": true,
-                            "isContentHtml": true,
-                            "width": "2*"
-                        },
-                        {
-                             "header": "Modality Procedure",
-                             "binding": "ModalityProcedure",
-                             "align": "left",
-                             "allowSorting": true,
-                             "isContentHtml": true,
-                             "width": "5*"
-                         }
-                    ],
-                    autoGenerateColumns: false,
-                    itemsSource: collection,
-                    isReadOnly: true,
-                    autoSizeMode: wijmo.grid.AutoSizeMode.Both,
-                    allowDragging: wijmo.grid.AllowDragging.None,
-                    selectionMode: wijmo.grid.SelectionMode.Row
-                });
-
-                grid.trackChanges = true;
-
-                updateNavigateButtonsCollection();
-
-                btnFirstPageGrid.addEventListener('click', function () {
-                    collection.moveToFirstPage();
-                    updateNavigateButtonsCollection();
-                });
-                btnPreviousPageGrid.addEventListener('click', function () {
-                    collection.moveToPreviousPage();
-                    updateNavigateButtonsCollection();
-                });
-                btnNextPageGrid.addEventListener('click', function () {
-                    collection.moveToNextPage();
-                    updateNavigateButtonsCollection();
-                });
-                btnLastPageGrid.addEventListener('click', function () {
-                    collection.moveToLastPage();
-                    updateNavigateButtonsCollection();
-                });
+                collection = new wijmo.collections.CollectionView(observableArray)
             } else {
                 /*   alert("No data."); */
             }
+        }
+
+        function initGrid() {
+            btnCurrentPageGrid.innerHTML = (collection.pageIndex + 1) + ' / ' + collection.pageCount;
+
+            collection.canFilter = true;
+            collection.pageSize = 15;
+
+            //Filter
+            var filterText = '';
+            $('#InputFilter').keydown(function () {
+                filterText = this.value.toLowerCase();
+                collection.refresh();
+            });
+            collection.filter = function (item) {
+                return !filterText || (item.ModalityProcedure.toLowerCase().indexOf(filterText) > -1);
+            }
+            collection.collectionChanged.addHandler(function (sender, args) {
+                updateNavigateButtonsCollection();
+
+            });
+            collection.currentChanged.addHandler(function (sender, args) {
+                updateNavigateButtonsCollection();
+            });
+
+
+            //Flex Grid
+            grid = new wijmo.grid.FlexGrid('#grid');
+            grid.initialize({
+                columns: [
+                    {
+                        "header": " ",
+                        "binding": "EditId",
+                        "width": 60,
+                        "align": "center",
+                        "isContentHtml": true
+                    },
+                    {
+                        "header": " ",
+                        "binding": "DeleteId",
+                        "width": 70,
+                        "align": "center",
+                        "isContentHtml": true
+
+                    },
+                    {
+                        "header": "Modality",
+                        "binding": "Modality",
+                        "align": "left",
+                        "allowSorting": true,
+                        "isContentHtml": true,
+                        "width": "2*"
+                    },
+                    {
+                        "header": "Modality Procedure",
+                        "binding": "ModalityProcedure",
+                        "align": "left",
+                        "allowSorting": true,
+                        "isContentHtml": true,
+                        "width": "5*"
+                    }
+                ],
+                autoGenerateColumns: false,
+                itemsSource: collection,
+                isReadOnly: true,
+                autoSizeMode: wijmo.grid.AutoSizeMode.Both,
+                allowDragging: wijmo.grid.AllowDragging.None,
+                selectionMode: wijmo.grid.SelectionMode.Row,
+                itemFormatter : function(panel, r, c, cell) {
+                    var col = panel.columns[c];
+                    if (col.binding == "EditId") {
+                        if (cell.innerHTML != " ") {
+                            cell.innerHTML = "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='cmdEditButton_OnClick()'><i class='fa fa-edit'></i> Edit</button>"
+                        }
+                    }
+                    if (col.binding == "DeleteId") {
+                        if (cell.innerHTML != " ") {
+                            cell.innerHTML =  "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='cmdDeleteButton_OnClick()'><i class='fa fa-trash'></i> Delete</button>"
+                        }
+                    }
+                }
+            });
+
+            grid.trackChanges = true;
+
+
+            btnFirstPageGrid.addEventListener('click', function () {
+                collection.moveToFirstPage();
+                updateNavigateButtonsCollection();
+            });
+            btnPreviousPageGrid.addEventListener('click', function () {
+                collection.moveToPreviousPage();
+                updateNavigateButtonsCollection();
+            });
+            btnNextPageGrid.addEventListener('click', function () {
+                collection.moveToNextPage();
+                updateNavigateButtonsCollection();
+            });
+            btnLastPageGrid.addEventListener('click', function () {
+                collection.moveToLastPage();
+                updateNavigateButtonsCollection();
+            });
         }
 
         function initModality() {
@@ -326,33 +340,47 @@
             });
         }
 
+
+
         //============
         // Add data
         // ============
 
         function addData() {
-            console.log('added');
             modalityData = createModality();
-            $.ajax({
-                url: '/api/modalityProcedure/add',
-                type: 'POST',
-                cache: false,
-                contentType: 'application/json; charset=utf-8',
-                data: modalityData,
-                dataType: 'json',
-                statusCode: {
-                    200: function () {
-                        console.log('added successfully');
-                    },
-                    404: function () {
-                        console.log('something went wrong.');
-                    },
-                    400: function () {
-                        console.log('something went wrong.');
+            console.log(modalityData.ModalityProcedure);
+            if (!validate(modalityData)) {
+                console.log('invalid input');
+            }
+            else {
+                $.ajax({
+                    url: '/api/modalityProcedure/add',
+                    type: 'POST',
+                    cache: false,
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(modalityData),
+                    dataType: 'json',
+                    statusCode: {
+                        200: function () {
+                            console.log('added successfully');
+                            $('#addModality').modal('hide');
+                            getMasterList(function (results) {
+                                if (results && results.length > 0) {
+                                    list = results;
+                                    initList();
+                                    console.log('asa');
+                                }
+                            });
+                        },
+                        404: function () {
+                            console.log('something went wrong.');
+                        },
+                        400: function () {
+                            console.log('something went wrong.');
+                        }
                     }
-                }
-            });
-            console.log('added1');
+                });
+            }
         }
 
 
@@ -361,30 +389,34 @@
         // ============
 
         function editData() {
-            console.log('edit');
             var modalityData = collection.currentItem;
             editData = createModality();
 
-            $.ajax({
-                url: '/api/modalityProcedure/update/' + modalityData.Id,
-                type: 'PUT',
-                cache: false,
-                contentType: 'application/json; charset=utf-8',
-                data: editData,
-                dataType: 'json',
-                statusCode: {
-                    200: function () {
-                        console.log('edit successfully');
-                    },
-                    404: function () {
-                        console.log('something went wrong.');
-                    },
-                    400: function () {
-                        console.log('something went wrong.');
+            if (!validate(editData)) {
+                console.log('invalid input');
+            }
+            else {
+                $.ajax({
+                    url: '/api/modalityProcedure/update/' + modalityData.Id,
+                    type: 'PUT',
+                    cache: false,
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(editData),
+                    dataType: 'json',
+                    statusCode: {
+                        200: function () {
+                            console.log('edited successfully');
+                            $('#addModality').modal('hide');
+                        },
+                        404: function () {
+                            console.log('something went wrong.');
+                        },
+                        400: function () {
+                            console.log('something went wrong.');
+                        }
                     }
-                }
-            });
-            console.log('added1');
+                });
+            }
         }
 
         //============
@@ -399,7 +431,9 @@
                 type: 'DELETE',
                 statusCode: {
                     200: function () {
-                        console.log('delete successfully');
+                        console.log('deleted successfully');
+                        $('#deleteModality').modal('hide');
+                        collection.remove(modalityData);
                     },
                     404: function () {
                         console.log('something went wrong.');
@@ -416,6 +450,7 @@
         function btnAdd_OnClick() {
             document.getElementById('modal-title').innerHTML = "Add Modality Procedure";
             document.getElementById('btnSave').onclick = addData;
+          
             clearFields();
 
             $('#addModality').modal({
@@ -464,9 +499,9 @@
             document.getElementById('cmbModality').selectedIndex = 0;
         }
 
-        //============
+        //=================
         // Create modality
-        // ============
+        // ================
         function createModality() {
             var modalityId = modality[cmbModality.selectedIndex].Id;
             var modalityProcedure = document.getElementById('modalProcedure').value;
@@ -480,7 +515,35 @@
 
             console.log(modalityId);
 
-            return JSON.stringify(data);
+            return data;
+        }
+
+        //=================
+        // Validate
+        // ================
+
+        function validate(modalityObject) {
+            if (!validateModalityProc(modalityObject.ModalityProcedure)) {
+                return false;
+            }
+            else if (!validateResultTemp(modalityObject.ModalityResultTemplate)) {
+                return false;
+            }
+            return true;
+        }
+
+        function validateModalityProc(modalityProcedure) {
+            if (modalityProcedure == undefined) {
+                return false;
+            }
+            return true;
+        }
+
+        function validateResultTemp(resultTemplate) {
+            if (resultTemplate == undefined) {
+                return false;
+            }
+            return true;
         }
 
         //============
@@ -504,12 +567,12 @@
                     initModality();
                 }
             });
-
             //Collection View
             getMasterList(function (results) {
                 if (results && results.length > 0) {
                     list = results;
                     initList();
+                    initGrid();
                 }
             });
 
