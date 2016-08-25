@@ -57,24 +57,24 @@ namespace philimagex.ApiControllers
         [Authorize]
         [HttpPost]
         [Route("api/modalityProcedure/add")]
-        public Int32 addModalityProcedure(Models.MstModalityProcedure modalityProcedure)
+        public HttpResponseMessage addModalityProcedure(Models.MstModalityProcedure modalityProcedure)
         {
             try
             {
                 Data.MstModalityProcedure newModalityProcedure = new Data.MstModalityProcedure();
 
-                newModalityProcedure.ModalityId = (from d in db.MstModalities select d.Id).FirstOrDefault();
+                newModalityProcedure.ModalityId = modalityProcedure.ModalityId;
                 newModalityProcedure.ModalityProcedure = modalityProcedure.ModalityProcedure;
                 newModalityProcedure.ModalityResultTemplate = modalityProcedure.ModalityResultTemplate;
                
                 db.MstModalityProcedures.InsertOnSubmit(newModalityProcedure);
                 db.SubmitChanges();
 
-                return newModalityProcedure.Id;
+                return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch
             {
-                return 0;
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
 
