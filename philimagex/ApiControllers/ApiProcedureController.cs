@@ -176,5 +176,40 @@ namespace philimagex.ApiControllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
+
+
+        // list procedure by dates
+        [Authorize]
+        [HttpGet]
+        [Route("api/procedure/listByDateRange/{startDate}/{endDate}")]
+        public List<Models.TrnProcedure> listProcedureByDateRange(String startDate, String endDate)
+        {
+            var procedures = from d in db.TrnProcedures
+                             where d.TransactionDateTime >= Convert.ToDateTime(startDate)
+                             && d.TransactionDateTime <= Convert.ToDateTime(endDate)
+                             select new Models.TrnProcedure
+                             {
+                                 Id = d.Id,
+                                 TransactionNumber = d.TransactionNumber,
+                                 TransactionDateTime = d.TransactionDateTime.ToShortDateString(),
+                                 TransactionTime = d.TransactionDateTime.ToShortTimeString(),
+                                 DICOMFileName = d.DICOMFileName,
+                                 PatientName = d.PatientName,
+                                 Gender = d.Gender,
+                                 DateOfBirth = d.DateOfBirth.ToShortDateString(),
+                                 Age = d.Age,
+                                 Particulars = d.Particulars,
+                                 ModalityId = d.ModalityId,
+                                 Modality = d.MstModality.Modality,
+                                 BodyPartId = d.BodyPartId,
+                                 BodyPart = d.MstBodyPart.BodyPart,
+                                 UserId = d.UserId,
+                                 User = d.MstUser.FullName,
+                                 Facility = d.MstUser.MstUserType.UserType
+                             };
+
+            return procedures.ToList();
+        }
+
     }
 }
