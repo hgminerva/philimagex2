@@ -15,10 +15,11 @@ namespace philimagex.ApiControllers
         // body procedure result
         [Authorize]
         [HttpGet]
-        [Route("api/procedureResult/list")]
-        public List<Models.TrnProcedureResult> listProcedureResult()
+        [Route("api/procedureResult/listByProcedureId/{procedureId}")]
+        public List<Models.TrnProcedureResult> listProcedureResultByProcedureId(String procedureId)
         {
             var procedureResults = from d in db.TrnProcedureResults
+                                   where d.ProcedureId == Convert.ToInt32(procedureId)
                                    select new Models.TrnProcedureResult
                                     {
                                         Id = d.Id,
@@ -28,6 +29,8 @@ namespace philimagex.ApiControllers
                                         Result = d.Result,
                                         DoctorId = d.DoctorId,
                                         Doctor = d.MstUser.FullName,
+                                        DoctorDateTime = d.DoctorDateTime.ToShortDateString(),
+                                        DoctorTime = d.DoctorDateTime.ToShortTimeString(),
                                     };
 
             return procedureResults.ToList();
@@ -46,7 +49,7 @@ namespace philimagex.ApiControllers
                 newProcedureResult.ModalityProcedureId = procedureResult.ModalityProcedureId;
                 newProcedureResult.Result = procedureResult.Result;
                 newProcedureResult.DoctorId = procedureResult.DoctorId;
-                newProcedureResult.DoctorDateTime = Convert.ToDateTime(procedureResult.DoctorDateTime);
+                newProcedureResult.DoctorDateTime = DateTime.Now;
 
                 db.TrnProcedureResults.InsertOnSubmit(newProcedureResult);
                 db.SubmitChanges();
@@ -75,7 +78,7 @@ namespace philimagex.ApiControllers
                     updaterPocedureResult.ModalityProcedureId = procedureResult.ModalityProcedureId;
                     updaterPocedureResult.Result = procedureResult.Result;
                     updaterPocedureResult.DoctorId = procedureResult.DoctorId;
-                    updaterPocedureResult.DoctorDateTime = Convert.ToDateTime(procedureResult.DoctorDateTime);
+                    updaterPocedureResult.DoctorDateTime = DateTime.Now;
 
                     db.SubmitChanges();
 

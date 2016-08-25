@@ -18,5 +18,6 @@ namespace philimagex.Models
         public Int32 DoctorId { get; set; }
         public String Doctor { get; set; }
         public String DoctorDateTime { get; set; }
+        public String DoctorTime { get; set; }
     }
 }

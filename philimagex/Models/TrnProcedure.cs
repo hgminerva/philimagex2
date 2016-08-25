@@ -12,6 +12,7 @@ namespace philimagex.Models
         public Int32 Id { get; set; }
         public String TransactionNumber { get; set; }
         public String TransactionDateTime { get; set; }
+        public String TransactionTime { get; set; }
         public String DICOMFileName { get; set; }
         public String PatientName { get; set; }
         public String Gender { get; set; }

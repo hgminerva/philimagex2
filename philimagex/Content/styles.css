@@ -10,7 +10,6 @@ html {
     height: 100%;
 }
 
-body,
 h1 {
     font-weight: 700;
 }
@@ -181,4 +180,13 @@ p.copyright {
 .navbar-default .navbar-brand {
     padding-top: 13px;
     color: #777;
+}
+
+dt {
+    margin-top: 5px;
+}
+
+dd {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

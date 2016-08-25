@@ -24,14 +24,18 @@ namespace philimagex
                       "~/wijmo/controls/wijmo.min.js", 
                       "~/wijmo/controls/wijmo.input.min.js", 
                       "~/wijmo/controls/wijmo.grid.min.js", 
-                      "~/wijmo/controls/wijmo.chart.min.js"));
-                      //"~/Scripts/respond.js"))
+                      "~/wijmo/controls/wijmo.chart.min.js",
+                      "~/Scripts/nprogress.js",
+                      "~/Scripts/toastr.min.js",
+                      "~/Scripts/custom-scripts.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
                       "~/Content/bootstrap-theme.min.css",
                       "~/fonts/font-awesome-4.6.3/css/font-awesome.min.css",
                       "~/Content/styles.css",
+                      "~/Content/nprogress.css",
+                      "~/Content/toastr.min.css",
                       "~/wijmo/styles/wijmo.min.css"));
         }
     }

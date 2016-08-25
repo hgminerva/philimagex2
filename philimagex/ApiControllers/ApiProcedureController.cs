@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using System.Diagnostics;
 
 namespace philimagex.ApiControllers
 {
@@ -25,6 +26,7 @@ namespace philimagex.ApiControllers
                                 Id = d.Id,
                                 TransactionNumber = d.TransactionNumber,
                                 TransactionDateTime = d.TransactionDateTime.ToShortDateString(),
+                                TransactionTime = d.TransactionDateTime.ToShortTimeString(),
                                 DICOMFileName = d.DICOMFileName,
                                 PatientName = d.PatientName,
                                 Gender = d.Gender,
@@ -55,6 +57,7 @@ namespace philimagex.ApiControllers
                                  Id = d.Id,
                                  TransactionNumber = d.TransactionNumber,
                                  TransactionDateTime = d.TransactionDateTime.ToShortDateString(),
+                                 TransactionTime = d.TransactionDateTime.ToShortTimeString(),
                                  DICOMFileName = d.DICOMFileName,
                                  PatientName = d.PatientName,
                                  Gender = d.Gender,
@@ -84,11 +87,11 @@ namespace philimagex.ApiControllers
 
                 Data.TrnProcedure newProcedure = new Data.TrnProcedure();
                 newProcedure.TransactionNumber = "NA";
-                newProcedure.TransactionDateTime = DateTime.Today;
+                newProcedure.TransactionDateTime = DateTime.Now;
                 newProcedure.DICOMFileName = "NA";
                 newProcedure.PatientName = "NA";
-                newProcedure.Gender = "NA";
-                newProcedure.DateOfBirth = DateTime.Today;
+                newProcedure.Gender = "M";
+                newProcedure.DateOfBirth = DateTime.Now;
                 newProcedure.Age = 0;
                 newProcedure.Particulars = "NA";
                 newProcedure.ModalityId = (from d in db.MstModalities select d.Id).FirstOrDefault();
@@ -100,8 +103,9 @@ namespace philimagex.ApiControllers
 
                 return newProcedure.Id;
             }
-            catch
+            catch(Exception e)
             {
+                Debug.WriteLine(e);
                 return 0;
             }
         }
@@ -117,10 +121,10 @@ namespace philimagex.ApiControllers
                 var procedures = from d in db.TrnProcedures where d.Id == Convert.ToInt32(id) select d;
                 if (procedures.Any())
                 {
+                    var userId = (from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d.Id).SingleOrDefault();
                     var updateProcedure = procedures.FirstOrDefault();
 
                     updateProcedure.TransactionNumber = procedure.TransactionNumber;
-                    updateProcedure.TransactionDateTime = Convert.ToDateTime(procedure.TransactionDateTime);
                     updateProcedure.DICOMFileName = procedure.DICOMFileName;
                     updateProcedure.PatientName = procedure.PatientName;
                     updateProcedure.Gender = procedure.Gender;
@@ -129,7 +133,7 @@ namespace philimagex.ApiControllers
                     updateProcedure.Particulars = procedure.Particulars;
                     updateProcedure.ModalityId = procedure.ModalityId;
                     updateProcedure.BodyPartId = procedure.BodyPartId;
-                    updateProcedure.UserId = procedure.UserId;
+                    updateProcedure.UserId = userId;
 
                     db.SubmitChanges();
 

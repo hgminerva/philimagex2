@@ -15,6 +15,12 @@ namespace philimagex.Controllers
         }
 
         [Authorize]
+        public ActionResult NotFound()
+        {
+            return View();
+        }
+
+        [Authorize]
         public ActionResult Modality()
         {
             return View();
@@ -42,6 +48,19 @@ namespace philimagex.Controllers
         public ActionResult Procedure()
         {
             return View();
+        }
+
+        [Authorize]
+        public ActionResult ProcedureDetail(Int32? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("NotFound", "Software");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         [Authorize]

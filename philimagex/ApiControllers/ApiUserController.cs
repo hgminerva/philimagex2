@@ -16,10 +16,11 @@ namespace philimagex.ApiControllers
         // list user
         [Authorize]
         [HttpGet]
-        [Route("api/user/list")]
-        public List<Models.MstUser> listUser()
+        [Route("api/user/listByUserTypeId/{userTypeId}")]
+        public List<Models.MstUser> listUserByUserTypeId(String userTypeId)
         {
             var users = from d in db.MstUsers
+                        where d.UserTypeId == Convert.ToInt32(userTypeId)
                         select new Models.MstUser
                         {
                             Id = d.Id,
