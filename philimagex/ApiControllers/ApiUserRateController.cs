@@ -24,6 +24,7 @@ namespace philimagex.ApiControllers
                             {
                                 Id = d.Id,
                                 UserId = d.UserId,
+                                UserFullName = d.MstUser.FullName,
                                 ModalityProcedureId = d.ModalityProcedureId,
                                 ModalityProcedure = d.MstModalityProcedure.ModalityProcedure,
                                 ModalityProcedureCode = d.ModalityProcedureCode,
