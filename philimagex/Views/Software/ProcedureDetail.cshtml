@@ -394,7 +394,7 @@
         function getDoctorData() {
             var doctorArray = new wijmo.collections.ObservableArray;
             $.ajax({
-                url: '/api/user/listByUserTypeId/2',
+                url: '/api/userDoctor/listByUserId',
                 cache: false,
                 type: 'GET',
                 contentType: 'application/json; charset=utf-8',
@@ -404,7 +404,8 @@
                         for (i = 0; i < doctorListResult.length; i++) {
                             doctorArray.push({
                                 Id: doctorListResult[i]["Id"],
-                                FullName: doctorListResult[i]["FullName"],
+                                DoctorId: doctorListResult[i]["DoctorId"],
+                                Doctor: doctorListResult[i]["Doctor"],
                             });
                         }
                         disabled = false;
@@ -419,8 +420,8 @@
                         itemsSource: doctorArray,
                         isEditable: false,
                         required: true,
-                        displayMemberPath: "FullName",
-                        selectedValuePath: "FullName"
+                        displayMemberPath: "Doctor",
+                        selectedValuePath: "Doctor"
                     });
                 }
             });
@@ -479,7 +480,7 @@
                 procedureResultObject.ProcedureId = getUrlParameter("id");
                 procedureResultObject.ModalityProcedureId = cboModalityProcedure.selectedItem["Id"];
                 procedureResultObject.Result = document.getElementById('procedureResult').value;
-                procedureResultObject.DoctorId = cboDoctor.selectedItem["Id"];
+                procedureResultObject.DoctorId = cboDoctor.selectedItem["DoctorId"];
                 var procedureResultData = JSON.stringify(procedureResultObject);
 
                 if (procedureResultId == 0) {

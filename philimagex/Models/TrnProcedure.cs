@@ -25,6 +25,6 @@ namespace philimagex.Models
         public String BodyPart { get; set; }
         public Int32 UserId { get; set; }
         public String User { get; set; }
-        public String Facility { get; set; }
+        public String Doctor { get; set; }
     }
 }

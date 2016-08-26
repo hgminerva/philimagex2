@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -28,7 +29,7 @@ namespace philimagex.ApiControllers
                                         ModalityProcedure = d.MstModalityProcedure.ModalityProcedure,
                                         Result = d.Result,
                                         DoctorId = d.DoctorId,
-                                        Doctor = d.MstUser.FullName,
+                                        Doctor = d.MstUser.UserName,
                                         DoctorDateTime = d.DoctorDateTime.ToShortDateString(),
                                         DoctorTime = d.DoctorDateTime.ToShortTimeString(),
                                     };
@@ -121,5 +122,48 @@ namespace philimagex.ApiControllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
+
+
+        // body procedure result
+        [Authorize]
+        [HttpGet]
+        [Route("api/procedureResult/listByDateRange/{startDate}/{endDate}")]
+        public List<Models.TrnProcedureResult> listProcedureResultByDateRange(String startDate, String endDate)
+        {
+            try
+            {
+                var procedureResults = from d in db.TrnProcedureResults
+                                       where d.TrnProcedure.TransactionDateTime >= Convert.ToDateTime(startDate)
+                                       && d.TrnProcedure.TransactionDateTime <= Convert.ToDateTime(endDate)
+                                       select new Models.TrnProcedureResult
+                                       {
+                                           Id = d.Id,
+                                           ProcedureId = d.ProcedureId,
+                                           ModalityProcedureId = d.ModalityProcedureId,
+                                           ModalityProcedure = d.MstModalityProcedure.ModalityProcedure,
+                                           Result = d.Result,
+                                           DoctorId = d.DoctorId,
+                                           Doctor = d.MstUser.UserName,
+                                           DoctorDateTime = d.DoctorDateTime.ToShortDateString(),
+                                           DoctorTime = d.DoctorDateTime.ToShortTimeString(),
+                                           Facility = d.TrnProcedure.MstUser.UserName,
+                                           TransactionNumber = d.TrnProcedure.TransactionNumber,
+                                           TransactionDateTime = d.TrnProcedure.TransactionDateTime.ToShortDateString(),
+                                           Patient = d.TrnProcedure.PatientName,
+                                           Modality = d.TrnProcedure.MstModality.Modality,
+                                           FacilityRate = d.TrnProcedure.MstUser.MstUserRates.FirstOrDefault().FacilityRate,
+                                           DoctorRate = d.MstUser.MstUserRates.FirstOrDefault().DoctorRate,
+                                           ImageRate = d.MstModalityProcedure.MstUserRates.FirstOrDefault().ImageRate,
+                                       };
+
+                return procedureResults.ToList();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return null;
+            }
+        }
+
     }
 }

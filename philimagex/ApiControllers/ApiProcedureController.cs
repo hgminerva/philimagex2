@@ -38,7 +38,8 @@ namespace philimagex.ApiControllers
                                 BodyPartId = d.BodyPartId,
                                 BodyPart = d.MstBodyPart.BodyPart,
                                 UserId = d.UserId,
-                                User = d.MstUser.FullName
+                                User = d.MstUser.UserName,
+                                Doctor = (from r in db.TrnProcedureResults where r.ProcedureId == d.Id select r.MstUser.UserName).FirstOrDefault()
                             };
 
             return procedures.ToList();
@@ -69,7 +70,8 @@ namespace philimagex.ApiControllers
                                  BodyPartId = d.BodyPartId,
                                  BodyPart = d.MstBodyPart.BodyPart,
                                  UserId = d.UserId,
-                                 User = d.MstUser.FullName
+                                 User = d.MstUser.UserName,
+                                 Doctor = (from r in db.TrnProcedureResults where r.ProcedureId == d.Id select r.MstUser.UserName).FirstOrDefault()
                              };
 
             return (Models.TrnProcedure)procedures.FirstOrDefault();
@@ -103,7 +105,7 @@ namespace philimagex.ApiControllers
 
                 return newProcedure.Id;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e);
                 return 0;
@@ -204,8 +206,8 @@ namespace philimagex.ApiControllers
                                  BodyPartId = d.BodyPartId,
                                  BodyPart = d.MstBodyPart.BodyPart,
                                  UserId = d.UserId,
-                                 User = d.MstUser.FullName,
-                                 Facility = d.MstUser.MstUserType.UserType
+                                 User = d.MstUser.UserName,
+                                 Doctor = (from r in db.TrnProcedureResults where r.ProcedureId == d.Id select r.MstUser.UserName).FirstOrDefault()
                              };
 
             return procedures.ToList();

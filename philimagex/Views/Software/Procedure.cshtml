@@ -138,7 +138,8 @@
                                 BodyPartId: procedureListResult[i]["BodyPartId"],
                                 BodyPart: procedureListResult[i]["BodyPart"],
                                 UserId: procedureListResult[i]["UserId"],
-                                User: procedureListResult[i]["User"]
+                                User: procedureListResult[i]["User"],
+                                Doctor: procedureListResult[i]["Doctor"]
                             });
                         }
                     }
@@ -379,7 +380,7 @@
                             },
                             {
                                 "header": "Doctor",
-                                "binding": "User",
+                                "binding": "Doctor",
                                 "allowSorting": true,
                                 "width": 150,
                             }
