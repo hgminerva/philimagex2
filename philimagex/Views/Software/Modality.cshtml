@@ -149,31 +149,12 @@
         var btnLastPageGrid;
         var btnCurrentPageGrid;
 
-
         // =============================
         // Get PeriodMasterList Data
         // =============================
 
-        function initList() {
-            var results = list;
-            observableArray = new wijmo.collections.ObservableArray();
-            if (results.length > 0) {
-                for (i = 0; i < results.length; i++) {
-                    observableArray.push({
-                        Id: results[i]["Id"],
-                        Modality: results[i]["Modality"],
-                        ModalityId: results[i]["ModalityId"],
-                        ModalityProcedure: results[i]["ModalityProcedure"],
-                        ModalityResultTemplate: results[i]["ModalityResultTemplate"]
-                    });
-                }
-                collection = new wijmo.collections.CollectionView(observableArray)
-            } else {
-                /*   alert("No data."); */
-            }
-        }
-
         function initGrid() {
+            collection = new wijmo.collections.CollectionView();
             btnCurrentPageGrid.innerHTML = (collection.pageIndex + 1) + ' / ' + collection.pageCount;
 
             collection.canFilter = true;
@@ -181,12 +162,13 @@
 
             //Filter
             var filterText = '';
-            $('#InputFilter').keydown(function () {
+            $('#InputFilter').keyup(function () {
                 filterText = this.value.toLowerCase();
                 collection.refresh();
             });
             collection.filter = function (item) {
-                return !filterText || (item.ModalityProcedure.toLowerCase().indexOf(filterText) > -1);
+                return !filterText || (item.ModalityProcedure.toLowerCase().indexOf(filterText) > -1)
+                                   || (item.Modality.toLowerCase().indexOf(filterText) > -1);
             }
             collection.collectionChanged.addHandler(function (sender, args) {
                 updateNavigateButtonsCollection();
@@ -276,13 +258,14 @@
         }
 
         function initModality() {
-            var source = new wijmo.collections.ObservableArray();
+            if (modality != null || modality != undefined) {
+                var source = new wijmo.collections.ObservableArray();
 
-            for (var m of modality) {
-                source.push(m.Modality);
+                for (var m of modality) {
+                    source.push(m.Modality);
+                }
+                cmbModality.itemsSource = source;
             }
-
-            cmbModality.itemsSource = source;
         }
 
         // ==================
@@ -295,10 +278,18 @@
             }
             document.getElementById('navigationPageGrid').style.display = 'block';
             if (collection.pageIndex === 0) {
-                btnFirstPageGrid.setAttribute('disabled', 'disabled');
-                btnPreviousPageGrid.setAttribute('disabled', 'disabled');
-                btnNextPageGrid.removeAttribute('disabled');
-                btnLastPageGrid.removeAttribute('disabled');
+                if (document.getElementById('InputFilter').value == "") {
+                    btnFirstPageGrid.setAttribute('disabled', 'disabled');
+                    btnPreviousPageGrid.setAttribute('disabled', 'disabled');
+                    btnNextPageGrid.removeAttribute('disabled');
+                    btnLastPageGrid.removeAttribute('disabled');
+                }
+                else {
+                    btnFirstPageGrid.setAttribute('disabled', 'disabled');
+                    btnPreviousPageGrid.setAttribute('disabled', 'disabled');
+                    btnLastPageGrid.setAttribute('disabled', 'disabled');
+                    btnNextPageGrid.setAttribute('disabled', 'disabled');
+                }
             } else if (collection.pageIndex === (collection.pageCount - 1)) {
                 btnFirstPageGrid.removeAttribute('disabled');
                 btnPreviousPageGrid.removeAttribute('disabled');
@@ -322,7 +313,7 @@
                 contentType: 'application/json; charset=utf-8',
                 data: {},
                 success: function (results) {
-                    callback(results)
+                    collection.sourceCollection = results;
                 }
             });
         }
@@ -335,12 +326,11 @@
                 contentType: 'application/json; charset=utf-8',
                 data: {},
                 success: function (results) {
-                    callback(results)
+                    modality = results;
+                    initModality();
                 }
             });
         }
-
-
 
         //============
         // Add data
@@ -362,21 +352,14 @@
                     dataType: 'json',
                     statusCode: {
                         200: function () {
-                            console.log('added successfully');
                             $('#addModality').modal('hide');
-                            getMasterList(function (results) {
-                                if (results && results.length > 0) {
-                                    list = results;
-                                    initList();
-                                    console.log('asa');
-                                }
-                            });
+                            getMasterList();
                         },
                         404: function () {
-                            console.log('something went wrong.');
+                            toastr.error("Internal Server Error");
                         },
                         400: function () {
-                            console.log('something went wrong.');
+                            toastr.error("Internal Server Error");
                         }
                     }
                 });
@@ -389,10 +372,11 @@
         // ============
 
         function editData() {
-            var modalityData = collection.currentItem;
-            editData = createModality();
 
-            if (!validate(editData)) {
+            var modalityData = collection.currentItem;
+            data = createModality();
+
+            if (!validate(data)) {
                 console.log('invalid input');
             }
             else {
@@ -401,18 +385,18 @@
                     type: 'PUT',
                     cache: false,
                     contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(editData),
+                    data: JSON.stringify(data),
                     dataType: 'json',
                     statusCode: {
                         200: function () {
-                            console.log('edited successfully');
                             $('#addModality').modal('hide');
+                            getMasterList();
                         },
                         404: function () {
-                            console.log('something went wrong.');
+                            toastr.error("Not Found");
                         },
                         400: function () {
-                            console.log('something went wrong.');
+                            toastr.error("Bad Request");
                         }
                     }
                 });
@@ -431,7 +415,7 @@
                 type: 'DELETE',
                 statusCode: {
                     200: function () {
-                        console.log('deleted successfully');
+                        toastr.success("Delete Successful");
                         $('#deleteModality').modal('hide');
                         collection.remove(modalityData);
                     },
@@ -443,8 +427,6 @@
                     }
                 }
             });
-
-            console.log(modalityData);
         }
 
         function btnAdd_OnClick() {
@@ -470,9 +452,8 @@
         function cmdEditButton_OnClick() {
             document.getElementById('modal-title').innerHTML = "Edit Modality Procedure";
             document.getElementById('btnSave').onclick = editData;
-            var modalityData = collection.currentItem;
 
-            setEditFields(modalityData);
+            setEditFields();
 
             $('#addModality').modal({
                 "show": true,
@@ -488,7 +469,7 @@
             var modalityData = collection.currentItem;
             document.getElementById('modalProcedure').value = modalityData.ModalityProcedure;
             document.getElementById('resultTemplate').value = modalityData.ModalityResultTemplate;
-            document.getElementById('cmbModality').selectedItem = modalityData.Modality;
+            cmbModality.selectedItem = modalityData.Modality;
 
             console.log(document.getElementById('cmbModality').selectedItem);
         }
@@ -496,7 +477,7 @@
         function clearFields() {
             document.getElementById('modalProcedure').value = "";
             document.getElementById('resultTemplate').value = "";
-            document.getElementById('cmbModality').selectedIndex = 0;
+            cmbModality.selectedIndex = 0;
         }
 
         //=================
@@ -512,8 +493,6 @@
                 ModalityProcedure: modalityProcedure,
                 ModalityResultTemplate: templateResult
             }
-
-            console.log(modalityId);
 
             return data;
         }
@@ -561,21 +540,11 @@
             //combobox
             cmbModality = new wijmo.input.ComboBox('#cmbModality');
 
-            getModality(function (results) {
-                if (results.length > 0) {
-                    modality = results;
-                    initModality();
-                }
-            });
+            getModality();
+            //grid
+            initGrid();
             //Collection View
-            getMasterList(function (results) {
-                if (results && results.length > 0) {
-                    list = results;
-                    initList();
-                    initGrid();
-                }
-            });
-
+            getMasterList();
         });
 
     </script>
