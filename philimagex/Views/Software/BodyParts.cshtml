@@ -76,7 +76,7 @@
                             </div>
 
                             <!-- Add Modal -->
-                            <div class="modal fade" id="modal" role="dialog">
+                            <div class="modal fade" id="addModal" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -84,14 +84,39 @@
                                             <h4 id="modal-title" class="modal-title">Add</h4>
                                         </div>
                                         <div class="modal-body">
-
+                                            <div class="form-group">
+                                                <label>Body Part</label><br />
+                                                <input id="bodyPart" type="text" class="form-control" />
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="btnSaveChanges" type="button" class="btn btn-outline" onclick="addItem()">Save changes</button>
+                                            <button id="btnSaveChanges" type="button" class="btn btn-primary btn-outline text-right">Save changes</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form role="form">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 id="modal-title" class="modal-title">Delete Body Part</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this Body Part ?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" onclick="deleteItem()" class="btn btn-danger btn-outline text-right">Yes</button>
+                                                <button type="button" data-dismiss="modal" class="btn btn-primary btn-outline text-right">No</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- BODY -->
                         </div>
                     </div>
@@ -251,26 +276,38 @@
             }
 
             function btnAdd_OnClick() {
-                $('#modal').modal({
+
+                document.getElementById('modal-title').innerHTML = "Add Body Part";
+                document.getElementById('btnSaveChanges').onclick = addItem;
+
+                document.getElementById('bodyPart').value = "";
+
+                $('#addModal').modal({
                     "show": true,
                     "backdrop": "static"
                 });
 
-                document.getElementById('modal-title').innerHTML = "Add Body Part";
+
                
             }
 
             function btnEdit_OnClick() {
-                $('#modal').modal({
+                document.getElementById('modal-title').innerHTML = "Edit Body Part";
+                document.getElementById('btnSaveChanges').onclick = editItem;
+
+                var item = collection.currentItem;
+
+                document.getElementById('bodyPart').value = item.BodyPart;
+
+                $('#addModal').modal({
                     "show": true,
                     "backdrop": "static"
                 });
-
-                document.getElementById('modal-title').innerHTML = "Edit Body Part";
             }
 
+            
             function btnDelete_OnClick() {
-                $('#modal').modal({
+                $('#deleteModal').modal({
                     "show": true,
                     "backdrop": "static"
                 });
@@ -297,9 +334,7 @@
                     cache: false,
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
-                    data: {
-                        BodyPart: "New Item"
-                    },
+                    data: createData(),
                     success: function (results) {
                         alert("Success");
                         $('#modal').modal({
@@ -315,30 +350,62 @@
                 });
             }
 
-            function editItem(callback) {
+            function editItem() {
+
                 $.ajax({
-                    url: '/api/bodyPart/update/{id}',
-                    cache: false,
+                    url: '/api/bodyPart/update/' + collection.currentItem.Id,
                     type: 'PUT',
+                    cache: false,
                     contentType: 'application/json; charset=utf-8',
-                    data: {},
-                    success: function (results) {
-                        callback(results)
+                    data: createData(),
+                    dataType: 'json',
+                    statusCode: {
+                        200: function () {
+                            console.log('edit successful');
+                        },
+                        404: function (something) {
+                            console.log('something went wrong.');
+                        },
+                        400: function (something) {
+                            console.log('something went wrong.');
+                        }
                     }
                 });
             }
 
-            function deleteItem(callback) {
+
+
+            function deleteItem() {
+                var item = collection.currentItem;
+
                 $.ajax({
-                    url: '/api/bodyPart/delete/{id}',
-                    cache: false,
+                    url: '/api/bodyPart/delete/' + item.Id,
                     type: 'DELETE',
-                    contentType: 'application/json; charset=utf-8',
-                    data: {},
-                    success: function (results) {
-                        callback(results)
+                    statusCode: {
+                        200: function () {
+                            console.log('delete successfully');
+                        },
+                        404: function () {
+                            console.log('something went wrong.');
+                        },
+                        400: function () {
+                            console.log('something went wrong.');
+                        }
                     }
                 });
+
+                console.log(modalityData);
+            }
+
+
+            function createData() {
+                var bodyPart = document.getElementById('bodyPart').value;
+
+                var data = {
+                    BodyPart: bodyPart
+                }
+
+                return JSON.stringify(data);
             }
 
             //============

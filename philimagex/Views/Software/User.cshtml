@@ -83,11 +83,33 @@
                                             <h4 id="modal-title" class="modal-title">Add</h4>
                                         </div>
                                         <div class="modal-body">
-
+                                            <label>User Type</label><br />
+                                            <input id="userType" type="text" class="form-control" />
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline">Save changes</button>
+                                            <button id="btnSaveChanges" type="button" class="btn btn-primary btn-outline text-right">Save changes</button>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form role="form">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 id="modal-title" class="modal-title">Delete User Type</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this User Type?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" onclick="deleteItem()" class="btn btn-danger btn-outline text-right">Yes</button>
+                                                <button type="button" data-dismiss="modal" class="btn btn-primary btn-outline text-right">No</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -123,8 +145,8 @@
                 if (results.length > 0) {
                     for (i = 0; i < results.length; i++) {
                         observableArray.push({
-                            EditId: "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='cmdEditButton_OnClick()'><i class='fa fa-edit fa-faw'></i> Edit</button>",
-                            DeleteId: "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='cmdDeleteButton_OnClick()'><i class='fa fa-trash'></i> Delete</button>",
+                            EditId: "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='btnEdit_OnClick()'><i class='fa fa-edit fa-faw'></i> Edit</button>",
+                            DeleteId: "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='btnDelete_OnClick()'><i class='fa fa-trash'></i> Delete</button>",
                             Id: results[i]["Id"],
                             UserType: results[i]["UserType"],
                         });
@@ -250,12 +272,41 @@
             }
 
             function btnAdd_OnClick() {
+                document.getElementById('modal-title').innerHTML = "Add User Type";
+                document.getElementById('btnSaveChanges').onclick = addItem;
+
+                document.getElementById('userType').value = "";
+
                 $('#modal').modal({
                     "show": true,
                     "backdrop": "static"
                 });
 
-                document.getElementById('modal-title').innerHTML = "Add User Type";
+
+            }
+
+            function btnEdit_OnClick() {
+                document.getElementById('modal-title').innerHTML = "Edit Body Part";
+                document.getElementById('btnSaveChanges').onclick = editItem;
+
+                var item = collection.currentItem;
+
+                document.getElementById('userType').value = item.UserType;
+
+                $('#modal').modal({
+                    "show": true,
+                    "backdrop": "static"
+                });
+            }
+
+
+            function btnDelete_OnClick() {
+                $('#deleteModal').modal({
+                    "show": true,
+                    "backdrop": "static"
+                });
+
+                document.getElementById('modal-title').innerHTML = "Delete User Type";
             }
 
             function getMasterList(callback) {
@@ -269,6 +320,86 @@
                         callback(results)
                     }
                 });
+            }
+
+            function addItem() {
+                $.ajax({
+                    url: '/api/userType/add',
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: createData(),
+                    success: function (results) {
+                        alert("Success");
+                        $('#modal').modal({
+                            "show": false
+                        });
+                    },
+                    error: function (results) {
+                        alert("Error");
+                        $('#modal').modal({
+                            "show": false
+                        });
+                    }
+                });
+            }
+
+            function editItem() {
+
+                $.ajax({
+                    url: '/api/userType/update/' + collection.currentItem.Id,
+                    type: 'PUT',
+                    cache: false,
+                    contentType: 'application/json; charset=utf-8',
+                    data: createData(),
+                    dataType: 'json',
+                    statusCode: {
+                        200: function () {
+                            console.log('edit successful');
+                        },
+                        404: function (something) {
+                            console.log('something went wrong.');
+                        },
+                        400: function (something) {
+                            console.log('something went wrong.');
+                        }
+                    }
+                });
+            }
+
+
+
+            function deleteItem() {
+                var item = collection.currentItem;
+
+                $.ajax({
+                    url: '/api/userType/delete/' + item.Id,
+                    type: 'DELETE',
+                    statusCode: {
+                        200: function () {
+                            console.log('delete successfully');
+                        },
+                        404: function () {
+                            console.log('something went wrong.');
+                        },
+                        400: function () {
+                            console.log('something went wrong.');
+                        }
+                    }
+                });
+
+                console.log(modalityData);
+            }
+
+
+            function createData() {
+                var userType = document.getElementById('userType').value;
+
+                var data = {
+                    UserType: userType
+                }
+
+                return JSON.stringify(data);
             }
 
             //============

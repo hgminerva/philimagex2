@@ -83,14 +83,65 @@
                                             <h4 id="modal-title" class="modal-title">Add</h4>
                                         </div>
                                         <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>Facility</label><br />
+                                                <div id="cmbFacility"></div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label>Procedure</label><br />
+                                                <div id="cmbProcedure"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Facility Rate</label><br />
+                                                <input id="facilityRate" type="text" class="form-control" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Doctor Rate</label><br />
+                                                <input id="doctorRate" type="text" class="form-control" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Image Rate</label><br />
+                                                <input id="imageRate" type="text" class="form-control" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Remarks</label><br />
+                                                <textarea id="remarks" rows="10" class="form-control"></textarea>
+                                            </div>
 
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline">Save changes</button>
+                                            <button id="btnSaveChanges" type="button" class="btn btn-primary btn-outline text-right">Save changes</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form role="form">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 id="modal-title" class="modal-title">Delete Rate</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this Rate?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" onclick="deleteItem()" class="btn btn-danger btn-outline text-right">Yes</button>
+                                                <button type="button" data-dismiss="modal" class="btn btn-primary btn-outline text-right">No</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- BODY -->
                         </div>
                     </div>
@@ -108,6 +159,11 @@
             var collection;
             var flexGrid;
 
+            var facility;
+            var cmbFacility;
+            var procedure;
+            var cmbProcedure;
+
             var btnFirstPageGrid4;
             var btnPreviousPageGrid;
             var btnNextPageGrid;
@@ -123,14 +179,15 @@
                 if (results.length > 0) {
                     for (i = 0; i < results.length; i++) {
                         observableArray.push({
-                            EditId: "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='cmdEditButton_OnClick()'><i class='fa fa-edit fa-faw'></i> Edit</button>",
-                            DeleteId: "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='cmdDeleteButton_OnClick()'><i class='fa fa-trash'></i> Delete</button>",
+                            EditId: "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='btnEdit_OnClick()'><i class='fa fa-edit fa-faw'></i> Edit</button>",
+                            DeleteId: "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='btnDelete_OnClick()'><i class='fa fa-trash'></i> Delete</button>",
                             Id: results[i]["Id"],
                             ModalityProcedure: results[i]["ModalityProcedure"],
-                            UserFullName: results[i]["UserFullName"],
+                            Facility: results[i]["Facility"],
                             FacilityRate: results[i]["FacilityRate"],
                             DoctorRate: results[i]["DoctorRate"],
-                            ImageRate: results[i]["ImageRate"]
+                            ImageRate: results[i]["ImageRate"],
+                            Remarks : results[i]["Remarks"]
 
                         });
                     }
@@ -180,8 +237,8 @@
 
                         },
                         {
-                            "header": "Name",
-                            "binding": "UserFullName",
+                            "header": "Facility",
+                            "binding": "Facility",
                             "align": "left",
                             "allowSorting": true,
                             "isContentHtml": true,
@@ -288,12 +345,76 @@
             }
 
             function btnAdd_OnClick() {
+                document.getElementById('modal-title').innerHTML = "Add Doctor Rate";
+                document.getElementById('btnSaveChanges').onclick = addItem;
+                
+                cmbFacility.selectedIndex = 0;
+                cmbProcedure.selectedIndex = 0;
+                document.getElementById('facilityRate').value = "";
+                document.getElementById('doctorRate').value = "";
+                document.getElementById('imageRate').value = "";
+
+                document.getElementById('remarks').value = "";
+
                 $('#modal').modal({
                     "show": true,
                     "backdrop": "static"
                 });
 
-                document.getElementById('modal-title').innerHTML = "Add Doctor Rate";
+            }
+
+            function btnEdit_OnClick() {
+                document.getElementById('modal-title').innerHTML = "Edit Doctor Rate";
+                document.getElementById('btnSaveChanges').onclick = editItem;
+
+                var item = collection.currentItem;
+                cmbFacility.selectedItem = item.Facility;
+                cmbProcedure.selectedItem = item.ModalityProcedure;
+                document.getElementById('facilityRate').value = item.FacilityRate;
+                document.getElementById('doctorRate').value = item.DoctorRate;
+                document.getElementById('imageRate').value = item.ImageRate;
+                document.getElementById('remarks').value = item.Remarks;
+
+                $('#modal').modal({
+                    "show": true,
+                    "backdrop": "static"
+                });
+            }
+
+
+            function btnDelete_OnClick() {
+                $('#deleteModal').modal({
+                    "show": true,
+                    "backdrop": "static"
+                });
+
+                document.getElementById('modal-title').innerHTML = "Delete User Type";
+            }
+
+            function getProcedures(callback) {
+                $.ajax({
+                    url: '/api/modalityProcedure/list',
+                    cache: false,
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    data: {},
+                    success: function (results) {
+                        callback(results)
+                    }
+                });
+            }
+
+            function getFacilities(callback) {
+                $.ajax({
+                    url: '/api/user/listByUserTypeId/1',
+                    cache: false,
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    data: {},
+                    success: function (results) {
+                        callback(results)
+                    }
+                });
             }
 
             function getMasterList(callback) {
@@ -308,6 +429,107 @@
                     }
                 });
             }
+
+            function addItem() {
+                $.ajax({
+                    url: '/api/userRate/add',
+                    cache: false,
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: createData(),
+                    success: function (results) {
+                        alert("Success");
+                        $('#modal').modal('hide');
+                        //collection.addItem();
+                    },
+                    error: function (results) {
+                        alert("Error");
+                        $('#modal').modal('hide');
+                    }
+                });
+            }
+
+            function editItem() {
+
+                $.ajax({
+                    url: '/api/userRate/update/' + collection.currentItem.Id,
+                    type: 'PUT',
+                    cache: false,
+                    contentType: 'application/json; charset=utf-8',
+                    data: createData(),
+                    dataType: 'json',
+                    statusCode: {
+                        200: function () {
+                            console.log('edit successful');
+                            $('#modal').modal('hide');
+                        },
+                        404: function (something) {
+                            console.log('something went wrong.');
+                            $('#modal').modal('hide');
+                        },
+                        400: function (something) {
+                            console.log('something went wrong.');
+                            $('#modal').modal('hide');
+                        }
+                    }
+                });
+            }
+
+
+
+            function deleteItem() {
+                var item = collection.currentItem;
+
+                $.ajax({
+                    url: '/api/userRate/delete/' + item.Id,
+                    type: 'DELETE',
+                    statusCode: {
+                        200: function () {
+                            console.log('delete successfully');
+                            $('#deleteModal').modal('hide');
+                            collection.remove(item);
+                        },
+                        404: function () {
+                            console.log('something went wrong.');
+                            $('#deleteModal').modal('hide');
+                        },
+                        400: function () {
+                            console.log('something went wrong.');
+                            $('#deleteModal').modal('hide');
+                        }
+                    }
+                });
+
+                console.log(modalityData);
+            }
+
+
+            function createData() {
+
+                var nFacility =  facility[cmbFacility.selectedIndex].Id;
+                var NProcedure =  procedure[cmbProcedure.selectedIndex].Id;
+
+                var nFacilityRate = document.getElementById('facilityRate').value;
+                var nDoctorRate = document.getElementById('doctorRate').value;
+                var nImageRate = document.getElementById('imageRate').value;
+          
+                var nRemarks = document.getElementById('remarks').value;
+
+
+                var data = {
+                    UserId : nFacility,
+                    ModalityProcedureId : NProcedure,
+                    ModalityProcedureCode : "00000000",
+                    FacilityRate : nFacilityRate,
+                    DoctorRate : nDoctorRate,
+                    ImageRate : nImageRate,
+                    Remarks : nRemarks
+                }
+
+                return JSON.stringify(data);
+            }
+
+            
 
             //============
             // On Page Load
@@ -327,6 +549,38 @@
                     if (results && results.length > 0) {
                         initList(results);
                     }
+                });
+
+                
+                cmbFacility = new wijmo.input.ComboBox('#cmbFacility');
+                cmbProcedure = new wijmo.input.ComboBox('#cmbProcedure');
+
+                getProcedures(function (results) {
+                    procedure = results;
+                    if (results.length > 0) {
+                        var source = new wijmo.collections.ObservableArray();
+
+                        for (var i = 0; i < results.length; i++) {
+                            var m = procedure[i];
+                            source.push(m.ModalityProcedure);
+                        }
+
+                        cmbProcedure.itemsSource = source;
+                    }
+                });
+
+                getFacilities(function (results) {
+                    facility = results;
+                    if (results.length > 0) {
+                        var source = new wijmo.collections.ObservableArray();
+
+                        for (var i = 0; i < results.length; i++) {
+                            var m = facility[i];
+                            source.push(m.FullName);
+                        }
+
+                        cmbFacility.itemsSource = source;
+                    }   
                 });
 
             });

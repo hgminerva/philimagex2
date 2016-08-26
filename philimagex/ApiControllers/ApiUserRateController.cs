@@ -24,7 +24,7 @@ namespace philimagex.ApiControllers
                             {
                                 Id = d.Id,
                                 UserId = d.UserId,
-                                UserFullName = d.MstUser.FullName,
+                                Facility = d.MstUser.FullName,
                                 ModalityProcedureId = d.ModalityProcedureId,
                                 ModalityProcedure = d.MstModalityProcedure.ModalityProcedure,
                                 ModalityProcedureCode = d.ModalityProcedureCode,
@@ -48,8 +48,10 @@ namespace philimagex.ApiControllers
                 var userId = (from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d.Id).SingleOrDefault();
 
                 Data.MstUserRate newUserRate = new Data.MstUserRate();
-                newUserRate.UserId = userId;
-                newUserRate.ModalityProcedureId = (from d in db.MstModalityProcedures select d.Id).FirstOrDefault();
+                //newUserRate.UserId = userId;
+                //newUserRate.ModalityProcedureId = (from d in db.MstModalityProcedures select d.Id).FirstOrDefault();
+                newUserRate.UserId = userRate.UserId;
+                newUserRate.ModalityProcedureId = userRate.ModalityProcedureId;
                 newUserRate.ModalityProcedureCode = userRate.ModalityProcedureCode;
                 newUserRate.FacilityRate = userRate.FacilityRate;
                 newUserRate.DoctorRate = userRate.DoctorRate;
