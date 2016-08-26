@@ -331,15 +331,12 @@
                     data: createData(),
                     success: function (results) {
                         alert("Success");
-                        $('#modal').modal({
-                            "show": false
-                        });
+                        $('#modal').modal('hide');
+                        location.reload(true);
                     },
                     error: function (results) {
                         alert("Error");
-                        $('#modal').modal({
-                            "show": false
-                        });
+                        $('#modal').modal('hide');
                     }
                 });
             }
@@ -356,12 +353,16 @@
                     statusCode: {
                         200: function () {
                             console.log('edit successful');
+                            $('#modal').modal('hide');
+                            location.reload(true);
                         },
                         404: function (something) {
                             console.log('something went wrong.');
+                            $('#modal').modal('hide');
                         },
                         400: function (something) {
                             console.log('something went wrong.');
+                            $('#modal').modal('hide');
                         }
                     }
                 });
@@ -378,12 +379,16 @@
                     statusCode: {
                         200: function () {
                             console.log('delete successfully');
+                            $('#deleteModal').modal('hide');
+                            collection.remove(item);
                         },
                         404: function () {
                             console.log('something went wrong.');
+                            $('#deleteModal').modal('hide');
                         },
                         400: function () {
                             console.log('something went wrong.');
+                            $('#deleteModal').modal('hide');
                         }
                     }
                 });
