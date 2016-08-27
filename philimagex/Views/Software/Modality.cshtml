@@ -31,15 +31,20 @@
                 <div class="col-md-10">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4>Modality</h4>
+                            <h4>Modality Procedure</h4>
                         </div>
                         <div class="panel-heading">
                             <table style="width: 100%" border="0">
                                 <tr>
-                                    <td style="width: 50%">
+                                    <td style="width: 30%">
                                         <div class="input-group input-group-sm">
                                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                             <input type="text" class="form-control input-sm" id="InputFilter" placeholder="Search">
+                                        </div>
+                                    </td>
+                                    <td style="width: 20%">
+                                        <div class="input-group input-group-sm">
+                                            <div id="filterModality" onchange="filterModalityGrid()"></div>
                                         </div>
                                     </td>
                                     <td style="width: 50%" align="right">
@@ -141,6 +146,7 @@
         var list;
         var modality;
         var cmbModality;
+        var filterModality;
         var observableArray;
 
         var btnFirstPageGrid4;
@@ -161,14 +167,21 @@
             collection.pageSize = 15;
 
             //Filter
-            var filterText = '';
+            var filterText;
             $('#InputFilter').keyup(function () {
                 filterText = this.value.toLowerCase();
                 collection.refresh();
             });
+
+            filterModality.selectedIndexChanged.addHandler(function (sender, args) {
+                filterText = filterModality.selectedItem;
+                collection.refresh();
+                updateNavigateButtonsCollection();
+            });
+
             collection.filter = function (item) {
                 return !filterText || (item.ModalityProcedure.toLowerCase().indexOf(filterText) > -1)
-                                   || (item.Modality.toLowerCase().indexOf(filterText) > -1);
+                                   || (item.Modality.toLowerCase().indexOf(filterText.toLowerCase()) > -1);
             }
             collection.collectionChanged.addHandler(function (sender, args) {
                 updateNavigateButtonsCollection();
@@ -265,6 +278,7 @@
                     source.push(m.Modality);
                 }
                 cmbModality.itemsSource = source;
+                filterModality.itemsSource = source;
             }
         }
 
@@ -278,17 +292,33 @@
             }
             document.getElementById('navigationPageGrid').style.display = 'block';
             if (collection.pageIndex === 0) {
-                if (document.getElementById('InputFilter').value == "") {
-                    btnFirstPageGrid.setAttribute('disabled', 'disabled');
-                    btnPreviousPageGrid.setAttribute('disabled', 'disabled');
-                    btnNextPageGrid.removeAttribute('disabled');
-                    btnLastPageGrid.removeAttribute('disabled');
+                if (document.getElementById('InputFilter').value != "") {
+                    if (collection.pageCount > 1) {
+                        btnFirstPageGrid.setAttribute('disabled', 'disabled');
+                        btnPreviousPageGrid.setAttribute('disabled', 'disabled');
+                        btnNextPageGrid.removeAttribute('disabled');
+                        btnLastPageGrid.removeAttribute('disabled');
+                    }
+                    else {
+                        btnFirstPageGrid.setAttribute('disabled', 'disabled');
+                        btnPreviousPageGrid.setAttribute('disabled', 'disabled');
+                        btnNextPageGrid.setAttribute('disabled', 'disabled');
+                        btnLastPageGrid.setAttribute('disabled', 'disabled');
+                    }
                 }
                 else {
-                    btnFirstPageGrid.setAttribute('disabled', 'disabled');
-                    btnPreviousPageGrid.setAttribute('disabled', 'disabled');
-                    btnLastPageGrid.setAttribute('disabled', 'disabled');
-                    btnNextPageGrid.setAttribute('disabled', 'disabled');
+                    if (collection.pageCount == 1) {
+                        btnFirstPageGrid.setAttribute('disabled', 'disabled');
+                        btnPreviousPageGrid.setAttribute('disabled', 'disabled');
+                        btnNextPageGrid.setAttribute('disabled', 'disabled');
+                        btnLastPageGrid.setAttribute('disabled', 'disabled');
+                    }
+                    else {
+                        btnFirstPageGrid.setAttribute('disabled', 'disabled');
+                        btnPreviousPageGrid.setAttribute('disabled', 'disabled');
+                        btnNextPageGrid.removeAttribute('disabled');
+                        btnLastPageGrid.removeAttribute('disabled');
+                    }
                 }
             } else if (collection.pageIndex === (collection.pageCount - 1)) {
                 btnFirstPageGrid.removeAttribute('disabled');
@@ -525,6 +555,10 @@
             return true;
         }
 
+        function filterModalityGrid() {
+            console.log(filterModality.selectedIndex);
+        }
+
         //============
         // On Page Load
         // ============
@@ -539,6 +573,10 @@
 
             //combobox
             cmbModality = new wijmo.input.ComboBox('#cmbModality');
+            filterModality = new wijmo.input.ComboBox('#filterModality');
+
+
+            var filterText = '';
 
             getModality();
             //grid
