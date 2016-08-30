@@ -20,13 +20,62 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script type="text/javascript">
+        // global variables
+        var cboFacility;
+
         // Launch Software
         function btnLaunchSoftwareOnclick() {
             $("#btnLaunchSoftware").prop("disabled", true);
             document.getElementById("btnLaunchSoftware").innerHTML = "<i class='fa fa-spinner fa-spin fa-fw'></i> Launching Software";
             setTimeout(function () {
-                window.location = "/Software/Index";
+                window.location = "/Software/Index?facilityId=" + cboFacility.selectedItem["UserId"];
             }, 1500);
+        }
+        
+        // get facility data
+        function getFacilityData() {
+            var facilityArray = new wijmo.collections.ObservableArray;
+            $.ajax({
+                url: '/api/facility/list',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (facilityistResult) {
+                    var disabled = false;
+                    if (facilityistResult != null) {
+                        cboFacility = new wijmo.input.ComboBox('#cboFacility');
+                        if (facilityistResult.length > 0) {
+                            for (i = 0; i < facilityistResult.length; i++) {
+                                facilityArray.push({
+                                    Id: facilityistResult[i]["Id"],
+                                    UserId: facilityistResult[i]["UserId"],
+                                    UserFacility: facilityistResult[i]["UserFacility"],
+                                });
+                            }
+                            disabled = false;
+                        } else {
+                            disabled = true;
+                        }
+
+                        cboFacility.dispose();
+                        cboFacility = new wijmo.input.ComboBox('#cboFacility', {
+                            disabled: disabled,
+                            placeholder: "Select",
+                            itemsSource: facilityArray,
+                            isEditable: false,
+                            required: true,
+                            displayMemberPath: "UserFacility",
+                            selectedValuePath: "UserFacility"
+                        });
+                    } else {
+                        document.getElementById("cboFacility").innerHTML = "<h4>Facility</h4>";
+                    }
+                }
+            });
+        }
+
+        window.onload = function () {
+            getFacilityData();
         }
     </script>
 </body>

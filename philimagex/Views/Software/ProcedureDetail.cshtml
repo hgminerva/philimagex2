@@ -23,16 +23,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/Software/Index">Dashboard</a>
+                    <a class="navbar-brand" href="#" onclick="btnDashboardOnclick()">Dashboard</a>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/Software/Modality">Modality Procedure</a></li>
-                        <li><a href="/Software/BodyParts">Body Parts</a></li>
-                        <li><a href="/Software/User">User</a></li>
-                        <li><a href="/Software/Rate">Rate</a></li>
-                        <li class="active"><a href="/Software/Procedure">Procedure</a></li>
-                        <li><a href="/Software/Reports">Reports</a></li>
+                        <li><a href="#" onclick="btnModalityProcedureOnclick()">Modality Procedure</a></li>
+                        <li><a href="#" onclick="btnBodyPartsOnclick()">Body Parts</a></li>
+                        <li><a href="#" onclick="btnUserOnclick()">User</a></li>
+                        <li><a href="#" onclick="btnRateOnclick()">Rate</a></li>
+                        <li class="active"><a href="#" onclick="btnProcedureOnclick()">Procedure</a></li>
+                        <li><a href="#" onclick="btnReportsOnclick()">Reports</a></li>
                     </ul>
                 </div>
             </nav>
@@ -46,7 +46,6 @@
                             <td style="width: 50%" align="right">
                                 <button class="btn btn-primary" id="btnViewProcedure"><i class="fa fa-eye fa-fw"></i> View</button>
                                 <button class="btn btn-primary" id="btnSaveProcedure" onclick="btnSaveProcedureOnclick()"><i class="fa fa-save fa-fw"></i> Save</button>
-                                <button onclick="btnCloseOnclick()" id="btnCloseProcedure" class="btn btn-danger"><i class="fa fa-close fa-fw"></i> Close</button>
                             </td>
                         </tr>
                     </table>
@@ -951,6 +950,34 @@
         // Close
         function btnCloseOnclick() {
             window.location = "/Software/Procedure";
+        }
+
+        function btnDashboardOnclick() {
+            window.location = "/Software/Index?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnModalityProcedureOnclick() {
+            window.location = "/Software/Modality?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnBodyPartsOnclick() {
+            window.location = "/Software/BodyParts?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnUserOnclick() {
+            window.location = "/Software/Users?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnRateOnclick() {
+            window.location = "/Software/Rate?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnProcedureOnclick() {
+            window.location = "/Software/Procedure?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnReportsOnclick() {
+            window.location = "/Software/Reports?facilityId=" + getUrlParameter("facilityId");
         }
 
         // on load page

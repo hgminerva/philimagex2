@@ -23,53 +23,53 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <a href="/Software/Modality" class="btn btn-primary btn-block btn-lg">
+                            <button onclick="btnModalityProcedureOnclick()" class="btn btn-primary btn-block btn-lg">
                                 <i class="fa fa-stethoscope fa-fw fa-5x"></i>
                                 <br /><br />
                                 Modality Procedure
-                            </a>
+                            </button>
                             <br />
                         </div>
                         <div class="col-md-4">
-                            <a href="/Software/BodyParts" class="btn btn-primary btn-block btn-lg">
+                            <button onclick="btnBodyPartsOnclick()" class="btn btn-primary btn-block btn-lg">
                                 <i class="fa fa-male fa-fw fa-5x"></i>
                                 <br /><br />
                                 Body Parts
-                            </a>
+                            </button>
                             <br />
                         </div>
                         <div class="col-md-4">
-                            <a href="/Software/User" class="btn btn-primary btn-block btn-lg">
+                            <button onclick="btnUserOnclick()" class="btn btn-primary btn-block btn-lg">
                                 <i class="fa fa-key fa-fw fa-5x"></i>
                                 <br /><br />
                                 User
-                            </a>
+                            </button>
                             <br />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <a href="/Software/Rate" class="btn btn-primary btn-block btn-lg">
+                            <button onclick="btnRateOnclick()" class="btn btn-primary btn-block btn-lg">
                                 <i class="fa fa-star-half-full fa-fw fa-5x"></i>
                                 <br /><br />
                                 Rate
-                            </a>
+                            </button>
                             <br />
                         </div>
                         <div class="col-md-4">
-                            <a href="/Software/Procedure" class="btn btn-primary btn-block btn-lg">
+                            <button onclick="btnProcedureOnclick()" class="btn btn-primary btn-block btn-lg">
                                 <i class="fa fa-clipboard fa-fw fa-5x"></i>
                                 <br /><br />
                                 Procedure
-                            </a>
+                            </button>
                             <br />
                         </div>
                         <div class="col-md-4">
-                            <a href="/Software/Reports" class="btn btn-primary btn-block btn-lg">
+                            <button onclick="btnReportsOnclick()" class="btn btn-primary btn-block btn-lg">
                                 <i class="fa fa-print fa-fw fa-5x"></i>
                                 <br /><br />
                                 Reports
-                            </a>
+                            </button>
                             <br />
                         </div>
                     </div>
@@ -81,5 +81,31 @@
     <!-- Scripts -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+     
+        function btnModalityProcedureOnclick() {
+            window.location = "/Software/Modality?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnBodyPartsOnclick() {
+            window.location = "/Software/BodyParts?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnUserOnclick() {
+            window.location = "/Software/Users?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnRateOnclick() {
+            window.location = "/Software/Rate?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnProcedureOnclick() {
+            window.location = "/Software/Procedure?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnReportsOnclick() {
+            window.location = "/Software/Reports?facilityId=" + getUrlParameter("facilityId");
+        }
+    </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ namespace philimagex.Models
         public Int32 Id { get; set; }
         public Int32 UserId { get; set; }
         public String User { get; set; }
+        public String UserFacility { get; set; }
         public Int32 DoctorId { get; set; }
         public String Doctor { get; set; }
     }

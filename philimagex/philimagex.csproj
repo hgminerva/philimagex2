@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\ApiBodyPartsController.cs" />
+    <Compile Include="ApiControllers\ApiFacilityController.cs" />
     <Compile Include="ApiControllers\ApiModalityController.cs" />
     <Compile Include="ApiControllers\ApiModalityProcedureController.cs" />
     <Compile Include="ApiControllers\ApiProcedureController.cs" />
@@ -427,7 +428,7 @@
     <Content Include="Views\Shared\ManageIndex.cshtml" />
     <Content Include="Views\Software\Modality.cshtml" />
     <Content Include="Views\Software\BodyParts.cshtml" />
-    <Content Include="Views\Software\User.cshtml" />
+    <Content Include="Views\Software\Users.cshtml" />
     <Content Include="Views\Software\Rate.cshtml" />
     <Content Include="Views\Software\Procedure.cshtml" />
     <Content Include="Views\Software\Reports.cshtml" />
