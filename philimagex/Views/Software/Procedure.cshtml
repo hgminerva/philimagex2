@@ -125,13 +125,15 @@
                 success: function (procedureListResult) {
                     if (procedureListResult.length > 0) {
                         for (i = 0; i < procedureListResult.length; i++) {
+                            var txDate = new Date(procedureListResult[i]["TransactionDateTime"]);
+
                             procedureArray.push({
                                 EditButton: "<button class='btn btn-primary btn-xs btn-block' onclick='btnEditProcedureOnclick()'><i class='fa fa-edit fa-fw'></i> Edit</button>",
                                 DeleteButton: "<button class='btn btn-danger btn-xs btn-block'  onclick='btnDeleteProcedureOnclick()'><i class='fa fa-trash fa-fw'></i> Delete</button>",
                                 Id: procedureListResult[i]["Id"],
                                 TransactionNumber: procedureListResult[i]["TransactionNumber"],
-                                TransactionDateTime: procedureListResult[i]["TransactionDateTime"],
-                                TransactionTime: procedureListResult[i]["TransactionTime"],
+                                TransactionDateTime: txDate.getFullYear() + '-' + (txDate.getMonth() + 1) + '-' + txDate.getDate(),
+                                TransactionTime: ConvertTimeformat('00:00', procedureListResult[i]["TransactionTime"]),
                                 DICOMFileName: procedureListResult[i]["DICOMFileName"],
                                 PatientName: procedureListResult[i]["PatientName"],
                                 Gender: procedureListResult[i]["Gender"],
@@ -153,6 +155,27 @@
                 }
             });
             return procedureArray;
+        }
+
+        function ConvertTimeformat(format, str) {
+            var hours = Number(str.match(/^(\d+)/)[1]);
+            var minutes = Number(str.match(/:(\d+)/)[1]);
+            var AMPM = str.match(/\s?([AaPp][Mm]?)$/)[1];
+            var pm = ['P', 'p', 'PM', 'pM', 'pm', 'Pm'];
+            var am = ['A', 'a', 'AM', 'aM', 'am', 'Am'];
+            if (pm.indexOf(AMPM) >= 0 && hours < 12) hours = hours + 12;
+            if (am.indexOf(AMPM) >= 0 && hours == 12) hours = hours - 12;
+            var sHours = hours.toString();
+            var sMinutes = minutes.toString();
+            if (hours < 10) sHours = "0" + sHours;
+            if (minutes < 10) sMinutes = "0" + sMinutes;
+            if (format == '0000') {
+                return (sHours + sMinutes);
+            } else if (format == '00:00') {
+                return (sHours + ":" + sMinutes);
+            } else {
+                return false;
+            }
         }
 
         // Add procedure
@@ -336,58 +359,58 @@
                                 "isContentHtml": true
                             },
                             {
-                                "header": "Tax Number",
+                                "header": "Tx Number",
                                 "binding": "TransactionNumber",
                                 "allowSorting": true,
-                                "width": 120,
+                                "width": "1.5*",
                             },
                             {
                                 "header": "Tx Date",
                                 "binding": "TransactionDateTime",
                                 "allowSorting": true,
-                                "width": 90,
+                                "width": "1*",
                             },
                             {
                                 "header": "Tx Time",
                                 "binding": "TransactionTime",
                                 "allowSorting": true,
-                                "width": 80,
+                                "width": "1*",
                             },
                             {
                                 "header": "Patient",
                                 "binding": "PatientName",
                                 "allowSorting": true,
-                                "width": 150,
+                                "width": "2*",
                             },
                             {
                                 "header": "Gender",
                                 "binding": "Gender",
                                 "allowSorting": true,
-                                "width": 60,
+                                "width": "0.7*",
                             },
                             {
                                 "header": "Age",
                                 "binding": "Age",
                                 "allowSorting": true,
-                                "width": 40,
+                                "width": "0.5*",
                             },
                             {
                                 "header": "Exam Taken",
                                 "binding": "Modality",
                                 "allowSorting": true,
-                                "width": 100,
+                                "width": "1.2*",
                             },
                             {
                                 "header": "Body Part",
                                 "binding": "BodyPart",
                                 "allowSorting": true,
-                                "width": 100,
+                                "width": "1*",
                             },
                             {
                                 "header": "Doctor",
                                 "binding": "Doctor",
                                 "allowSorting": true,
-                                "width": 150,
+                                "width": "2*",
                             }
                 ],
                 autoGenerateColumns: false,
