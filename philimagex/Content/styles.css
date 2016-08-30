@@ -157,6 +157,10 @@ p.copyright {
     }
 }
 
+.navbar {
+    font-weight: 600;
+}
+
 .manage-section, 
 .software-section {
     padding-top: 70px;
