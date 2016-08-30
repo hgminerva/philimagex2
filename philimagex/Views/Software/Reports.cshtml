@@ -16,123 +16,128 @@
     <!-- Section Side -->
     <section class="software-section">
         <div class="container">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="list-group">
-                        <a href="/Software/Index" class="list-group-item">Dashboard</a>
-                        <a href="/Software/Modality" class="list-group-item">Modality Procedure</a>
-                        <a href="/Software/BodyParts" class="list-group-item">Body Parts</a>
-                        <a href="/Software/User" class="list-group-item">User</a>
-                        <a href="/Software/Rate" class="list-group-item">Rate</a>
-                        <a href="/Software/Procedure" class="list-group-item">Procedure</a>
-                        <a href="/Software/Reports" class="list-group-item active">Reports</a>
-                    </div>
+            <nav class="navbar navbar-default">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/Software/Index">Dashboard</a>
                 </div>
-                <div class="col-md-10">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4>Procedure Reports</h4>
-                        </div>
-                        <div class="panel-body">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" id="procedureSummaryTab" href="#procedureSummary">Procedure Summary</a></li>
-                                <li><a data-toggle="tab" id="procedureDetailTab" href="#procedureDetail">Procedure Detail</a></li>
-                            </ul>
-                            <br />
-                            <div class="tab-content">
-                                <div id="procedureSummary" class="tab-pane fade in active">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <table border="0">
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group input-group-sm">
-                                                            <span class="input-group-addon">Start Date</span>
-                                                            <div class="comboBox-wide" id="procedureSummaryStartDate"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>&nbsp;&nbsp;</td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm">
-                                                            <span class="input-group-addon">End Date</span>
-                                                            <div class="comboBox-wide" id="procedureSummaryEndDate"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div class="panel-heading">
-                                            <h4>Procedure Summary Report</h4>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div id="procedureSummaryFlexGrid" class="grid"></div>
-                                        </div>
-                                        <div class="panel-footer">
-                                            <div class="row">
-                                                <div class="btn-group col-md-7" id="navigationPageGridProcedureSummary">
-                                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToFirstPageGridProcedureSummary">
-                                                        <span class="glyphicon glyphicon-fast-backward"></span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToPreviousPageGridProcedureSummary">
-                                                        <span class="glyphicon glyphicon-step-backward"></span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnCurrentPageGridProcedureSummary"></button>
-                                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToNextPageGridProcedureSummary">
-                                                        <span class="glyphicon glyphicon-step-forward"></span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToLastPageGridProcedureSummary">
-                                                        <span class="glyphicon glyphicon-fast-forward"></span>
-                                                    </button>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/Software/Modality">Modality Procedure</a></li>
+                        <li><a href="/Software/BodyParts">Body Parts</a></li>
+                        <li><a href="/Software/User">User</a></li>
+                        <li><a href="/Software/Rate">Rate</a></li>
+                        <li><a href="/Software/Procedure">Procedure</a></li>
+                        <li class="active"><a href="/Software/Reports">Reports</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Procedure Reports</h4>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" id="procedureSummaryTab" href="#procedureSummary">Procedure Summary</a></li>
+                        <li><a data-toggle="tab" id="procedureDetailTab" href="#procedureDetail">Procedure Detail</a></li>
+                    </ul>
+                    <br />
+                    <div class="tab-content">
+                        <div id="procedureSummary" class="tab-pane fade in active">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <table border="0">
+                                        <tr>
+                                            <td>
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">Start Date</span>
+                                                    <div class="comboBox-wide" id="procedureSummaryStartDate"></div>
                                                 </div>
-                                            </div>
+                                            </td>
+                                            <td>&nbsp;&nbsp;</td>
+                                            <td>
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">End Date</span>
+                                                    <div class="comboBox-wide" id="procedureSummaryEndDate"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="panel-heading">
+                                    <h4>Procedure Summary Report</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="procedureSummaryFlexGrid" class="grid"></div>
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="btn-group col-md-7" id="navigationPageGridProcedureSummary">
+                                            <button type="button" class="btn btn-default border-custom" id="btnMoveToFirstPageGridProcedureSummary">
+                                                <span class="glyphicon glyphicon-fast-backward"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default border-custom" id="btnMoveToPreviousPageGridProcedureSummary">
+                                                <span class="glyphicon glyphicon-step-backward"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnCurrentPageGridProcedureSummary"></button>
+                                            <button type="button" class="btn btn-default border-custom" id="btnMoveToNextPageGridProcedureSummary">
+                                                <span class="glyphicon glyphicon-step-forward"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default border-custom" id="btnMoveToLastPageGridProcedureSummary">
+                                                <span class="glyphicon glyphicon-fast-forward"></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="procedureDetail" class="tab-pane fade">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <table border="0">
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group input-group-sm">
-                                                            <span class="input-group-addon">Start Date</span>
-                                                            <div class="comboBox-wide" id="procedureDetailStartDate"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>&nbsp;&nbsp;</td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm">
-                                                            <span class="input-group-addon">End Date</span>
-                                                            <div class="comboBox-wide" id="procedureDetailEndDate"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div class="panel-heading">
-                                            <h4>Procedure Detail Report</h4>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div id="procedureDetailFlexGrid" class="grid"></div>
-                                        </div>
-                                        <div class="panel-footer">
-                                            <div class="row">
-                                                <div class="btn-group col-md-7" id="navigationPageGridProcedureDetail">
-                                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToFirstPageGridProcedureDetail">
-                                                        <span class="glyphicon glyphicon-fast-backward"></span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToPreviousPageGridProcedureDetail">
-                                                        <span class="glyphicon glyphicon-step-backward"></span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnCurrentPageGridProcedureDetail"></button>
-                                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToNextPageGridProcedureDetail">
-                                                        <span class="glyphicon glyphicon-step-forward"></span>
-                                                    </button>
-                                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToLastPageGridProcedureDetail">
-                                                        <span class="glyphicon glyphicon-fast-forward"></span>
-                                                    </button>
+                            </div>
+                        </div>
+                        <div id="procedureDetail" class="tab-pane fade">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <table border="0">
+                                        <tr>
+                                            <td>
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">Start Date</span>
+                                                    <div class="comboBox-wide" id="procedureDetailStartDate"></div>
                                                 </div>
-                                            </div>
+                                            </td>
+                                            <td>&nbsp;&nbsp;</td>
+                                            <td>
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">End Date</span>
+                                                    <div class="comboBox-wide" id="procedureDetailEndDate"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="panel-heading">
+                                    <h4>Procedure Detail Report</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="procedureDetailFlexGrid" class="grid"></div>
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="btn-group col-md-7" id="navigationPageGridProcedureDetail">
+                                            <button type="button" class="btn btn-default border-custom" id="btnMoveToFirstPageGridProcedureDetail">
+                                                <span class="glyphicon glyphicon-fast-backward"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default border-custom" id="btnMoveToPreviousPageGridProcedureDetail">
+                                                <span class="glyphicon glyphicon-step-backward"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnCurrentPageGridProcedureDetail"></button>
+                                            <button type="button" class="btn btn-default border-custom" id="btnMoveToNextPageGridProcedureDetail">
+                                                <span class="glyphicon glyphicon-step-forward"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default border-custom" id="btnMoveToLastPageGridProcedureDetail">
+                                                <span class="glyphicon glyphicon-fast-forward"></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -188,26 +193,26 @@
                 mask: '99-99-9999',
                 max: new Date(summaryEndDateValue),
                 onValueChanged: function () {
-                        var thisDateValue = [this.value.getMonth() + 1, this.value.getDate(), this.value.getFullYear()].join('-');
-                        summaryStartDateValue = thisDateValue;
+                    var thisDateValue = [this.value.getMonth() + 1, this.value.getDate(), this.value.getFullYear()].join('-');
+                    summaryStartDateValue = thisDateValue;
 
-                        setTimeout(function () {
-                            getProcedureSummaryEndDate();
-                        }, 50);
+                    setTimeout(function () {
+                        getProcedureSummaryEndDate();
+                    }, 50);
 
-                        NProgress.start();
+                    NProgress.start();
 
-                        procedureSummaryCollectionView = new wijmo.collections.CollectionView(getProcedureSummaryReportData());
-                        procedureSummaryCollectionView.canFilter = true;
-                        procedureSummaryCollectionView.pageSize = 15;
+                    procedureSummaryCollectionView = new wijmo.collections.CollectionView(getProcedureSummaryReportData());
+                    procedureSummaryCollectionView.canFilter = true;
+                    procedureSummaryCollectionView.pageSize = 15;
 
-                        procedureSummaryCollectionView.collectionChanged.addHandler(function (sender, args) {
-                            updateNavigateButtonsForProcedureSummaryFlexGrid();
-                        });
+                    procedureSummaryCollectionView.collectionChanged.addHandler(function (sender, args) {
+                        updateNavigateButtonsForProcedureSummaryFlexGrid();
+                    });
 
-                        // Flex Grid
-                        procedureSummaryFlexGrid.itemsSource = procedureSummaryCollectionView;
-                        procedureSummaryFlexGrid.trackChanges = true;
+                    // Flex Grid
+                    procedureSummaryFlexGrid.itemsSource = procedureSummaryCollectionView;
+                    procedureSummaryFlexGrid.trackChanges = true;
                 }
             });
         }
@@ -389,7 +394,7 @@
             procedureSummaryCollectionView.collectionChanged.addHandler(function (sender, args) {
                 updateNavigateButtonsForProcedureSummaryFlexGrid();
             });
-            
+
             // Flex Grid
             procedureSummaryFlexGrid = new wijmo.grid.FlexGrid('#procedureSummaryFlexGrid');
             procedureSummaryFlexGrid.initialize({
@@ -575,7 +580,7 @@
             procedureDetailCollectionView.collectionChanged.addHandler(function (sender, args) {
                 updateNavigateButtonsForProcedureDetailFlexGrid();
             });
-            
+
             // Flex Grid
             procedureDetailFlexGrid = new wijmo.grid.FlexGrid('#procedureDetailFlexGrid');
             procedureDetailFlexGrid.initialize({
@@ -687,7 +692,7 @@
         $("#procedureSummaryTab").click(function () {
             $("#procedureSummary").show();
             $("#procedureDetail").hide();
-            
+
             NProgress.start();
 
             procedureSummaryCollectionView = new wijmo.collections.CollectionView(getProcedureSummaryReportData());

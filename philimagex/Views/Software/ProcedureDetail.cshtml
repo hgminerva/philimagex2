@@ -16,120 +16,125 @@
     <!-- Section Side -->
     <section class="software-section">
         <div class="container">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="list-group">
-                        <a href="/Software/Index" class="list-group-item">Dashboard</a>
-                        <a href="/Software/Modality" class="list-group-item">Modality Procedure</a>
-                        <a href="/Software/BodyParts" class="list-group-item">Body Parts</a>
-                        <a href="/Software/User" class="list-group-item">User</a>
-                        <a href="/Software/Rate" class="list-group-item">Rate</a>
-                        <a href="/Software/Procedure" class="list-group-item active">Procedure</a>
-                        <a href="/Software/Reports" class="list-group-item">Reports</a>
+            <nav class="navbar navbar-default">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/Software/Index">Dashboard</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/Software/Modality">Modality Procedure</a></li>
+                        <li><a href="/Software/BodyParts">Body Parts</a></li>
+                        <li><a href="/Software/User">User</a></li>
+                        <li><a href="/Software/Rate">Rate</a></li>
+                        <li class="active"><a href="/Software/Procedure">Procedure</a></li>
+                        <li><a href="/Software/Reports">Reports</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td style="width: 50%">
+                                <h4>Procedure Detail</h4>
+                            </td>
+                            <td style="width: 50%" align="right">
+                                <button class="btn btn-primary" id="btnViewProcedure"><i class="fa fa-eye fa-fw"></i> View</button>
+                                <button class="btn btn-primary" id="btnSaveProcedure" onclick="btnSaveProcedureOnclick()"><i class="fa fa-save fa-fw"></i> Save</button>
+                                <button onclick="btnCloseOnclick()" id="btnCloseProcedure" class="btn btn-danger"><i class="fa fa-close fa-fw"></i> Close</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <dl class="dl-horizontal">
+                                <dt>Transaction Number</dt>
+                                <dd>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control requiredProcedure" id="procedureTransactionNumber" placeholder="Transaction Number">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary"><i class="fa fa-hand-o-right"></i></button>
+                                        </div>
+                                    </div>
+                                </dd>
+                                <dt>Transaction Date</dt>
+                                <dd><div id="cboTransactionDate"></div></dd>
+                                <dt>Transaction Time</dt>
+                                <dd><input type="text" class="form-control" id="procedureTransactionTime" placeholder="Transaction Time" /></dd>
+                                <dt>DICOM File</dt>
+                                <dd>
+                                    <textarea class="form-control requiredProcedure" id="procedureDICOMFile" placeholder="DICOM File"></textarea>
+                                </dd>
+                                <dt>Exam Taken</dt>
+                                <dd><div id="cboExamTaken"></div></dd>
+                                <dt>Body Part</dt>
+                                <dd><div id="cboBodyPart"></div></dd>
+                            </dl>
+                        </div>
+                        <div class="col-lg-6">
+                            <dl class="dl-horizontal">
+                                <dt>Patient</dt>
+                                <dd><input type="text" class="form-control requiredProcedure" id="procedurePatient" placeholder="Patient" /></dd>
+                                <dt>Gender</dt>
+                                <dd><div id="cboGender"></div></dd>
+                                <dt>Date of Birth</dt>
+                                <dd><div id="cboDateOfBirth"></div></dd>
+                                <dt>Age</dt>
+                                <dd><input type="text" class="form-control requiredProcedure" id="procedureAge" placeholder="Age" /></dd>
+                                <dt>Particulars</dt>
+                                <dd>
+                                    <textarea class="form-control requiredProcedure" id="procedureParticulars" placeholder="DICOM File"></textarea>
+                                </dd>
+                            </dl>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-10">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <table style="width: 100%" border="0">
-                                <tr>
-                                    <td style="width: 50%">
-                                        <h4>Procedure Detail</h4>
-                                    </td>
-                                    <td style="width: 50%" align="right">
-                                        <button class="btn btn-primary" id="btnViewProcedure"><i class="fa fa-eye fa-fw"></i> View</button>
-                                        <button class="btn btn-primary" id="btnSaveProcedure" onclick="btnSaveProcedureOnclick()"><i class="fa fa-save fa-fw"></i> Save</button>
-                                        <button onclick="btnCloseOnclick()" id="btnCloseProcedure" class="btn btn-danger"><i class="fa fa-close fa-fw"></i> Close</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <dl class="dl-horizontal">
-                                        <dt>Transaction Number</dt>
-                                        <dd>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control requiredProcedure" id="procedureTransactionNumber" placeholder="Transaction Number">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-primary"><i class="fa fa-hand-o-right"></i></button>
-                                                </div>
-                                            </div>
-                                        </dd>
-                                        <dt>Transaction Date</dt>
-                                        <dd><div id="cboTransactionDate"></div></dd>
-                                        <dt>Transaction Time</dt>
-                                        <dd><input type="text" class="form-control" id="procedureTransactionTime" placeholder="Transaction Time" /></dd>
-                                        <dt>DICOM File</dt>
-                                        <dd>
-                                            <textarea class="form-control requiredProcedure" id="procedureDICOMFile" placeholder="DICOM File"></textarea>
-                                        </dd>
-                                        <dt>Exam Taken</dt>
-                                        <dd><div id="cboExamTaken"></div></dd>
-                                        <dt>Body Part</dt>
-                                        <dd><div id="cboBodyPart"></div></dd>
-                                    </dl>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Result</h4>
+                </div>
+                <div class="panel-heading">
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td style="width: 50%">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                    <input type="text" class="form-control" id="inputFilter" placeholder="Search">
                                 </div>
-                                <div class="col-lg-6">
-                                    <dl class="dl-horizontal">
-                                        <dt>Patient</dt>
-                                        <dd><input type="text" class="form-control requiredProcedure" id="procedurePatient" placeholder="Patient" /></dd>
-                                        <dt>Gender</dt>
-                                        <dd><div id="cboGender"></div></dd>
-                                        <dt>Date of Birth</dt>
-                                        <dd><div id="cboDateOfBirth"></div></dd>
-                                        <dt>Age</dt>
-                                        <dd><input type="text" class="form-control requiredProcedure" id="procedureAge" placeholder="Age" /></dd>
-                                        <dt>Particulars</dt>
-                                        <dd>
-                                            <textarea class="form-control requiredProcedure" id="procedureParticulars" placeholder="DICOM File"></textarea>
-                                        </dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4>Result</h4>
-                        </div>
-                        <div class="panel-heading">
-                            <table style="width: 100%" border="0">
-                                <tr>
-                                    <td style="width: 50%">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                            <input type="text" class="form-control" id="inputFilter" placeholder="Search">
-                                        </div>
-                                    </td>
-                                    <td style="width: 50%" align="right">
-                                        <button class="btn btn-primary" id="btnAddResult" onclick="btnAddProcedureResultOnclick()"><i class="fa fa-plus fa-fw"></i>Add</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="panel-body">
-                            <div id="procedureResultFlexGrid" class="grid"></div>
-                        </div>
-                        <div class="panel-footer">
-                            <div class="row">
-                                <div class="btn-group col-md-7" id="navigationPageGrid">
-                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToFirstPageGrid">
-                                        <span class="glyphicon glyphicon-fast-backward"></span>
-                                    </button>
-                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToPreviousPageGrid">
-                                        <span class="glyphicon glyphicon-step-backward"></span>
-                                    </button>
-                                    <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnCurrentPageGrid"></button>
-                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToNextPageGrid">
-                                        <span class="glyphicon glyphicon-step-forward"></span>
-                                    </button>
-                                    <button type="button" class="btn btn-default border-custom" id="btnMoveToLastPageGrid">
-                                        <span class="glyphicon glyphicon-fast-forward"></span>
-                                    </button>
-                                </div>
-                            </div>
+                            </td>
+                            <td style="width: 50%" align="right">
+                                <button class="btn btn-primary" id="btnAddResult" onclick="btnAddProcedureResultOnclick()"><i class="fa fa-plus fa-fw"></i>Add</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel-body">
+                    <div id="procedureResultFlexGrid" class="grid"></div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="btn-group col-md-7" id="navigationPageGrid">
+                            <button type="button" class="btn btn-default border-custom" id="btnMoveToFirstPageGrid">
+                                <span class="glyphicon glyphicon-fast-backward"></span>
+                            </button>
+                            <button type="button" class="btn btn-default border-custom" id="btnMoveToPreviousPageGrid">
+                                <span class="glyphicon glyphicon-step-backward"></span>
+                            </button>
+                            <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnCurrentPageGrid"></button>
+                            <button type="button" class="btn btn-default border-custom" id="btnMoveToNextPageGrid">
+                                <span class="glyphicon glyphicon-step-forward"></span>
+                            </button>
+                            <button type="button" class="btn btn-default border-custom" id="btnMoveToLastPageGrid">
+                                <span class="glyphicon glyphicon-fast-forward"></span>
+                            </button>
                         </div>
                     </div>
                 </div>
