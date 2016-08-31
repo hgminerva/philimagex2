@@ -38,7 +38,16 @@
             </nav>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4>Procedure Reports</h4>
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td>
+                                <h4>Procedure Reports</h4>
+                            </td>
+                            <td align="right">
+                                <i class="fa fa-hospital-o fa-fw"></i> Facility: &nbsp;  <b><span id="defaultFacility"></span></b>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
@@ -64,6 +73,10 @@
                                                     <span class="input-group-addon">End Date</span>
                                                     <div class="comboBox-wide" id="procedureSummaryEndDate"></div>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                &nbsp;
+                                                <button onclick="procedureSummaryReportCSV_OnClick()" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o" aria-hidden="true"></i> CSV</button>
                                             </td>
                                         </tr>
                                     </table>
@@ -112,6 +125,10 @@
                                                     <span class="input-group-addon">End Date</span>
                                                     <div class="comboBox-wide" id="procedureDetailEndDate"></div>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                &nbsp;
+                                                <button onclick="procedureDetailReportCSV_OnClick()" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o" aria-hidden="true"></i> CSV</button>
                                             </td>
                                         </tr>
                                     </table>
@@ -314,6 +331,94 @@
                     procedureDetailFlexGrid.trackChanges = true;
                 }
             });
+        }
+
+        // CSV for Procedure SUmmary Report
+        var procedureSummaryCollectionViewForCSV;
+
+        function procedureSummaryReportCSV_OnClick() {
+            procedureSummaryCollectionView.pageSize = 0;
+
+            var CSV = '';
+            var procedureSummaryReport = [];
+            var fileName = 'ProcedureSummaryReport.CSV';
+
+            for (i = 0; i < procedureSummaryCollectionView.items.length; i++) {
+                procedureSummaryReport.push({
+                    User: procedureSummaryCollectionView.items[i].User,
+                    TransactionNumber: procedureSummaryCollectionView.items[i].TransactionNumber,
+                    TransactionDateTime: procedureSummaryCollectionView.items[i].TransactionDateTime,
+                    TransactionTime: procedureSummaryCollectionView.items[i].TransactionTime,
+                    PatientName: procedureSummaryCollectionView.items[i].PatientName,
+                    Age: procedureSummaryCollectionView.items[i].Age,
+                    Modality: procedureSummaryCollectionView.items[i].Modality,
+                    Doctor: procedureSummaryCollectionView.items[i].Doctor,
+                });
+            }
+
+            //for (var i = 0; i < symbols.length; i++) {
+            //    CSV += '"' + symbols[i].AccountCode + '"\r\n';
+            //}
+
+            // Rows
+            var Headers = [];
+            Headers.push({
+
+                Facility: "Facility",
+                TransactionNumber: "Transaction Number",
+                TransactionDateTime: "Transaction Date Time",
+                TransactionTime: "Transaction Time",
+                PatientName: "Patient Name",
+                Age: "Age",
+                Modality: "Modality",
+                Doctor: "Doctor",
+
+            });
+
+            var header = '';
+            // Rows
+            for (var b in Headers[0]) {
+                header += '"' + Headers[0][b] + '",';
+            }
+
+            CSV = header + '\r\n';
+            for (var i = 0; i < procedureSummaryReport.length; i++) {
+                var row = '';
+                for (var a in procedureSummaryReport[i]) {
+                    row += '"' + procedureSummaryReport[i][a] + '",';
+                }
+                row.slice(0, row.length - 1);
+                CSV += row + '\r\n';
+            }
+
+            if (CSV == '') {
+                toastr.error("No data.");
+            } else {
+                var link = document.createElement("a");
+
+                if (link.download !== undefined) {
+                    var blob = new Blob([CSV], { type: 'text/csv;charset=utf-8;' });
+                    var url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", fileName);
+                    link.style = "visibility:hidden";
+                }
+
+                if (navigator.msSaveBlob) {
+                    link.addEventListener("click", function (event) {
+                        var blob = new Blob([CSV], {
+                            "type": "text/csv;charset=utf-8;"
+                        });
+                        navigator.msSaveBlob(blob, fileName);
+                    }, false);
+                }
+
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                toastr.success("Dowload successful.");
+            }
         }
 
         // procedure summary report data
@@ -544,6 +649,103 @@
             });
             return procedureDetailArray;
         }
+        //CSV for Procedure Detail Report
+        var procedureDetailCollectionView;
+
+        function procedureDetailReportCSV_OnClick() {
+
+            procedureDetailCollectionView.pageSize = 0;
+
+            var CSV = '';
+            var procedureDetailReport = [];
+            var fileName = 'ProcedureDetailReport.CSV';
+
+            for (i = 0; i < procedureDetailCollectionView.items.length; i++) {
+                procedureDetailReport.push({
+                    Facility: procedureDetailCollectionView.items[i].Facility,
+                    TransactionNumber: procedureDetailCollectionView.items[i].TransactionNumber,
+                    TransactionDateTime: procedureDetailCollectionView.items[i].TransactionDateTime,
+                    PatientName: procedureDetailCollectionView.items[i].PatientName,
+                    Modality: procedureDetailCollectionView.items[i].Modality,
+                    ModalityProcedure: procedureDetailCollectionView.items[i].ModalityProcedure,
+                    Doctor: procedureDetailCollectionView.items[i].Doctor,
+                    FacilityRate: procedureDetailCollectionView.items[i].FacilityRate,
+                    DoctorRate: procedureDetailCollectionView.items[i].DoctorRate,
+                    ImageRate: procedureDetailCollectionView.items[i].ImageRate,
+                    Total: procedureDetailCollectionView.items[i].Total,
+
+                   
+                });
+            }
+
+            //for (var i = 0; i < symbols.length; i++) {
+            //    CSV += '"' + symbols[i].AccountCode + '"\r\n';
+            //}
+
+            // Rows
+            var Headers = [];
+            Headers.push({
+
+                Facility: "Facility",
+                TransactionNumber: "Transaction Number",
+                TransactionDateTime: "Transaction Date Time",
+                PatientName: "Patient Name",
+                Modality: "Modality",
+                ModalityProcedure: "Modality Procedure",
+                Doctor: "Doctor",
+                FacilityRate: "FacilityRate",
+                DoctorRate: "DoctorRate",
+                ImageRate: "ImageRate",
+                Total: "Total",
+
+            });
+
+            var header = '';
+            // Rows
+            for (var b in Headers[0]) {
+                header += '"' + Headers[0][b] + '",';
+            }
+
+            CSV = header + '\r\n';
+            for (var i = 0; i < procedureDetailReport.length; i++) {
+                var row = '';
+                for (var a in procedureDetailReport[i]) {
+                    row += '"' + procedureDetailReport[i][a] + '",';
+                }
+                row.slice(0, row.length - 1);
+                CSV += row + '\r\n';
+            }
+
+            if (CSV == '') {
+                toastr.error("No data.");
+            } else {
+                var link = document.createElement("a");
+
+                if (link.download !== undefined) {
+                    var blob = new Blob([CSV], { type: 'text/csv;charset=utf-8;' });
+                    var url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", fileName);
+                    link.style = "visibility:hidden";
+                }
+
+                if (navigator.msSaveBlob) {
+                    link.addEventListener("click", function (event) {
+                        var blob = new Blob([CSV], {
+                            "type": "text/csv;charset=utf-8;"
+                        });
+                        navigator.msSaveBlob(blob, fileName);
+                    }, false);
+                }
+
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                toastr.success("Dowload successful.");
+            }
+        }
+
 
         // navigation button for procedure detail flexgrid
         function updateNavigateButtonsForProcedureDetailFlexGrid() {
@@ -769,6 +971,8 @@
 
             createProcedureSummaryFlexGrid();
             createProcedureDetailFlexGrid();
+
+            getUserFacilityData();
         }
     </script>
 </body>
