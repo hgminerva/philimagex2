@@ -44,6 +44,7 @@
                                 <h4>Procedure Detail</h4>
                             </td>
                             <td style="width: 50%" align="right">
+                                <i class="fa fa-hospital-o fa-fw"></i> Facility: &nbsp;  <b><span id="defaultFacility"></span></b> &nbsp;&nbsp;&nbsp;&nbsp;  
                                 <button class="btn btn-primary" id="btnViewProcedure"><i class="fa fa-eye fa-fw"></i> View</button>
                                 <button class="btn btn-primary" id="btnSaveProcedure" onclick="btnSaveProcedureOnclick()"><i class="fa fa-save fa-fw"></i> Save</button>
                             </td>
@@ -988,6 +989,7 @@
             getModalityProcedureData();
             getDoctorData();
             getProcedureDetailData();
+            getUserFacilityData();
         }
     </script>
 </body>

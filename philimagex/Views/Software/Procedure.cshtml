@@ -38,7 +38,16 @@
             </nav>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4>Procedures</h4>
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td>
+                                <h4>Procedures</h4>
+                            </td>
+                            <td align="right">
+                                <i class="fa fa-hospital-o fa-fw"></i> Facility: &nbsp;  <b><span id="defaultFacility"></span></b>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="panel-heading">
                     <table style="width: 100%" border="0">
@@ -481,6 +490,8 @@
                 procedureCollectionView.moveToLastPage();
                 updateNavigateButtons();
             });
+
+            getUserFacilityData();
         }
 
     </script>
