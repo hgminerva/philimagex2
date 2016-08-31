@@ -179,7 +179,7 @@ namespace philimagex.Controllers
                     newMstUser.FullName = model.FullName;
                     newMstUser.Address = model.Address;
                     newMstUser.ContactNumber = model.ContactNumber;
-                    newMstUser.UserTypeId = (from d in db.MstUserTypes select d.Id).FirstOrDefault();
+                    newMstUser.UserTypeId = 4;
                     newMstUser.AspNetUserId = user.Id;
                     db.MstUsers.InsertOnSubmit(newMstUser);
                     db.SubmitChanges();

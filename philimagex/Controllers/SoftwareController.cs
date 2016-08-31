@@ -20,7 +20,18 @@ namespace philimagex.Controllers
             {
                 if (user.FirstOrDefault().UserTypeId == 1)
                 {
-                    return View();
+                    if (user.FirstOrDefault().Id == facilityId)
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Manage");
+                    }
+                }
+                else if (user.FirstOrDefault().UserTypeId == 4)
+                {
+                    return RedirectToAction("Index", "Manage");
                 }
                 else
                 {
@@ -55,7 +66,18 @@ namespace philimagex.Controllers
             {
                 if (user.FirstOrDefault().UserTypeId == 1)
                 {
-                    return View();
+                    if (user.FirstOrDefault().Id == facilityId)
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Manage");
+                    }
+                }
+                else if (user.FirstOrDefault().UserTypeId == 4)
+                {
+                    return RedirectToAction("Index", "Manage");
                 }
                 else
                 {
@@ -84,7 +106,18 @@ namespace philimagex.Controllers
             {
                 if (user.FirstOrDefault().UserTypeId == 1)
                 {
-                    return View();
+                    if (user.FirstOrDefault().Id == facilityId)
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Manage");
+                    }
+                }
+                else if (user.FirstOrDefault().UserTypeId == 4)
+                {
+                    return RedirectToAction("Index", "Manage");
                 }
                 else
                 {
@@ -113,7 +146,18 @@ namespace philimagex.Controllers
             {
                 if (user.FirstOrDefault().UserTypeId == 1)
                 {
-                    return View();
+                    if (user.FirstOrDefault().Id == facilityId)
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Manage");
+                    }
+                }
+                else if (user.FirstOrDefault().UserTypeId == 4)
+                {
+                    return RedirectToAction("Index", "Manage");
                 }
                 else
                 {
@@ -142,7 +186,18 @@ namespace philimagex.Controllers
             {
                 if (user.FirstOrDefault().UserTypeId == 1)
                 {
-                    return View();
+                    if (user.FirstOrDefault().Id == facilityId)
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Manage");
+                    }
+                }
+                else if (user.FirstOrDefault().UserTypeId == 4)
+                {
+                    return RedirectToAction("Index", "Manage");
                 }
                 else
                 {
@@ -171,7 +226,18 @@ namespace philimagex.Controllers
             {
                 if (user.FirstOrDefault().UserTypeId == 1)
                 {
-                    return View();
+                    if (user.FirstOrDefault().Id == facilityId)
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Manage");
+                    }
+                }
+                else if (user.FirstOrDefault().UserTypeId == 4)
+                {
+                    return RedirectToAction("Index", "Manage");
                 }
                 else
                 {
@@ -206,22 +272,26 @@ namespace philimagex.Controllers
                     }
                     else
                     {
-                        return View();
+                        if (user.FirstOrDefault().Id == facilityId)
+                        {
+                            return View();
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Manage");
+                        }
                     }
+                }
+                else if (user.FirstOrDefault().UserTypeId == 4)
+                {
+                    return RedirectToAction("Index", "Manage");
                 }
                 else
                 {
                     var userFacility = from d in db.MstUserDoctors where d.DoctorId == user.FirstOrDefault().Id && d.UserId == facilityId select d;
                     if (userFacility.Any())
                     {
-                        if (id == null)
-                        {
-                            return RedirectToAction("NotFound", "Software");
-                        }
-                        else
-                        {
-                            return View();
-                        }
+                        return View();
                     }
                     else
                     {
@@ -243,7 +313,18 @@ namespace philimagex.Controllers
             {
                 if (user.FirstOrDefault().UserTypeId == 1)
                 {
-                    return View();
+                    if (user.FirstOrDefault().Id == facilityId)
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Manage");
+                    }
+                }
+                else if (user.FirstOrDefault().UserTypeId == 4)
+                {
+                    return RedirectToAction("Index", "Manage");
                 }
                 else
                 {
