@@ -38,16 +38,7 @@
             </nav>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <table style="width: 100%" border="0">
-                        <tr>
-                            <td>
-                                <h4>Procedure Reports</h4>
-                            </td>
-                            <td align="right">
-                                <i class="fa fa-hospital-o fa-fw"></i> Facility: &nbsp;  <b><span id="defaultFacility"></span></b>
-                            </td>
-                        </tr>
-                    </table>
+                    <h4>Procedure Reports</h4>
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
@@ -428,20 +419,23 @@
 
             var procedureSummaryArray = new wijmo.collections.ObservableArray;
             $.ajax({
-                url: '/api/procedure/listByDateRange/' + summaryStartDateParameterValue + "/" + summaryEndDateParameterValue + "/" + getUrlParameter("facilityId"),
+                url: '/api/procedure/listByDateRange/' + summaryStartDateParameterValue + "/" + summaryEndDateParameterValue,
                 cache: false,
                 type: 'GET',
                 contentType: 'application/json; charset=utf-8',
                 success: function (procedureSummaryListResult) {
                     if (procedureSummaryListResult.length > 0) {
                         for (i = 0; i < procedureSummaryListResult.length; i++) {
+                            var txDate = new Date(procedureSummaryListResult[i]["TransactionDateTime"]);
+
+
                             procedureSummaryArray.push({
                                 Id: procedureSummaryListResult[i]["Id"],
                                 TransactionNumber: procedureSummaryListResult[i]["TransactionNumber"],
-                                TransactionDateTime: procedureSummaryListResult[i]["TransactionDateTime"],
-                                TransactionTime: procedureSummaryListResult[i]["TransactionTime"],
+                                TransactionDateTime: txDate.getFullYear() + '-' + (txDate.getMonth() + 1) + '-' + txDate.getDate(),
+                                TransactionTime: ConvertTimeformat('00:00', procedureSummaryListResult[i]["TransactionTime"]),
                                 DICOMFileName: procedureSummaryListResult[i]["DICOMFileName"],
-                                PatientName: procedureSummaryListResult[i]["PatientName"],
+                                PatientName: procedureSummaryListResult[i]["PatientName"].toUpperCase(),
                                 Gender: procedureSummaryListResult[i]["Gender"],
                                 DateOfBirth: procedureSummaryListResult[i]["DateOfBirth"],
                                 Age: procedureSummaryListResult[i]["Age"],
@@ -462,6 +456,27 @@
                 }
             });
             return procedureSummaryArray;
+        }
+
+        function ConvertTimeformat(format, str) {
+            var hours = Number(str.match(/^(\d+)/)[1]);
+            var minutes = Number(str.match(/:(\d+)/)[1]);
+            var AMPM = str.match(/\s?([AaPp][Mm]?)$/)[1];
+            var pm = ['P', 'p', 'PM', 'pM', 'pm', 'Pm'];
+            var am = ['A', 'a', 'AM', 'aM', 'am', 'Am'];
+            if (pm.indexOf(AMPM) >= 0 && hours < 12) hours = hours + 12;
+            if (am.indexOf(AMPM) >= 0 && hours == 12) hours = hours - 12;
+            var sHours = hours.toString();
+            var sMinutes = minutes.toString();
+            if (hours < 10) sHours = "0" + sHours;
+            if (minutes < 10) sMinutes = "0" + sMinutes;
+            if (format == '0000') {
+                return (sHours + sMinutes);
+            } else if (format == '00:00') {
+                return (sHours + ":" + sMinutes);
+            } else {
+                return false;
+            }
         }
 
         // navigation button for procedure summary flexgrid
@@ -597,14 +612,16 @@
 
             var procedureDetailArray = new wijmo.collections.ObservableArray;
             $.ajax({
-                url: '/api/procedureResult/listByDateRange/' + detailStartDateParameterValue + "/" + detailEndDateParameterValue + "/" + getUrlParameter("facilityId"),
+                url: '/api/procedureResult/listByDateRange/' + detailStartDateParameterValue + "/" + detailEndDateParameterValue,
                 cache: false,
                 type: 'GET',
                 contentType: 'application/json; charset=utf-8',
                 success: function (procedureDetailListResult) {
                     if (procedureDetailListResult.length > 0) {
                         for (i = 0; i < procedureDetailListResult.length; i++) {
+                            var txDate = new Date(procedureDetailListResult[i]["TransactionDateTime"]);
                             var facilityRate = 0;
+
                             if (procedureDetailListResult[i]["FacilityRate"] != null) {
                                 facilityRate = procedureDetailListResult[i]["FacilityRate"];
                             }
@@ -633,8 +650,8 @@
                                 DoctorTime: procedureDetailListResult[i]["DoctorTime"],
                                 Facility: procedureDetailListResult[i]["Facility"],
                                 TransactionNumber: procedureDetailListResult[i]["TransactionNumber"],
-                                TransactionDateTime: procedureDetailListResult[i]["TransactionDateTime"],
-                                PatientName: procedureDetailListResult[i]["Patient"],
+                                TransactionDateTime: txDate.getFullYear() + '-' + (txDate.getMonth() + 1) + '-' + txDate.getDate(),
+                                PatientName: procedureDetailListResult[i]["Patient"].toUpperCase(),
                                 Modality: procedureDetailListResult[i]["Modality"],
                                 FacilityRate: facilityRate,
                                 DoctorRate: doctorRate,
@@ -649,6 +666,7 @@
             });
             return procedureDetailArray;
         }
+
         //CSV for Procedure Detail Report
         var procedureDetailCollectionView;
 
@@ -674,7 +692,7 @@
                     ImageRate: procedureDetailCollectionView.items[i].ImageRate,
                     Total: procedureDetailCollectionView.items[i].Total,
 
-                   
+
                 });
             }
 
@@ -971,8 +989,6 @@
 
             createProcedureSummaryFlexGrid();
             createProcedureDetailFlexGrid();
-
-            getUserFacilityData();
         }
     </script>
 </body>
