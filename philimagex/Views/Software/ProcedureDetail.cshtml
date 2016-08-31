@@ -70,7 +70,7 @@
                                 <dd><input type="text" class="form-control" id="procedureTransactionTime" placeholder="Transaction Time" /></dd>
                                 <dt>DICOM File</dt>
                                 <dd>
-                                    <textarea class="form-control requiredProcedure" id="procedureDICOMFile" placeholder="DICOM File"></textarea>
+                                    <textarea class="form-control requiredProcedure" rows="10" id="procedureDICOMFile" placeholder="DICOM File"></textarea>
                                 </dd>
                                 <dt>Exam Taken</dt>
                                 <dd><div id="cboExamTaken"></div></dd>
@@ -90,7 +90,7 @@
                                 <dd><input type="text" class="form-control requiredProcedure" id="procedureAge" placeholder="Age" /></dd>
                                 <dt>Particulars</dt>
                                 <dd>
-                                    <textarea class="form-control requiredProcedure" id="procedureParticulars" placeholder="DICOM File"></textarea>
+                                    <textarea class="form-control requiredProcedure" rows="10" id="procedureParticulars" placeholder="DICOM File"></textarea>
                                 </dd>
                             </dl>
                         </div>
@@ -152,14 +152,18 @@
                     <h4 class="modal-title">Procedure Result Detail</h4>
                 </div>
                 <div class="modal-body">
-                    <dl class="dl-horizontal">
-                        <dt>Procedure</dt>
-                        <dd><div id="cboProcedure"></div></dd>
-                        <dt>Result</dt>
-                        <dd><textarea class="form-control requireProcedureResult" id="procedureResult" placeholder="Result"></textarea></dd>
-                        <dt>Doctor</dt>
-                        <dd><div id="cboDoctor"></div></dd>
-                    </dl>
+                    <div class="form-group">
+                        <label>Procedure</label><br />
+                        <div id="cboProcedure" style="width: 100%"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Result</label><br />
+                        <textarea class="form-control requireProcedureResult" rows="10" id="procedureResult" placeholder="Result"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Doctor</label><br />
+                        <div id="cboDoctor" style="width: 100%"></div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" id="btnSaveProcedureResult" onclick="btnSaveProcedureResultOnclick()"><i class="fa fa-save fa-fw"></i> Save</button>
@@ -877,6 +881,7 @@
                 contentType: 'application/json; charset=utf-8',
                 success: function (procedureDetailResult) {
                     document.getElementById("procedureTransactionTime").disabled = true;
+                    document.getElementById("procedureDICOMFile").disabled = true;
                     if (procedureDetailResult != null) {
                         document.getElementById("procedureTransactionNumber").value = procedureDetailResult.TransactionNumber;
                         cboTransactionDate.value = new Date(procedureDetailResult.TransactionDateTime);
