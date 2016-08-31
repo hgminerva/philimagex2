@@ -36,6 +36,23 @@ namespace philimagex.ApiControllers
             return users.ToList();
         }
 
+        // user by facility id
+        [Authorize]
+        [HttpGet]
+        [Route("api/user/getByFacilityId/{facilityId}")]
+        public Models.MstUser getUserByFacilityId(String facilityId)
+        {
+            var user = from d in db.MstUsers
+                       where d.Id == Convert.ToInt32(facilityId)
+                       select new Models.MstUser
+                       {
+                           Id = d.Id,
+                           UserName = d.UserName,
+                       };
+
+            return (Models.MstUser)user.FirstOrDefault();
+        }
+
         [Authorize]
         [HttpGet]
         [Route("api/user/list")]

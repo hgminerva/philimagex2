@@ -17,10 +17,11 @@ namespace philimagex.ApiControllers
         // list procedure
         [Authorize]
         [HttpGet]
-        [Route("api/procedure/list")]
-        public List<Models.TrnProcedure> listProcedure()
+        [Route("api/procedure/listByFacilityId/{facilityId}")]
+        public List<Models.TrnProcedure> listProcedure(String facilityId)
         {
             var procedures = from d in db.TrnProcedures
+                             where d.UserId == Convert.ToInt32(facilityId)
                              select new Models.TrnProcedure
                             {
                                 Id = d.Id,
@@ -48,11 +49,12 @@ namespace philimagex.ApiControllers
         // get procedure by Id
         [Authorize]
         [HttpGet]
-        [Route("api/procedure/getById/{id}")]
-        public Models.TrnProcedure getProcedureById(String id)
+        [Route("api/procedure/getById/{id}/{facilityId}")]
+        public Models.TrnProcedure getProcedureById(String id, String facilityId)
         {
             var procedures = from d in db.TrnProcedures
                              where d.Id == Convert.ToInt32(id)
+                             && d.UserId == Convert.ToInt32(facilityId)
                              select new Models.TrnProcedure
                              {
                                  Id = d.Id,
@@ -183,12 +185,13 @@ namespace philimagex.ApiControllers
         // list procedure by dates
         [Authorize]
         [HttpGet]
-        [Route("api/procedure/listByDateRange/{startDate}/{endDate}")]
-        public List<Models.TrnProcedure> listProcedureByDateRange(String startDate, String endDate)
+        [Route("api/procedure/listByDateRange/{startDate}/{endDate}/{facilityId}")]
+        public List<Models.TrnProcedure> listProcedureByDateRange(String startDate, String endDate, String facilityId)
         {
             var procedures = from d in db.TrnProcedures
                              where d.TransactionDateTime >= Convert.ToDateTime(startDate)
                              && d.TransactionDateTime <= Convert.ToDateTime(endDate)
+                             && d.UserId == Convert.ToInt32(facilityId)
                              select new Models.TrnProcedure
                              {
                                  Id = d.Id,

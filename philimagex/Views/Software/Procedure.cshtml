@@ -127,7 +127,7 @@
         function getProcedureData() {
             var procedureArray = new wijmo.collections.ObservableArray;
             $.ajax({
-                url: '/api/procedure/list',
+                url: '/api/procedure/listByFacilityId/' + getUrlParameter("facilityId"),
                 cache: false,
                 type: 'GET',
                 contentType: 'application/json; charset=utf-8',

@@ -340,6 +340,7 @@
                             procedureResultArray.push({
                                 EditButton: "<button class='btn btn-primary btn-xs btn-block' onclick='btnEditProcedureResultOnclick()'><i class='fa fa-edit fa-fw'></i> Edit</button>",
                                 DeleteButton: "<button class='btn btn-danger btn-xs btn-block'  onclick='btnDeleteProcedureResultOnclick()'><i class='fa fa-trash fa-fw'></i> Delete</button>",
+                                PrintButton: "<button class='btn btn-primary btn-xs btn-block' onclick=''><i class='fa fa-print fa-fw'></i> Print</button>",
                                 Id: procedureResultListResult[i]["Id"],
                                 ProcedureId: procedureResultListResult[i]["ProcedureId"],
                                 ModalityProcedureId: procedureResultListResult[i]["ModalityProcedureId"],
@@ -772,6 +773,14 @@
                                 "isContentHtml": true
                             },
                             {
+                                "header": "Print",
+                                "binding": "PrintButton",
+                                "width": 80,
+                                "align": "center",
+                                "allowResizing": false,
+                                "isContentHtml": true
+                            },
+                            {
                                 "header": "Procedure",
                                 "binding": "ModalityProcedure",
                                 "allowSorting": true,
@@ -862,7 +871,7 @@
         function getProcedureDetailData() {
             createCboDateOfBirth();
             $.ajax({
-                url: '/api/procedure/getById/' + getUrlParameter("id"),
+                url: '/api/procedure/getById/' + getUrlParameter("id") + "/" + getUrlParameter("facilityId"),
                 cache: false,
                 type: 'GET',
                 contentType: 'application/json; charset=utf-8',

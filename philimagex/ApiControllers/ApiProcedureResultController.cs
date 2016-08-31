@@ -127,14 +127,15 @@ namespace philimagex.ApiControllers
         // body procedure result
         [Authorize]
         [HttpGet]
-        [Route("api/procedureResult/listByDateRange/{startDate}/{endDate}")]
-        public List<Models.TrnProcedureResult> listProcedureResultByDateRange(String startDate, String endDate)
+        [Route("api/procedureResult/listByDateRange/{startDate}/{endDate}/{facilityId}")]
+        public List<Models.TrnProcedureResult> listProcedureResultByDateRange(String startDate, String endDate, String facilityId)
         {
             try
             {
                 var procedureResults = from d in db.TrnProcedureResults
                                        where d.TrnProcedure.TransactionDateTime >= Convert.ToDateTime(startDate)
                                        && d.TrnProcedure.TransactionDateTime <= Convert.ToDateTime(endDate)
+                                       && d.TrnProcedure.UserId == Convert.ToInt32(facilityId)
                                        select new Models.TrnProcedureResult
                                        {
                                            Id = d.Id,
