@@ -325,10 +325,10 @@
         }
 
         // CSV for Procedure SUmmary Report
-        var procedureSummaryCollectionView;
+        var procedureSummaryCollectionViewForCSV;
 
         function procedureSummaryReportCSV_OnClick() {
-
+            procedureSummaryCollectionView.pageSize = 0;
 
             var CSV = '';
             var procedureSummaryReport = [];
@@ -336,7 +336,7 @@
 
             for (i = 0; i < procedureSummaryCollectionView.items.length; i++) {
                 procedureSummaryReport.push({
-                    Facility: procedureSummaryCollectionView.items[i].Facility,
+                    User: procedureSummaryCollectionView.items[i].User,
                     TransactionNumber: procedureSummaryCollectionView.items[i].TransactionNumber,
                     TransactionDateTime: procedureSummaryCollectionView.items[i].TransactionDateTime,
                     TransactionTime: procedureSummaryCollectionView.items[i].TransactionTime,
@@ -344,9 +344,6 @@
                     Age: procedureSummaryCollectionView.items[i].Age,
                     Modality: procedureSummaryCollectionView.items[i].Modality,
                     Doctor: procedureSummaryCollectionView.items[i].Doctor,
-
-
-
                 });
             }
 
@@ -648,6 +645,7 @@
 
         function procedureDetailReportCSV_OnClick() {
 
+            procedureDetailCollectionView.pageSize = 0;
 
             var CSV = '';
             var procedureDetailReport = [];
