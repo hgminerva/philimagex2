@@ -52,7 +52,7 @@
                                     </div>
                                 </td>
                                 <td style="width: 50%" align="right">
-                                    <button class="btn btn-primary" onclick="btnAdd_OnClick()"><i class="fa fa-plus fa-fw"></i>Add</button>
+                                    @*<button class="btn btn-primary" onclick="btnAdd_OnClick()"><i class="fa fa-plus fa-fw"></i>Add</button>*@
                                 </td>
                             </tr>
                         </table>
@@ -90,9 +90,16 @@
                                 <h4 id="modal-title" class="modal-title">Add</h4>
                             </div>
                             <div class="modal-body">
-                                <label>User Type</label><br />
-                                <input id="userType" type="text" class="form-control" />
+                                <label>Full Name</label><br />
+                                <input id="userFullName" type="text" class="form-control" />
+
+                                <div class="form-group">
+                                    <label>User Type</label><br />
+                                    <div id="cmbUserType"></div>
+                                </div>
+
                             </div>
+
                             <div class="modal-footer">
                                 <button id="btnSaveChanges" type="button" class="btn btn-primary btn-outline text-right">Save changes</button>
                             </div>
@@ -135,6 +142,9 @@
         var collection;
         var flexGrid;
 
+        var userType;
+        var cmbUserType;
+
         var btnFirstPageGrid4;
         var btnPreviousPageGrid;
         var btnNextPageGrid;
@@ -153,7 +163,9 @@
                         EditId: "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='btnEdit_OnClick()'><i class='fa fa-edit fa-faw'></i> Edit</button>",
                         DeleteId: "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='btnDelete_OnClick()'><i class='fa fa-trash'></i> Delete</button>",
                         Id: results[i]["Id"],
-                        UserType: results[i]["UserType"],
+                        FullName: results[i]["FullName"],
+                        UserTypeId: results[i]["UserTypeId"],
+                        UserType: results[i]["UserType"]
                     });
                 }
                 collection = new wijmo.collections.CollectionView(observableArray);
@@ -200,6 +212,14 @@
                         "align": "center",
                         "isContentHtml": true
 
+                    },
+                    {
+                        "header": "Name",
+                        "binding": "FullName",
+                        "align": "left",
+                        "allowSorting": true,
+                        "isContentHtml": true,
+                        "width": "2*"
                     },
                     {
                         "header": "User Type",
@@ -280,7 +300,8 @@
             document.getElementById('modal-title').innerHTML = "Add User Type";
             document.getElementById('btnSaveChanges').onclick = addItem;
 
-            document.getElementById('userType').value = "";
+            cmbUserType.selectedIndex = 0;
+            document.getElementById('userFullName').value = "";
 
             $('#modal').modal({
                 "show": true,
@@ -296,7 +317,8 @@
 
             var item = collection.currentItem;
 
-            document.getElementById('userType').value = item.UserType;
+            cmbUserType.selectedItem = item.UserType;
+            document.getElementById('userFullName').value = item.FullName;
 
             $('#modal').modal({
                 "show": true,
@@ -316,6 +338,19 @@
 
         function getMasterList(callback) {
             $.ajax({
+                url: '/api/user/list',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                data: {},
+                success: function (results) {
+                    callback(results)
+                }
+            });
+        }
+
+        function getUserType(callback) {
+            $.ajax({
                 url: '/api/userType/list',
                 cache: false,
                 type: 'GET',
@@ -329,7 +364,7 @@
 
         function addItem() {
             $.ajax({
-                url: '/api/userType/add',
+                url: '/api/user/add',
                 cache: false,
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
@@ -349,7 +384,7 @@
         function editItem() {
 
             $.ajax({
-                url: '/api/userType/update/' + collection.currentItem.Id,
+                url: '/api/user/update/' + collection.currentItem.Id,
                 type: 'PUT',
                 cache: false,
                 contentType: 'application/json; charset=utf-8',
@@ -363,11 +398,11 @@
                     },
                     404: function (something) {
                         console.log('something went wrong.');
-                        $('#modal').modal('hide');
+                        alert("404");
                     },
                     400: function (something) {
                         console.log('something went wrong.');
-                        $('#modal').modal('hide');
+                        alert("400");
                     }
                 }
             });
@@ -379,7 +414,7 @@
             var item = collection.currentItem;
 
             $.ajax({
-                url: '/api/userType/delete/' + item.Id,
+                url: '/api/user/delete/' + item.Id,
                 type: 'DELETE',
                 statusCode: {
                     200: function () {
@@ -403,10 +438,13 @@
 
 
         function createData() {
-            var userType = document.getElementById('userType').value;
+            var nName = document.getElementById('userFullName').value;
+
+            var NUserType = userType[cmbUserType.selectedIndex].Id;
 
             var data = {
-                UserType: userType
+                FullName: nName,
+                UserTypeId: NUserType
             }
 
             return JSON.stringify(data);
@@ -452,6 +490,21 @@
             btnLastPageGrid = document.getElementById('btnMoveToLastPageGrid');
             btnCurrentPageGrid = document.getElementById('btnCurrentPageGrid');
 
+            cmbUserType = new wijmo.input.ComboBox('#cmbUserType');
+
+            getUserType(function (results) {
+                userType = results;
+                if (results.length > 0) {
+                    var source = new wijmo.collections.ObservableArray();
+
+                    for (var i = 0; i < results.length; i++) {
+                        var m = userType[i];
+                        source.push(m.UserType);
+                    }
+
+                    cmbUserType.itemsSource = source;
+                }
+            });
 
             //Collection View
             getMasterList(function (results) {
