@@ -38,54 +38,52 @@
             </nav>
             <div class="panel panel-default">
                 <!-- BODY -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <table style="width: 100%" border="0">
-                            <tr>
-                                <td>
-                                    <h4>Users</h4>
-                                </td>
-                                <td align="right">
-                                    <i class="fa fa-hospital-o fa-fw"></i> Facility: &nbsp;  <b><span id="defaultFacility"></span></b>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="panel-heading">
-                        <table style="width: 100%" border="0">
-                            <tr>
-                                <td style="width: 50%">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                        <input type="text" class="form-control input-sm" id="InputFilter" placeholder="Search">
-                                    </div>
-                                </td>
-                                <td style="width: 50%" align="right">
-                                    @*<button class="btn btn-primary" onclick="btnAdd_OnClick()"><i class="fa fa-plus fa-fw"></i>Add</button>*@
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="panel-body">
-                        <table id="grid" class="grid border-custom"></table>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="btn-group col-md-7" id="navigationPageGrid">
-                                <button type="button" class="btn btn-default border-custom" id="btnMoveToFirstPageGrid">
-                                    <span class="glyphicon glyphicon-fast-backward"></span>
-                                </button>
-                                <button type="button" class="btn btn-default border-custom" id="btnMoveToPreviousPageGrid">
-                                    <span class="glyphicon glyphicon-step-backward"></span>
-                                </button>
-                                <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnCurrentPageGrid"></button>
-                                <button type="button" class="btn btn-default border-custom" id="btnMoveToNextPageGrid">
-                                    <span class="glyphicon glyphicon-step-forward"></span>
-                                </button>
-                                <button type="button" class="btn btn-default border-custom" id="btnMoveToLastPageGrid">
-                                    <span class="glyphicon glyphicon-fast-forward"></span>
-                                </button>
-                            </div>
+                <div class="panel-heading">
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td>
+                                <h4>Users</h4>
+                            </td>
+                            <td align="right">
+                                <i class="fa fa-hospital-o fa-fw"></i> Facility: &nbsp;  <b><span id="defaultFacility"></span></b>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel-heading">
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td style="width: 50%">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                    <input type="text" class="form-control input-sm" id="InputFilter" placeholder="Search">
+                                </div>
+                            </td>
+                            <td style="width: 50%" align="right">
+                                @*<button class="btn btn-primary" onclick="btnAdd_OnClick()"><i class="fa fa-plus fa-fw"></i>Add</button>*@
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel-body">
+                    <table id="grid" class="grid border-custom"></table>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="btn-group col-md-7" id="navigationPageGrid">
+                            <button type="button" class="btn btn-default border-custom" id="btnMoveToFirstPageGrid">
+                                <span class="glyphicon glyphicon-fast-backward"></span>
+                            </button>
+                            <button type="button" class="btn btn-default border-custom" id="btnMoveToPreviousPageGrid">
+                                <span class="glyphicon glyphicon-step-backward"></span>
+                            </button>
+                            <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnCurrentPageGrid"></button>
+                            <button type="button" class="btn btn-default border-custom" id="btnMoveToNextPageGrid">
+                                <span class="glyphicon glyphicon-step-forward"></span>
+                            </button>
+                            <button type="button" class="btn btn-default border-custom" id="btnMoveToLastPageGrid">
+                                <span class="glyphicon glyphicon-fast-forward"></span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -427,17 +425,15 @@
                 type: 'DELETE',
                 statusCode: {
                     200: function () {
-                        console.log('delete successfully');
+                        toastr.success("Delete Success");
                         $('#deleteModal').modal('hide');
                         collection.remove(item);
                     },
                     404: function () {
-                        console.log('something went wrong.');
-                        $('#deleteModal').modal('hide');
+                        toastr.success("Something went wrong");
                     },
                     400: function () {
-                        console.log('something went wrong.');
-                        $('#deleteModal').modal('hide');
+                        toastr.success("Something went wrong");
                     }
                 }
             });

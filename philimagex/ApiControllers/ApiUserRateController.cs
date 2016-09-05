@@ -16,10 +16,11 @@ namespace philimagex.ApiControllers
         // body user rate
         [Authorize]
         [HttpGet]
-        [Route("api/userRate/list")]
-        public List<Models.MstUserRate> listUserRate()
+        [Route("api/userRate/list/{facilityId}")]
+        public List<Models.MstUserRate> listUserRate(String facilityId)
         {
             var userRates = from d in db.MstUserRates
+                            where d.UserId == Convert.ToInt32(facilityId)
                             select new Models.MstUserRate
                             {
                                 Id = d.Id,
