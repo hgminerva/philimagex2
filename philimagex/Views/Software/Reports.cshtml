@@ -453,7 +453,7 @@
                             procedureSummaryArray.push({
                                 Id: procedureSummaryListResult[i]["Id"],
                                 TransactionNumber: procedureSummaryListResult[i]["TransactionNumber"],
-                                TransactionDateTime: txDate.getFullYear() + '-' + (txDate.getMonth() + 1) + '-' + txDate.getDate(),
+                                TransactionDateTime: DateFormat(txDate),
                                 TransactionTime: ConvertTimeformat('00:00', procedureSummaryListResult[i]["TransactionTime"]),
                                 DICOMFileName: procedureSummaryListResult[i]["DICOMFileName"],
                                 PatientName: procedureSummaryListResult[i]["PatientName"].toUpperCase(),
@@ -477,6 +477,14 @@
                 }
             });
             return procedureSummaryArray;
+        }
+
+        var date;
+        function DateFormat(date) {
+            function pad(n) { return n < 10 ? '0' + n : n }
+            return date.getUTCFullYear() + '-'
+            + pad(date.getUTCMonth() + 1) + '-'
+            + pad(date.getUTCDate())
         }
 
         function ConvertTimeformat(format, str) {
@@ -671,7 +679,7 @@
                                 DoctorTime: procedureDetailListResult[i]["DoctorTime"],
                                 Facility: procedureDetailListResult[i]["Facility"],
                                 TransactionNumber: procedureDetailListResult[i]["TransactionNumber"],
-                                TransactionDateTime: txDate.getFullYear() + '-' + (txDate.getMonth() + 1) + '-' + txDate.getDate(),
+                                TransactionDateTime: DateFormat(txDate),
                                 PatientName: procedureDetailListResult[i]["Patient"].toUpperCase(),
                                 Modality: procedureDetailListResult[i]["Modality"],
                                 FacilityRate: facilityRate,
@@ -687,7 +695,6 @@
             });
             return procedureDetailArray;
         }
-
         //CSV for Procedure Detail Report
         var procedureDetailCollectionView;
 
