@@ -379,6 +379,7 @@
                             modalityProcedureArray.push({
                                 Id: modalityProcedureListResult[i]["Id"],
                                 ModalityProcedure: modalityProcedureListResult[i]["ModalityProcedure"],
+                                ModalityResultTemplate: modalityProcedureListResult[i]["ModalityResultTemplate"],
                             });
                         }
                         disabled = false;
@@ -394,7 +395,10 @@
                         isEditable: false,
                         required: true,
                         displayMemberPath: "ModalityProcedure",
-                        selectedValuePath: "ModalityProcedure"
+                        selectedValuePath: "ModalityProcedure",
+                        onSelectedIndexChanged: function () {
+                            document.getElementById("procedureResult").value = this.selectedItem["ModalityResultTemplate"]
+                        }
                     });
                 }
             });
@@ -475,7 +479,7 @@
 
             procedureResultId = 0;
             getModalityProcedureData();
-            document.getElementById("procedureResult").value = "NA";
+            document.getElementById("procedureResult").value = cboModalityProcedure.selectedItem["ModalityResultTemplate"];
             getDoctorData();
         }
 
