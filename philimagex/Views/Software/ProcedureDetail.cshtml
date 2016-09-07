@@ -65,7 +65,7 @@
                                     </div>
                                 </dd>
                                 <dt>Transaction Date</dt>
-                                <dd><div id="cboTransactionDate"></div></dd>
+                                <dd><input type="text" class="form-control" id="procedureTransactionDateTime" placeholder="Transaction Date" /></dd>
                                 <dt>Transaction Time</dt>
                                 <dd><input type="text" class="form-control" id="procedureTransactionTime" placeholder="Transaction Time" /></dd>
                                 <dt>DICOM File</dt>
@@ -213,23 +213,37 @@
         var cboModalityProcedure;
         var cboDoctor;
         var procedureResultId = 0;
+        
+        function dateFormat(date) {
+            function pad(n) { return n < 10 ? '0' + n : n }
+            return date.getUTCFullYear() + '-'
+            + pad(date.getUTCMonth() + 1) + '-'
+            + pad(date.getUTCDate())
+        }
 
-        // transaction date
-        function cboTransactionDate() {
-            cboTransactionDate = new wijmo.input.InputDate('#cboTransactionDate', {
-                disabled: true,
-                format: 'MM-dd-yyyy',
-                value: new Date(),
-                mask: '99-99-9999',
-                onValueChanged: function () {
-
-                }
-            });
+        function ConvertTimeformat(format, str) {
+            var hours = Number(str.match(/^(\d+)/)[1]);
+            var minutes = Number(str.match(/:(\d+)/)[1]);
+            var AMPM = str.match(/\s?([AaPp][Mm]?)$/)[1];
+            var pm = ['P', 'p', 'PM', 'pM', 'pm', 'Pm'];
+            var am = ['A', 'a', 'AM', 'aM', 'am', 'Am'];
+            if (pm.indexOf(AMPM) >= 0 && hours < 12) hours = hours + 12;
+            if (am.indexOf(AMPM) >= 0 && hours == 12) hours = hours - 12;
+            var sHours = hours.toString();
+            var sMinutes = minutes.toString();
+            if (hours < 10) sHours = "0" + sHours;
+            if (minutes < 10) sMinutes = "0" + sMinutes;
+            if (format == '0000') {
+                return (sHours + sMinutes);
+            } else if (format == '00:00') {
+                return (sHours + ":" + sMinutes);
+            } else {
+                return false;
+            }
         }
 
         // get modality data
         function getModalityData() {
-            cboTransactionDate();
             var modalityArray = new wijmo.collections.ObservableArray;
             $.ajax({
                 url: '/api/modality/list',
@@ -884,12 +898,14 @@
                 type: 'GET',
                 contentType: 'application/json; charset=utf-8',
                 success: function (procedureDetailResult) {
+                    document.getElementById("procedureTransactionDateTime").disabled = true;
                     document.getElementById("procedureTransactionTime").disabled = true;
                     document.getElementById("procedureDICOMFile").disabled = true;
                     if (procedureDetailResult != null) {
                         document.getElementById("procedureTransactionNumber").value = procedureDetailResult.TransactionNumber;
-                        cboTransactionDate.value = new Date(procedureDetailResult.TransactionDateTime);
-                        document.getElementById("procedureTransactionTime").value = procedureDetailResult.TransactionTime;
+                        var trnDate = new Date(procedureDetailResult.TransactionDateTime);
+                        document.getElementById("procedureTransactionDateTime").value = dateFormat(trnDate);
+                        document.getElementById("procedureTransactionTime").value = ConvertTimeformat('00:00', procedureDetailResult.TransactionTime);
                         document.getElementById("procedureDICOMFile").value = procedureDetailResult.DICOMFileName;
                         cboExamTaken.selectedValue = procedureDetailResult.Modality;
                         cboBodyPart.selectedValue = procedureDetailResult.BodyPart;

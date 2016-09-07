@@ -141,7 +141,7 @@
                                 DeleteButton: "<button class='btn btn-danger btn-xs btn-block'  onclick='btnDeleteProcedureOnclick()'><i class='fa fa-trash fa-fw'></i> Delete</button>",
                                 Id: procedureListResult[i]["Id"],
                                 TransactionNumber: procedureListResult[i]["TransactionNumber"],
-                                TransactionDateTime: txDate.getFullYear() + '-' + (txDate.getMonth() + 1) + '-' + txDate.getDate(),
+                                TransactionDateTime: DateFormat(txDate),
                                 TransactionTime: ConvertTimeformat('00:00', procedureListResult[i]["TransactionTime"]),
                                 DICOMFileName: procedureListResult[i]["DICOMFileName"],
                                 PatientName: procedureListResult[i]["PatientName"].toUpperCase(),
@@ -164,6 +164,14 @@
                 }
             });
             return procedureArray;
+        }
+
+        var date;
+        function DateFormat(date) {
+            function pad(n) { return n < 10 ? '0' + n : n }
+            return date.getUTCFullYear() + '-'
+            + pad(date.getUTCMonth() + 1) + '-'
+            + pad(date.getUTCDate())
         }
 
         function ConvertTimeformat(format, str) {
