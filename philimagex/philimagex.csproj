@@ -271,6 +271,7 @@
     <Content Include="Scripts\custom-scripts.js" />
     <Content Include="Scripts\nprogress.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\utilities.js" />
     <Content Include="wijmo\controls\cultures\wijmo.culture.de.js" />
     <Content Include="wijmo\controls\cultures\wijmo.culture.de.min.js" />
     <Content Include="wijmo\controls\cultures\wijmo.culture.en-GB.js" />
@@ -359,6 +360,8 @@
     <Content Include="wijmo\styles\themes\wijmo.theme.zen.min.css" />
     <Content Include="wijmo\styles\wijmo.css" />
     <Content Include="wijmo\styles\wijmo.min.css" />
+    <None Include="Properties\PublishProfiles\dmtipacs - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\dmtipacs - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\banner-bg.jpg" />
     <Content Include="Images\dog.png" />

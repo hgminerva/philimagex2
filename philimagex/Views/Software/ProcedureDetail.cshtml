@@ -45,7 +45,7 @@
                             </td>
                             <td style="width: 50%" align="right">
                                 <i class="fa fa-hospital-o fa-fw"></i> Facility: &nbsp;  <b><span id="defaultFacility"></span></b> &nbsp;&nbsp;&nbsp;&nbsp;  
-                                <button class="btn btn-primary" id="btnViewProcedure"><i class="fa fa-eye fa-fw"></i> View</button>
+                                <button class="btn btn-primary" id="btnViewProcedure" onclick="btnViewProcedureOnclick()"><i class="fa fa-eye fa-fw"></i> View</button>
                                 <button class="btn btn-primary" id="btnSaveProcedure" onclick="btnSaveProcedureOnclick()"><i class="fa fa-save fa-fw"></i> Save</button>
                             </td>
                         </tr>
@@ -196,6 +196,7 @@
     <!-- Scripts -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/utilities")
     <script type="text/javascript">
         // global variable
         var cboTransactionDate;
@@ -1013,6 +1014,25 @@
 
         function btnReportsOnclick() {
             window.location = "/Software/Reports?facilityId=" + getUrlParameter("facilityId");
+        }
+
+        function btnViewProcedureOnclick() {
+            var DicomFile = $('#procedureDICOMFile').val();
+
+            DicomFile = "D" + DicomFile.substring(1, DicomFile.length);
+            alert(DicomFile);
+
+            if (DicomFile != "") {
+                var DicomFiles = DicomFile.split(';');
+                var NumberOfFiles = DicomFiles.length;
+                if (NumberOfFiles > 1) {
+                    for (index = 0; index < DicomFiles.length; index++) {
+                        utilities.runBatchFile(DicomFiles[index]);
+                    }
+                } else {
+                    utilities.runBatchFile(DicomFile);
+                }
+            }
         }
 
         // on load page
