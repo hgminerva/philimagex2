@@ -32,7 +32,7 @@ namespace philimagex
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
                       "~/Content/bootstrap-theme.min.css",
-                      "~/fonts/font-awesome-4.6.3/css/font-awesome.min.css",
+                      "~/Content/font-awesome.min.css",
                       "~/Content/styles.css",
                       "~/Content/nprogress.css",
                       "~/Content/toastr.min.css",

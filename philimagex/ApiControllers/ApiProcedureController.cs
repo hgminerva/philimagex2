@@ -20,7 +20,7 @@ namespace philimagex.ApiControllers
         [Route("api/procedure/listByFacilityId/{facilityId}")]
         public List<Models.TrnProcedure> listProcedure(String facilityId)
         {
-            var procedures = from d in db.TrnProcedures
+            var procedures = from d in db.TrnProcedures.OrderByDescending(d => d.TransactionNumber)
                              where d.UserId == Convert.ToInt32(facilityId)
                              select new Models.TrnProcedure
                             {

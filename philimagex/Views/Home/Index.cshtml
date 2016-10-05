@@ -69,29 +69,40 @@
                     </ul>
                 </div>
                 <div class="col-md-8">
-                    <div class="img-thumbnail">
-                        <script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script>
-                        <div style='overflow:hidden;height:440px;width:100%;'>
-                            <div id='gmap_canvas' style='height:440px;width:700px;'>
-                            </div>
-                            <div>
-                                <small>
-                                    <a href="http://www.embedgooglemaps.com">Generate your Google map here, quick and easy!</a>
-                                </small>
-                            </div>
-                            <div>
-                                <small>
-                                    <a href="https://binaireoptieservaringen.nl/plus500/">Lees hier alle ervaringen van Plus 500!</a>
-                                </small>
-                            </div>
-                            <style>
-                                #gmap_canvas img {
-                                    max-width: none !important;
-                                    background: none !important;
-                                }
-                            </style>
-                        </div>
+                    <div class="img-responsive img-thumbnail" style='overflow: hidden; height: 400px; width: 100%;'>
+                        <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAnGzUqbgnhr0Ainxl_aU5g7E4pUbWoHqg'></script>
+                        <div id='gmap_canvas' style='height:400px; width:100%;'></div>
+                        <style>
+                            #gmap_canvas img {
+                                max-width: none !important;
+                                background: none !important;
+                            }
+                        </style>
+                        <a href='https://mapswebsite.org/'>mapswebsite</a>
+                        <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=7aca4a0a0430773dffa6f863e0deb3241ad124fa'></script>
+                        <script type='text/javascript'>
+                            function init_map() {
+                                var myOptions = {
+                                    zoom: 16,
+                                    center: new google.maps.LatLng(10.3098543, 123.89315590000001),
+                                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                                };
+
+                                map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
+                                marker = new google.maps.Marker({
+                                    map: map, position: new google.maps.LatLng(10.3098543, 123.89315590000001)
+                                });
+
+                                infowindow = new google.maps.InfoWindow({
+                                    content: '<strong>DMTIpacs</strong><br>Fuente Osmeña<br>6000 Cebu City<br>'
+                                });
+
+                                google.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); }); infowindow.open(map, marker);
+                            }
+
+                            google.maps.event.addDomListener(window, 'load', init_map);</script>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -104,21 +115,18 @@
     <!-- Scripts -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script type='text/javascript'>
-        function init_map() {
-            var myOptions = {
-                zoom: 10, center: new google.maps.LatLng(10.153526478415882, 123.71926838710945),
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-
-            map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
-            marker = new google.maps.Marker({ map: map, position: new google.maps.LatLng(10.153526478415882, 123.71926838710945) });
-            infowindow = new google.maps.InfoWindow({ content: '<strong>Cebu City</strong><br>Cebu City, Philippines 6000<br>' });
-            google.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); }); infowindow.open(map, marker);
-        } google.maps.event.addDomListener(window, 'load', init_map);
-    </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
 @*@{
         ViewBag.Title = "Home Page";
