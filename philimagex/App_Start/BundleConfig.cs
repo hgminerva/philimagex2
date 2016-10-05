@@ -37,6 +37,9 @@ namespace philimagex
                       "~/Content/nprogress.css",
                       "~/Content/toastr.min.css",
                       "~/wijmo/styles/wijmo.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/utilities").Include(
+                      "~/Scripts/utilities.js"));
         }
     }
 }
