@@ -45,8 +45,8 @@
                             </td>
                             <td style="width: 50%" align="right">
                                 <i class="fa fa-hospital-o fa-fw"></i> Facility: &nbsp;  <b><span id="defaultFacility"></span></b> &nbsp;&nbsp;&nbsp;&nbsp;  
-                                <button class="btn btn-primary" id="btnViewProcedure" onclick="btnViewProcedureOnclick()"><i class="fa fa-eye fa-fw"></i> View</button>
-                                <button class="btn btn-primary" id="btnSaveProcedure" onclick="btnSaveProcedureOnclick()"><i class="fa fa-save fa-fw"></i> Save</button>
+                                <button class="btn btn-primary" id="viewDicomButton" onclick="btnViewProcedureOnclick()"><i class="fa fa-eye fa-fw"></i> View</button>
+                                <button class="btn btn-primary" id="saveProcedureButton" onclick="btnSaveProcedureOnclick()"><i class="fa fa-save fa-fw"></i> Save</button>
                             </td>
                         </tr>
                     </table>
@@ -60,7 +60,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control requiredProcedure" id="procedureTransactionNumber" placeholder="Transaction Number">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-primary"><i class="fa fa-hand-o-right"></i></button>
+                                            <button id="getDicomInfoButton" class="btn btn-primary" onclick="btnExtractDicomInfoOnclick()"><i class="fa fa-hand-o-right"></i></button>
                                         </div>
                                     </div>
                                 </dd>
@@ -111,7 +111,7 @@
                                 </div>
                             </td>
                             <td style="width: 50%" align="right">
-                                <button class="btn btn-primary" id="btnAddResult" onclick="btnAddProcedureResultOnclick()"><i class="fa fa-plus fa-fw"></i>Add</button>
+                                <button class="btn btn-primary" id="addResultButton" onclick="btnAddProcedureResultOnclick()"><i class="fa fa-plus fa-fw"></i>Add</button>
                             </td>
                         </tr>
                     </table>
@@ -199,6 +199,9 @@
     @Scripts.Render("~/bundles/utilities")
     <script type="text/javascript">
         // global variable
+        var currentUserName;
+        var userType;
+
         var cboTransactionDate;
         var cboExamTaken;
         var cboBodyPart;
@@ -357,9 +360,9 @@
                     if (procedureResultListResult.length > 0) {
                         for (i = 0; i < procedureResultListResult.length; i++) {
                             procedureResultArray.push({
-                                EditButton: "<button class='btn btn-primary btn-xs btn-block' onclick='btnEditProcedureResultOnclick()'><i class='fa fa-edit fa-fw'></i> Edit</button>",
-                                DeleteButton: "<button class='btn btn-danger btn-xs btn-block'  onclick='btnDeleteProcedureResultOnclick()'><i class='fa fa-trash fa-fw'></i> Delete</button>",
-                                PrintButton: "<button class='btn btn-primary btn-xs btn-block' onclick=''><i class='fa fa-print fa-fw'></i> Print</button>",
+                                EditButton: "<button id='editResultButton' class='btn btn-primary btn-xs btn-block' onclick='btnEditProcedureResultOnclick()' " + lockElement('editResultButton') + "><i class='fa fa-edit fa-fw'></i> Edit</button>",
+                                DeleteButton: "<button id='deleteResultButton' class='btn btn-danger btn-xs btn-block'  onclick='btnDeleteProcedureResultOnclick()' " + lockElement('deleteResultButton') + "><i class='fa fa-trash fa-fw'></i> Delete</button>",
+                                PrintButton: "<button id='printResultButton' class='btn btn-primary btn-xs btn-block' onclick='btnPrintProcedureResultOnclick(" + procedureResultListResult[i]["Id"] + ")' " + lockElement('printResultButton') + "><i class='fa fa-print fa-fw'></i> Print</button>",
                                 Id: procedureResultListResult[i]["Id"],
                                 ProcedureId: procedureResultListResult[i]["ProcedureId"],
                                 ModalityProcedureId: procedureResultListResult[i]["ModalityProcedureId"],
@@ -473,6 +476,35 @@
             });
 
             return isValid;
+        }
+
+        // Extract information from Dicom File
+        function btnExtractDicomInfoOnclick() {
+            var TransactionNumber = $('#procedureTransactionNumber').val();
+
+            if (TransactionNumber != "") {
+
+                var PatientInfo = utilities.getPatientInfo("C:\\Dropbox\\" + currentUserName + "\\output", TransactionNumber);
+                if (PatientInfo.DICOMFileName == "NA") {
+                    PatientInfo = utilities.getPatientInfo("D:\\Dropbox\\" + currentUserName + "\\output", TransactionNumber);
+                }
+
+                if (PatientInfo.DICOMFileName != "NA") {
+                    // Dicom File
+                    document.getElementById("procedureDICOMFile").value = PatientInfo.DICOMFileName;
+                    // Patient's Name
+                    document.getElementById("procedurePatient").value = PatientInfo.PatientName;
+                    // Gender
+                    cboGender.selectedValue = PatientInfo.Gender;
+                    // Date of Birth
+                    var DateOfBirth = PatientInfo.BirthDate.substring(4, 6) + "/" + PatientInfo.BirthDate.substring(6) + "/" + PatientInfo.BirthDate.substring(0, 4);
+                    cboDateOfBirth.value = new Date(DateOfBirth);
+                    // Age
+                    document.getElementById("procedureAge").value = Number(PatientInfo.Age.substring(0, 3)).toString();
+                } else {
+                    toastr.error("Cannot locate DICOM file.");
+                }
+            }
         }
 
         // Add procedure result
@@ -659,6 +691,13 @@
             document.getElementById("btnConfirmDeleteProcedureResult").innerHTML = "Yes";
             $("#btnConfirmDeleteProcedureResult").prop("disabled", false);
             $("#btnConfirmCloseProcedureResult").prop("disabled", false);
+        }
+
+        // print procedure result
+        function btnPrintProcedureResultOnclick(lineId) {
+            if (lineId > 0) {
+                window.location.href = '/api/PDF?Report=ProcedureResult&Id=' + lineId;
+            }
         }
 
         // confirm delete procedure result
@@ -1020,7 +1059,7 @@
             var DicomFile = $('#procedureDICOMFile').val();
 
             DicomFile = "D" + DicomFile.substring(1, DicomFile.length);
-            alert(DicomFile);
+            //alert(DicomFile);
 
             if (DicomFile != "") {
                 var DicomFiles = DicomFile.split(';');
@@ -1035,8 +1074,72 @@
             }
         }
 
+        function lockPage() {
+            if (!!document.getElementById('getDicomInfoButton')) document.getElementById('getDicomInfoButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('viewDicomButton')) document.getElementById('viewDicomButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('saveProcedureButton')) document.getElementById('saveProcedureButton').setAttribute('disabled', 'disabled');
+
+            if (!!document.getElementById('editResultButton')) document.getElementById('editResultButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('deleteResultButton')) document.getElementById('deleteResultButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('addResultButton')) document.getElementById('addResultButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('printResultButton')) document.getElementById('printResultButton').setAttribute('disabled', 'disabled');
+            $.ajax({
+                url: '/api/user/getUserByUserName/' + currentUserName,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (!!result) {
+                        userType = result.UserType;
+                        if (userType == 'Administrator') {
+                            if (!!document.getElementById('getDicomInfoButton')) document.getElementById('getDicomInfoButton').removeAttribute('disabled');
+                            if (!!document.getElementById('viewDicomButton')) document.getElementById('viewDicomButton').removeAttribute('disabled');
+                            if (!!document.getElementById('saveProcedureButton')) document.getElementById('saveProcedureButton').removeAttribute('disabled');
+
+                            if (!!document.getElementById('editResultButton')) document.getElementById('editResultButton').removeAttribute('disabled');
+                            if (!!document.getElementById('deleteResultButton')) document.getElementById('deleteResultButton').removeAttribute('disabled');
+                            if (!!document.getElementById('addResultButton')) document.getElementById('addResultButton').removeAttribute('disabled');
+                            if (!!document.getElementById('printResultButton')) document.getElementById('printResultButton').removeAttribute('disabled');
+                        } else if (userType == 'Facility') {
+                            if (!!document.getElementById('getDicomInfoButton')) document.getElementById('getDicomInfoButton').removeAttribute('disabled');
+                            if (!!document.getElementById('viewDicomButton')) document.getElementById('viewDicomButton').removeAttribute('disabled');
+                            if (!!document.getElementById('saveProcedureButton')) document.getElementById('saveProcedureButton').removeAttribute('disabled');
+
+                            if (!!document.getElementById('printResultButton')) document.getElementById('printResultButton').removeAttribute('disabled');
+                        } else if (userType == 'Doctor') {
+                            if (!!document.getElementById('viewDicomButton')) document.getElementById('viewDicomButton').removeAttribute('disabled');
+
+                            if (!!document.getElementById('editResultButton')) document.getElementById('editResultButton').removeAttribute('disabled');
+                            if (!!document.getElementById('deleteResultButton')) document.getElementById('deleteResultButton').removeAttribute('disabled');
+                            if (!!document.getElementById('addResultButton')) document.getElementById('addResultButton').removeAttribute('disabled');
+                            if (!!document.getElementById('printResultButton')) document.getElementById('printResultButton').removeAttribute('disabled');
+                        }
+                    }
+                }
+            });
+        }
+
+        function lockElement(element) {
+            if (userType == 'Administrator') {
+                return "";
+            } else if(userType == 'Facility') {
+                if (element == 'printResultButton') {
+                    return "";
+                } else {
+                    return "disabled";
+                }
+            } else if (userType == 'Doctor') {
+                return "";
+            } else {
+                return "disabled";
+            }
+        }
+
         // on load page
         window.onload = function () {
+            currentUserName = '@User.Identity.Name';
+            lockPage();
+
             NProgress.start();
             cboModalityProcedure = new wijmo.input.ComboBox('#cboProcedure');
             cboDoctor = new wijmo.input.ComboBox('#cboDoctor');

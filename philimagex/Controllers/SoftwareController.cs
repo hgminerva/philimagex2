@@ -142,34 +142,15 @@ namespace philimagex.Controllers
         public ActionResult Users(Int32? facilityId)
         {
             var user = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
-            if (facilityId != null)
+            if (user.Any())
             {
-                if (user.FirstOrDefault().UserTypeId == 1)
+                if (user.FirstOrDefault().UserTypeId == 3)
                 {
-                    if (user.FirstOrDefault().Id == facilityId)
-                    {
-                        return View();
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Manage");
-                    }
-                }
-                else if (user.FirstOrDefault().UserTypeId == 4)
-                {
-                    return RedirectToAction("Index", "Manage");
+                    return View();
                 }
                 else
                 {
-                    var userFacility = from d in db.MstUserDoctors where d.DoctorId == user.FirstOrDefault().Id && d.UserId == facilityId select d;
-                    if (userFacility.Any())
-                    {
-                        return View();
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Manage");
-                    }
+                    return RedirectToAction("NotFound", "Software");
                 }
             }
             else

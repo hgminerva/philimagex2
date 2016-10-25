@@ -59,7 +59,7 @@
                                 </div>
                             </td>
                             <td style="width: 50%" align="right">
-                                <button class="btn btn-primary" id="btnAddProcedure" onclick="btnAddProcedureOnclick()"><i class="fa fa-plus fa-fw"></i>Add</button>
+                                <button id="addButton" class="btn btn-primary" onclick="btnAddProcedureOnclick()"><i class="fa fa-plus fa-fw"></i>Add</button>
                             </td>
                         </tr>
                     </table>
@@ -123,6 +123,9 @@
         var btnLastPageGrid;
         var btnCurrentPageGrid;
 
+        var currentUserName;
+        var userType;
+
         // get procedure
         function getProcedureData() {
             var procedureArray = new wijmo.collections.ObservableArray;
@@ -137,8 +140,8 @@
                             var txDate = new Date(procedureListResult[i]["TransactionDateTime"]);
 
                             procedureArray.push({
-                                EditButton: "<button class='btn btn-primary btn-xs btn-block' onclick='btnEditProcedureOnclick()'><i class='fa fa-edit fa-fw'></i> Edit</button>",
-                                DeleteButton: "<button class='btn btn-danger btn-xs btn-block'  onclick='btnDeleteProcedureOnclick()'><i class='fa fa-trash fa-fw'></i> Delete</button>",
+                                EditButton: "<button id='editButton' class='btn btn-primary btn-xs btn-block' onclick='btnEditProcedureOnclick()' " + lockElement('editButton') + "><i class='fa fa-edit fa-fw'></i> Edit</button>",
+                                DeleteButton: "<button id-'deleteButton' class='btn btn-danger btn-xs btn-block'  onclick='btnDeleteProcedureOnclick()' " + lockElement('deleteButton') + "><i class='fa fa-trash fa-fw'></i> Delete</button>",
                                 Id: procedureListResult[i]["Id"],
                                 TransactionNumber: procedureListResult[i]["TransactionNumber"],
                                 TransactionDateTime: DateFormat(txDate),
@@ -197,8 +200,8 @@
 
         // Add procedure
         function btnAddProcedureOnclick() {
-            document.getElementById("btnAddProcedure").innerHTML = "<i class='fa fa-spinner fa-spin fa-fw'></i> Adding";
-            $("#btnAddProcedure").prop("disabled", true);
+            document.getElementById("#addButton").innerHTML = "<i class='fa fa-spinner fa-spin fa-fw'></i> Adding";
+            $("#addButton").prop("disabled", true);
 
             $.ajax({
                 type: "POST",
@@ -362,7 +365,49 @@
             window.location = "/Software/Reports?facilityId=" + getUrlParameter("facilityId");
         }
 
+        function lockPage() {
+            if (!!document.getElementById('editButton')) document.getElementById('editButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('deleteButton')) document.getElementById('deleteButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('addButton')) document.getElementById('addButton').setAttribute('disabled', 'disabled');
+            $.ajax({
+                url: '/api/user/getUserByUserName/' + currentUserName,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (!!result) {
+                        userType = result.UserType;
+                        if (userType == 'Administrator' || userType == 'Facility') {
+                            if (!!document.getElementById('editButton')) document.getElementById('editButton').removeAttribute('disabled');
+                            if (!!document.getElementById('deleteButton')) document.getElementById('deleteButton').removeAttribute('disabled');
+                            if (!!document.getElementById('addButton')) document.getElementById('addButton').removeAttribute('disabled');
+                        } else if (userType == 'Doctor') {
+                            if (!!document.getElementById('editButton')) document.getElementById('editButton').removeAttribute('disabled');
+                        }
+                    }
+                }
+            });
+        }
+
+        function lockElement(element) {
+            if (userType == 'Administrator' || userType == 'Facility') {
+                return "";
+            } else if (userType == 'Doctor') {
+                if (element == 'editButton') {
+                    return "";
+                } else {
+                    return "disabled";
+                }
+            } else {
+                return "disabled";
+            }
+        }
+
         window.onload = function () {
+            // Secure Page
+            currentUserName = '@User.Identity.Name';
+            lockPage();
+
             NProgress.start();
             procedureCollectionView = new wijmo.collections.CollectionView(getProcedureData());
             procedureCollectionView.canFilter = true;

@@ -64,7 +64,7 @@
                                 </div>
                             </td>
                             <td style="width: 50%" align="right">
-                                <button class="btn btn-primary" onclick="btnAdd_OnClick()">
+                                <button id="addButton" class="btn btn-primary" onclick="btnAdd_OnClick()">
                                     <i class="fa fa-plus fa-fw"></i>Add
                                 </button>
                             </td>
@@ -169,6 +169,9 @@
         var btnLastPageGrid;
         var btnCurrentPageGrid;
 
+        var currentUserName;
+        var userType;
+
         // =============================
         // Get PeriodMasterList Data
         // =============================
@@ -252,12 +255,12 @@
                     var col = panel.columns[c];
                     if (col.binding == "EditId") {
                         if (cell.innerHTML != " ") {
-                            cell.innerHTML = "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='cmdEditButton_OnClick()'><i class='fa fa-edit'></i> Edit</button>"
+                            cell.innerHTML = "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='cmdEditButton_OnClick()' " + lockElement('editButton') + "><i class='fa fa-edit'></i> Edit</button>"
                         }
                     }
                     if (col.binding == "DeleteId") {
                         if (cell.innerHTML != " ") {
-                            cell.innerHTML = "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='cmdDeleteButton_OnClick()'><i class='fa fa-trash'></i> Delete</button>"
+                            cell.innerHTML = "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='cmdDeleteButton_OnClick()' " + lockElement('deleteButton') + "><i class='fa fa-trash'></i> Delete</button>"
                         }
                     }
                 }
@@ -288,7 +291,7 @@
             if (modality != null || modality != undefined) {
                 var source = new wijmo.collections.ObservableArray();
 
-                for (var m of modality) {
+                for (var m in modality) {
                     source.push(m.Modality);
                 }
 
@@ -602,10 +605,42 @@
             window.location = "/Software/Reports?facilityId=" + getUrlParameter("facilityId");
         }
 
+        function lockPage() {
+            if (!!document.getElementById('editButton')) document.getElementById('editButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('deleteButton')) document.getElementById('deleteButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('addButton')) document.getElementById('addButton').setAttribute('disabled', 'disabled');
+            $.ajax({
+                url: '/api/user/getUserByUserName/' + currentUserName,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (!!result) {
+                        userType = result.UserType;
+                        if (userType == 'Administrator') {
+                            if (!!document.getElementById('editButton')) document.getElementById('editButton').removeAttribute('disabled');
+                            if (!!document.getElementById('deleteButton')) document.getElementById('deleteButton').removeAttribute('disabled');
+                            if (!!document.getElementById('addButton')) document.getElementById('addButton').removeAttribute('disabled');
+                        }
+                    }
+                }
+            });
+        }
+
+        function lockElement(element) {
+            if (userType == 'Administrator') {
+                return "";
+            } else {
+                return "disabled";
+            }
+        }
         //============
         // On Page Load
         // ============
         $(document).ready(function () {
+            // Secure Page
+            currentUserName = '@User.Identity.Name';
+            lockPage();
 
             // Navigation button
             btnFirstPageGrid = document.getElementById('btnMoveToFirstPageGrid');

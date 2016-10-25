@@ -53,6 +53,25 @@ namespace philimagex.ApiControllers
             return (Models.MstUser)user.FirstOrDefault();
         }
 
+        // user by username
+        [Authorize]
+        [HttpGet]
+        [Route("api/user/getUserByUserName/{userName}")]
+        public Models.MstUser getUserByUserName(String userName)
+        {
+            var user = from d in db.MstUsers
+                       where d.UserName == userName
+                       select new Models.MstUser
+                       {
+                           Id = d.Id,
+                           UserName = d.UserName,
+                           UserTypeId = d.UserTypeId,
+                           UserType = d.MstUserType.UserType
+                       };
+
+            return (Models.MstUser)user.FirstOrDefault();
+        }
+
         [Authorize]
         [HttpGet]
         [Route("api/user/list")]

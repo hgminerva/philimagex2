@@ -60,7 +60,7 @@
                                 </div>
                             </td>
                             <td style="width: 50%" align="right">
-                                <button class="btn btn-primary" onclick="btnAdd_OnClick()"><i class="fa fa-plus fa-fw"></i>Add</button>
+                                <button id="addButton" class="btn btn-primary" onclick="btnAdd_OnClick()"><i class="fa fa-plus fa-fw"></i>Add</button>
                             </td>
                         </tr>
                     </table>
@@ -182,6 +182,9 @@
         var btnLastPageGrid;
         var btnCurrentPageGrid;
 
+        var currentUserName;
+        var userType;
+
         // =============================
         // Get MasterList Data
         // =============================
@@ -191,8 +194,8 @@
             if (results.length > 0) {
                 for (i = 0; i < results.length; i++) {
                     observableArray.push({
-                        EditId: "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='btnEdit_OnClick()'><i class='fa fa-edit fa-faw'></i> Edit</button>",
-                        DeleteId: "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='btnDelete_OnClick()'><i class='fa fa-trash'></i> Delete</button>",
+                        EditId: "<button class='btn btn-primary btn-xs btn-block' id='editButton' onclick='btnEdit_OnClick()' " + lockElement('editButton') + "><i class='fa fa-edit fa-faw'></i> Edit</button>",
+                        DeleteId: "<button class='btn btn-danger btn-xs btn-block' id='deleteButton' onclick='btnDelete_OnClick()' " + lockElement('editButton') + "><i class='fa fa-trash'></i> Delete</button>",
                         Id: results[i]["Id"],
                         ModalityProcedure: results[i]["ModalityProcedure"],
                         ModalityProcedureCode: results[i]["ModalityProcedureCode"],
@@ -553,10 +556,42 @@
             window.location = "/Software/Reports?facilityId=" + getUrlParameter("facilityId");
         }
 
+        function lockPage() {
+            if (!!document.getElementById('editButton')) document.getElementById('editButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('deleteButton')) document.getElementById('deleteButton').setAttribute('disabled', 'disabled');
+            if (!!document.getElementById('addButton')) document.getElementById('addButton').setAttribute('disabled', 'disabled');
+            $.ajax({
+                url: '/api/user/getUserByUserName/' + currentUserName,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (!!result) {
+                        userType = result.UserType;
+                        if (userType == 'Administrator' || userType == 'Facility') {
+                            if (!!document.getElementById('editButton')) document.getElementById('editButton').removeAttribute('disabled');
+                            if (!!document.getElementById('deleteButton')) document.getElementById('deleteButton').removeAttribute('disabled');
+                            if (!!document.getElementById('addButton')) document.getElementById('addButton').removeAttribute('disabled');
+                        }
+                    }
+                }
+            });
+        }
+        function lockElement(element) {
+            if (userType == 'Administrator' || userType == 'Facility') {
+                return "";
+            } else {
+                return "disabled";
+            }
+        }
+
         //============
         // On Page Load
         // ============
         $(document).ready(function () {
+            // Secure Page
+            currentUserName = '@User.Identity.Name';
+            lockPage();
 
             // Navigation button
             btnFirstPageGrid = document.getElementById('btnMoveToFirstPageGrid');
