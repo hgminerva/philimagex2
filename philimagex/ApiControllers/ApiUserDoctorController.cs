@@ -38,20 +38,38 @@ namespace philimagex.ApiControllers
         [Route("api/userDoctor/listByUserId")]
         public List<Models.MstUserDoctor> listUserDoctorByUserId()
         {
-            var userId = (from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d.Id).SingleOrDefault();
+            var user = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
 
-            var userDoctors = from d in db.MstUserDoctors
-                              where d.UserId == userId
-                              select new Models.MstUserDoctor
-                              {
-                                  Id = d.Id,
-                                  UserId = d.UserId,
-                                  User = d.MstUser.FullName,
-                                  DoctorId = d.DoctorId,
-                                  Doctor = d.MstUser1.FullName,
-                              };
-
-            return userDoctors.ToList();
+            if (user.Any())
+            {
+                if (user.FirstOrDefault().UserTypeId == 2) {
+                    var userDoctors1 = from d in db.MstUsers
+                                       where d.Id == user.FirstOrDefault().Id
+                                       select new Models.MstUserDoctor
+                                       {
+                                           Id = d.Id,
+                                           UserId = d.Id,
+                                           User = d.FullName,
+                                           DoctorId = d.Id,
+                                           Doctor = d.FullName,
+                                       };
+                    return userDoctors1.ToList();
+                } else {
+                    var userDoctors2 = from d in db.MstUserDoctors
+                                      where d.UserId == user.FirstOrDefault().Id
+                                      select new Models.MstUserDoctor
+                                      {
+                                            Id = d.Id,
+                                            UserId = d.UserId,
+                                            User = d.MstUser.FullName,
+                                            DoctorId = d.DoctorId,
+                                            Doctor = d.MstUser1.FullName,
+                                      };
+                    return userDoctors2.ToList();
+                }
+            } else {
+                return new List<Models.MstUserDoctor>();
+            }
         }
     }
 }

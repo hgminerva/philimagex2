@@ -509,12 +509,33 @@
 
         // Add procedure result
         function btnAddProcedureResultOnclick() {
+            var procedureId = getUrlParameter("id");
+            $.ajax({
+                url: '/api/procedureResult/listByProcedureId/' + procedureId,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (result.length > 0) {
+                        toastr.error("Add not allowed");
+                    } else {
+                        openAddProcedureResultModal();
+                    }
+                },
+                fail: function () {
+                    toastr.error("Error adding.");
+                }
+            });
+        }
+
+        // Add procedure result - Open Add Modal
+        function openAddProcedureResultModal() {
             $("#procedureResultDetailModal").modal({
                 "show": true,
                 "backdrop": "static"
             });
 
-            document.getElementById("btnSaveProcedureResult").innerHTML = "<i class='fa fa-save fa-fw'></i> Save";
+            document.getElementById("saveResultButton").innerHTML = "<i class='fa fa-save fa-fw'></i> Save";
             $("#btnSaveProcedureResult").prop("disabled", false);
             $("#btnCancelProcedureResult").prop("disabled", false);
 
@@ -657,6 +678,31 @@
 
         // edit procedure result
         function btnEditProcedureResultOnclick() {
+            var procedureId = getUrlParameter("id");
+            $.ajax({
+                url: '/api/procedureResult/listByProcedureId/' + procedureId,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (result.length > 0) {
+                        if (result[0].Doctor == currentUserName) {
+                            openEditProcedureResultModal();
+                        } else {
+                            toastr.error("Edit not allowed");
+                        }
+                    } else {
+                        toastr.error("Edit not allowed");
+                    }
+                },
+                fail: function () {
+                    toastr.error("Error editing.");
+                }
+            });
+        }
+
+        // edit procedure result - Open Edit Modal
+        function openEditProcedureResultModal() {
             $("#procedureResultDetailModal").modal({
                 "show": true,
                 "backdrop": "static"
@@ -683,14 +729,34 @@
 
         // delete procedure result
         function btnDeleteProcedureResultOnclick() {
-            $("#deleteConfirmationProcedureResultModal").modal({
-                "show": true,
-                "backdrop": "static"
-            });
+            var procedureId = getUrlParameter("id");
+            $.ajax({
+                url: '/api/procedureResult/listByProcedureId/' + procedureId,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (result.length > 0) {
+                        if (result[0].Doctor == currentUserName) {
+                            $("#deleteConfirmationProcedureResultModal").modal({
+                                "show": true,
+                                "backdrop": "static"
+                            });
 
-            document.getElementById("btnConfirmDeleteProcedureResult").innerHTML = "Yes";
-            $("#btnConfirmDeleteProcedureResult").prop("disabled", false);
-            $("#btnConfirmCloseProcedureResult").prop("disabled", false);
+                            document.getElementById("btnConfirmDeleteProcedureResult").innerHTML = "Yes";
+                            $("#btnConfirmDeleteProcedureResult").prop("disabled", false);
+                            $("#btnConfirmCloseProcedureResult").prop("disabled", false);
+                        } else {
+                            toastr.error("Delete not allowed");
+                        }
+                    } else {
+                        toastr.error("Delete not allowed");
+                    }
+                },
+                fail: function () {
+                    toastr.error("Delete editing.");
+                }
+            });
         }
 
         // print procedure result
@@ -966,11 +1032,11 @@
         // Save Procedure
         function btnSaveProcedureOnclick() {
             if (inputValidation()) {
-                document.getElementById("btnSaveProcedure").innerHTML = "<i class='fa fa-spinner fa-spin fa-fw'></i> Saving";
-                $("#btnSaveProcedure").prop("disabled", true);
-                $("#btnViewProcedure").prop("disabled", true);
-                $("#btnCloseProcedure").prop("disabled", true);
-                $("#btnAddResult").prop("disabled", true);
+                //document.getElementById("btnSaveProcedure").innerHTML = "<i class='fa fa-spinner fa-spin fa-fw'></i> Saving";
+                //$("#btnSaveProcedure").prop("disabled", true);
+                //$("#btnViewProcedure").prop("disabled", true);
+                //$("#btnCloseProcedure").prop("disabled", true);
+                //$("#btnAddResult").prop("disabled", true);
 
                 var procedureObject = new Object();
                 procedureObject.TransactionNumber = document.getElementById("procedureTransactionNumber").value;

@@ -200,8 +200,8 @@
 
         // Add procedure
         function btnAddProcedureOnclick() {
-            document.getElementById("#addButton").innerHTML = "<i class='fa fa-spinner fa-spin fa-fw'></i> Adding";
-            $("#addButton").prop("disabled", true);
+            //document.getElementById("#addButton").innerHTML = "<i class='fa fa-spinner fa-spin fa-fw'></i> Adding";
+            //$("#addButton").prop("disabled", true);
 
             $.ajax({
                 type: "POST",
@@ -228,14 +228,30 @@
 
         // delete procedure
         function btnDeleteProcedureOnclick() {
-            $("#deleteConfirmationProcedureModal").modal({
-                "show": true,
-                "backdrop": "static"
-            });
+            var procedureId = procedureCollectionView.currentItem.Id;
+            $.ajax({
+                url: '/api/procedureResult/listByProcedureId/' + procedureId,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (result.length > 0) {
+                        toastr.error("Delete not allowed");
+                    } else {
+                        $("#deleteConfirmationProcedureModal").modal({
+                            "show": true,
+                            "backdrop": "static"
+                        });
 
-            document.getElementById("btnConfirmDeleteProcedure").innerHTML = "Yes";
-            $("#btnConfirmDeleteProcedure").prop("disabled", false);
-            $("#btnCloseDeleteProcedureModal").prop("disabled", false);
+                        document.getElementById("btnConfirmDeleteProcedure").innerHTML = "Yes";
+                        $("#btnConfirmDeleteProcedure").prop("disabled", false);
+                        $("#btnCloseDeleteProcedureModal").prop("disabled", false);
+                    }
+                },
+                fail: function () {
+                    toastr.error("Error deleting.");
+                }
+            });
         }
 
         // confirm delete procedure
