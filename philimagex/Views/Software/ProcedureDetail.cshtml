@@ -1124,9 +1124,7 @@
         function btnViewProcedureOnclick() {
             var DicomFile = $('#procedureDICOMFile').val();
 
-            DicomFile = "D" + DicomFile.substring(1, DicomFile.length);
-            //alert(DicomFile);
-
+            DicomFile = "C" + DicomFile.substring(1, DicomFile.length);
             if (DicomFile != "") {
                 var DicomFiles = DicomFile.split(';');
                 var NumberOfFiles = DicomFiles.length;
@@ -1136,6 +1134,19 @@
                     }
                 } else {
                     utilities.runBatchFile(DicomFile);
+                }
+            } else {
+                DicomFile = "D" + DicomFile.substring(1, DicomFile.length);
+                if (DicomFile != "") {
+                    var DicomFiles = DicomFile.split(';');
+                    var NumberOfFiles = DicomFiles.length;
+                    if (NumberOfFiles > 1) {
+                        for (index = 0; index < DicomFiles.length; index++) {
+                            utilities.runBatchFile(DicomFiles[index]);
+                        }
+                    } else {
+                        utilities.runBatchFile(DicomFile);
+                    }
                 }
             }
         }

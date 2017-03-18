@@ -25,6 +25,7 @@ else
                             </div>
                             <div class="panel-body">
                                 @Html.AntiForgeryToken()
+                                @Html.ValidationSummary()
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user fa-fw"></i></span>
                                     @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = "Full Name" })

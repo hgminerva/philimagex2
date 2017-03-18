@@ -238,17 +238,22 @@
       <LastGenOutput>philimagexdb.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Images\dmtipacs_stations.png" />
     <Content Include="Images\Logo\alcantara.jpg" />
     <Content Include="Images\Logo\dmtipacs-small.png" />
     <Content Include="Images\Logo\dmtipacs_logo.jpg" />
     <Content Include="Images\Logo\lrmedical.jpg" />
+    <Content Include="Images\Logo\margosatubig-rad.jpg" />
+    <Content Include="Images\Logo\margosatubig.jpg" />
     <Content Include="Images\Logo\mcitpf.jpg" />
+    <Content Include="Images\Signature\adiones.png" />
     <Content Include="Images\Signature\alex.png" />
     <Content Include="Images\Signature\gcadiz.png" />
     <Content Include="Images\Signature\gespino.png" />
     <Content Include="Images\Signature\jsarte.png" />
     <Content Include="Images\Signature\lreveldez.png" />
     <Content Include="Images\Signature\tiffany.png" />
+    <Content Include="Images\support_digitizer.png" />
     <Content Include="Scripts\custom-scripts.js" />
     <Content Include="Scripts\nprogress.js" />
     <Content Include="Scripts\toastr.min.js" />
@@ -346,6 +351,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="Images\TeleradBrochure.pdf" />
     <None Include="Properties\PublishProfiles\dmtipacs - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\dmtipacs - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
