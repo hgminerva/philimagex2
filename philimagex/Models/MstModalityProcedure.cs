@@ -14,5 +14,7 @@ namespace philimagex.Models
         public String Modality { get; set; }
         public String ModalityProcedure { get; set; }
         public String ModalityResultTemplate { get; set; }
+        public Int32 DoctorId { get; set; }
+        public String Doctor { get; set; }
     }
 }

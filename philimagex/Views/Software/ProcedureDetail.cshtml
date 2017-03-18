@@ -386,7 +386,7 @@
         function getModalityProcedureData() {
             var modalityProcedureArray = new wijmo.collections.ObservableArray;
             $.ajax({
-                url: '/api/modalityProcedure/list',
+                url: '/api/modalityProcedure/listByUserName/' + currentUserName,
                 cache: false,
                 type: 'GET',
                 contentType: 'application/json; charset=utf-8',
@@ -1125,15 +1125,17 @@
             var DicomFile = $('#procedureDICOMFile').val();
 
             DicomFile = "C" + DicomFile.substring(1, DicomFile.length);
-            if (DicomFile != "") {
+
+            myObject = new ActiveXObject("Scripting.FileSystemObject");
+            if(myObject.FileExists(DicomFile)){
                 var DicomFiles = DicomFile.split(';');
                 var NumberOfFiles = DicomFiles.length;
                 if (NumberOfFiles > 1) {
                     for (index = 0; index < DicomFiles.length; index++) {
-                        utilities.runBatchFile(DicomFiles[index]);
+                        utilities.runDicomFileC(DicomFiles[index]);
                     }
                 } else {
-                    utilities.runBatchFile(DicomFile);
+                    utilities.runDicomFileC(DicomFile);
                 }
             } else {
                 DicomFile = "D" + DicomFile.substring(1, DicomFile.length);
@@ -1142,10 +1144,10 @@
                     var NumberOfFiles = DicomFiles.length;
                     if (NumberOfFiles > 1) {
                         for (index = 0; index < DicomFiles.length; index++) {
-                            utilities.runBatchFile(DicomFiles[index]);
+                            utilities.runDicomFileD(DicomFiles[index]);
                         }
                     } else {
-                        utilities.runBatchFile(DicomFile);
+                        utilities.runDicomFileD(DicomFile);
                     }
                 }
             }

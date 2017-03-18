@@ -355,7 +355,7 @@
 
         function getMasterList(callback) {
             $.ajax({
-                url: '/api/modalityProcedure/list',
+                url: '/api/modalityProcedure/listByUserName/' + currentUserName,
                 cache: false,
                 type: 'GET',
                 contentType: 'application/json; charset=utf-8',
@@ -621,6 +621,10 @@
                             if (!!document.getElementById('editButton')) document.getElementById('editButton').removeAttribute('disabled');
                             if (!!document.getElementById('deleteButton')) document.getElementById('deleteButton').removeAttribute('disabled');
                             if (!!document.getElementById('addButton')) document.getElementById('addButton').removeAttribute('disabled');
+                        } else if (userType == 'Doctor') {
+                            if (!!document.getElementById('editButton')) document.getElementById('editButton').removeAttribute('disabled');
+                            if (!!document.getElementById('deleteButton')) document.getElementById('deleteButton').removeAttribute('disabled');
+                            if (!!document.getElementById('addButton')) document.getElementById('addButton').removeAttribute('disabled');
                         }
                     }
                 }
@@ -629,6 +633,8 @@
 
         function lockElement(element) {
             if (userType == 'Administrator') {
+                return "";
+            } else if (userType == 'Doctor') {
                 return "";
             } else {
                 return "disabled";

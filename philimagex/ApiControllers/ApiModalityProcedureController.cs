@@ -32,6 +32,34 @@ namespace philimagex.ApiControllers
             return modalityProcedures.ToList();
         }
 
+        // modality procedure list filtered by username
+        [Authorize]
+        [HttpGet]
+        [Route("api/modalityProcedure/listByUserName/{UserName}")]
+        public List<Models.MstModalityProcedure> listModalityProcedureByDoctor(String UserName)
+        {
+            var users = from d in db.MstUsers where d.UserName == UserName select d;
+            if (users.Any())
+            {
+                var modalityProcedures = from d in db.MstModalityProcedures
+                                         where d.DoctorId == users.First().Id
+                                         orderby d.ModalityProcedure ascending
+                                         select new Models.MstModalityProcedure
+                                         {
+                                            Id = d.Id,
+                                            ModalityId = d.ModalityId,
+                                            Modality = d.MstModality.Modality,
+                                            ModalityProcedure = d.ModalityProcedure,
+                                            ModalityResultTemplate = d.ModalityResultTemplate
+                                         };
+                return modalityProcedures.ToList();
+            }
+            else
+            {
+                return new List<Models.MstModalityProcedure>();
+            }
+        }
+
         // modality procedure get by Id
         [Authorize]
         [HttpGet]
