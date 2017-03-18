@@ -59,9 +59,9 @@
                                 </div>
                             </td>
                             <td style="width: 20%">
-                                <div class="input-group input-group-sm">
+                                @*<div class="input-group input-group-sm">
                                     <div id="filterModality" onchange="filterModalityGrid()"></div>
-                                </div>
+                                </div>*@
                             </td>
                             <td style="width: 50%" align="right">
                                 <button id="addButton" class="btn btn-primary" onclick="btnAdd_OnClick()">
@@ -160,7 +160,7 @@
         var list;
         var modality;
         var cmbModality;
-        var filterModality;
+        //var filterModality;
         var observableArray;
 
         var btnFirstPageGrid4;
@@ -171,6 +171,8 @@
 
         var currentUserName;
         var userType;
+        var filterText = '';
+
 
         // =============================
         // Get PeriodMasterList Data
@@ -184,21 +186,21 @@
             collection.pageSize = 15;
 
             //Filter
-            var filterText;
+            //filterText;
             $('#InputFilter').keyup(function () {
                 filterText = this.value.toLowerCase();
                 collection.refresh();
             });
 
-            filterModality.selectedIndexChanged.addHandler(function (sender, args) {
-                filterText = filterModality.selectedItem;
-                collection.refresh();
-                updateNavigateButtonsCollection();
-            });
+            //filterModality.selectedIndexChanged.addHandler(function (sender, args) {
+            //    filterText = filterModality.selectedItem;
+            //    collection.refresh();
+            //    updateNavigateButtonsCollection();
+            //});
 
             collection.filter = function (item) {
                 return !filterText || (item.ModalityProcedure.toLowerCase().indexOf(filterText) > -1)
-                                   || (item.Modality.toLowerCase().indexOf(filterText.toLowerCase()) > -1);
+                                   || (item.Modality.toLowerCase().indexOf(filterText) > -1);
             }
             collection.collectionChanged.addHandler(function (sender, args) {
                 updateNavigateButtonsCollection();
@@ -287,16 +289,22 @@
             });
         }
 
-        function initModality() {
-            if (modality != null || modality != undefined) {
+        function initModality(results) {
+            if (results.length > 0) {
                 var source = new wijmo.collections.ObservableArray();
 
-                for (var m in modality) {
-                    source.push(m.Modality);
+                for (var i = 0; i < results.length; i++) {
+                    source.push({
+                        Id: results[i]["Id"],
+                        Modality: results[i]["Modality"],
+                    });
                 }
 
                 cmbModality.itemsSource = source;
-                filterModality.itemsSource = source;
+                cmbModality.displayMemberPath = "Modality";
+                cmbModality.selectedValuePath = "Modality";
+                //filterModality.itemsSource = source;
+                //filterModality.displayMemberPath = "Modality";
             }
         }
 
@@ -375,7 +383,7 @@
                 data: {},
                 success: function (results) {
                     modality = results;
-                    initModality();
+                    initModality(results);
                 }
             });
         }
@@ -386,7 +394,6 @@
 
         function addData() {
             modalityData = createModality();
-            console.log(modalityData.ModalityProcedure);
             if (!validate(modalityData)) {
                 console.log('invalid input');
             }
@@ -517,9 +524,10 @@
             var modalityData = collection.currentItem;
             document.getElementById('modalProcedure').value = modalityData.ModalityProcedure;
             document.getElementById('resultTemplate').value = modalityData.ModalityResultTemplate;
-            cmbModality.selectedItem = modalityData.Modality;
+            cmbModality.selectedValue = modalityData.Modality;
+            //cmbModality.selectedValue = modalityData.Modality;
 
-            console.log(document.getElementById('cmbModality').selectedItem);
+            //console.log(document.getElementById('cmbModality').selectedItem);
         }
 
         function clearFields() {
@@ -578,7 +586,7 @@
         }
 
         function filterModalityGrid() {
-            console.log(filterModality.selectedIndex);
+            //console.log(filterModality.selectedIndex);
         }
 
         function btnModalityProcedureOnclick() {
@@ -657,10 +665,8 @@
 
             //combobox
             cmbModality = new wijmo.input.ComboBox('#cmbModality');
-            filterModality = new wijmo.input.ComboBox('#filterModality');
+            //filterModality = new wijmo.input.ComboBox('#filterModality');
 
-
-            var filterText = '';
 
             getModality();
             //grid

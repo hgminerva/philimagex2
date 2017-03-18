@@ -21,10 +21,10 @@ namespace philimagex
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.min.js",
-                      "~/wijmo/controls/wijmo.min.js", 
-                      "~/wijmo/controls/wijmo.input.min.js", 
-                      "~/wijmo/controls/wijmo.grid.min.js", 
-                      "~/wijmo/controls/wijmo.chart.min.js",
+                      "~/Scripts/wijmo.min.js",
+                      "~/Scripts/wijmo.input.min.js",
+                      "~/Scripts/wijmo.grid.min.js",
+                      "~/Scripts/wijmo.chart.min.js",
                       "~/Scripts/nprogress.js",
                       "~/Scripts/toastr.min.js",
                       "~/Scripts/custom-scripts.js"));
@@ -36,7 +36,7 @@ namespace philimagex
                       "~/Content/styles.css",
                       "~/Content/nprogress.css",
                       "~/Content/toastr.min.css",
-                      "~/wijmo/styles/wijmo.min.css"));
+                      "~/Content/wijmo.min.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/utilities").Include(
                       "~/Scripts/utilities.js"));
