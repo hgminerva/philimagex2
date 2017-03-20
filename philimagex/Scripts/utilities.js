@@ -111,7 +111,20 @@ var utilities = (function () {
                         }
 
                         // Patient ID
-                        if (str.indexOf("Patient ID") > -1) {
+                        //if (str.indexOf("Patient ID") > -1) {
+                        //    PatientId = str.substring(74).replace(/\s+/g, '');
+                        //    if (GivenPatientId == PatientId) {
+                        //        if (Files == "") {
+                        //            Files = FileName;
+                        //        } else {
+                        //            Files = Files + ";" + FileName;
+                        //        }
+                        //        foundFlag = true;
+                        //    } 
+                        //}
+
+                        // Accession Number
+                        if (str.indexOf("Accession Number") > -1) {
                             PatientId = str.substring(74).replace(/\s+/g, '');
                             if (GivenPatientId == PatientId) {
                                 if (Files == "") {
@@ -120,7 +133,7 @@ var utilities = (function () {
                                     Files = Files + ";" + FileName;
                                 }
                                 foundFlag = true;
-                            } 
+                            }
                         }
 
                         // Patient's Birth Date

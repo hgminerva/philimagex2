@@ -110,13 +110,156 @@
         </div>
     </div>
 
+    @*Modal Procedure Detail*@
+    <div class="modal" id="ModalProcedureDetail" role="dialog">
+        <div class="modal-dialog" style="width: 1100px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 id="ModalProcedureDetailTitle" class="modal-title">Procedure Detail</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#ProcedureInformation">Procedure</a></li>
+                            <li><a data-toggle="tab" href="#ProcedureParticulars">Particulars</a></li>
+                            <li><a data-toggle="tab" href="#ProcedureDicomFile">DICOM File</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="ProcedureInformation" class="tab-pane active">
+                                <div class="col-lg-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>Transaction Number</dt>
+                                        <dd><input type="text" class="form-control requiredProcedure" id="procedureTransactionNumber" placeholder="Transaction Number" disabled /></dd>
+                                        <dt>Transaction Date</dt>
+                                        <dd><input type="text" class="form-control" id="procedureTransactionDateTime" placeholder="Transaction Date" disabled /></dd>
+                                        <dt>Transaction Time</dt>
+                                        <dd><input type="text" class="form-control" id="procedureTransactionTime" placeholder="Transaction Time" disabled /></dd>
+                                        <dt>Exam Taken</dt>
+                                        <dd><input type="text" class="form-control" id="procedureExamTaken" placeholder="Exam Taken" disabled /></dd>
+                                        <dt>Body Part</dt>
+                                        <dd><input type="text" class="form-control" id="procedureBodyPart" placeholder="Body Part" disabled /></dd>
+                                    </dl>
+                                </div>
+                                <div class="col-lg-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>Patient</dt>
+                                        <dd><input type="text" class="form-control requiredProcedure" id="procedurePatient" placeholder="Patient" disabled /></dd>
+                                        <dt>Gender</dt>
+                                        <dd><input type="text" class="form-control" id="procedureGender" placeholder="Gender" disabled /></dd>
+                                        <dt>Date of Birth</dt>
+                                        <dd><input type="text" class="form-control" id="procedureDateOfBirth" placeholder="Date of Birth" disabled /></dd>
+                                        <dt>Age</dt>
+                                        <dd><input type="text" class="form-control requiredProcedure" id="procedureAge" placeholder="Age" disabled /></dd>
+
+                                    </dl>
+                                </div>
+                                <div class="col-lg-12">
+                                    <span class="pull-right"><button class="btn btn-primary" id="addResultButton" onclick="btnAddProcedureResultOnclick()" disabled><i class="fa fa-plus fa-fw"></i>Add Result</button></span>
+                                </div>
+                                <div class ="col-lg-12">
+                                    &nbsp;
+                                </div>
+                                <div class="col-lg-12">
+                                    <div id="procedureResultFlexGrid" class="grid"></div>
+                                </div>
+                            </div>
+                            <div id="ProcedureParticulars" class="tab-pane">
+                                <div class="col-lg-12">
+                                    <dl class="dl-horizontal">
+                                        <dt>Particulars</dt>
+                                        <dd><textarea class="form-control requiredProcedure" rows="10" id="procedureParticulars" placeholder="Particulars" disabled></textarea></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div id="ProcedureDicomFile" class="tab-pane">
+                                <div class="col-lg-12">
+                                    <dl class="dl-horizontal">
+                                        <dt>DICOM File</dt>
+                                        <dd><textarea class="form-control requiredProcedure" rows="10" id="procedureDICOMFile" placeholder="DICOM File" disabled></textarea></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnViewProcedureDicom" onclick="btnViewProcedureDicomOnClick()">
+                        <i class="fa fa-eye fa-fw"></i> View Image
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <i class="fa fa-close fa-fw"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Modal Procedure Result Detail*@
+    <div class="modal fade" id="ModalProcedureResultDetail" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Procedure Result Detail</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Procedure</label><br />
+                        <div id="cboModalityProcedure" style="width: 100%"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Result</label><br />
+                        <textarea class="form-control requireProcedureResult" rows="10" id="procedureResult" placeholder="Result"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Doctor</label><br />
+                        <div id="cboDoctor" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnSaveProcedureResult" onclick="btnSaveProcedureResultOnclick()"><i class="fa fa-save fa-fw"></i> Save</button>
+                    <button class="btn btn-danger" id="btnCancelProcedureResult" data-dismiss="modal"><i class="fa fa-close fa-fw"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- delete confirmation procedure result modal -->
+    <div class="modal fade" id="deleteConfirmationProcedureResultModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Result</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure that you want to delete this Procedure Result?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" id="btnConfirmDeleteProcedureResult" onclick="btnConfirmDeleteProcedureResultOnclick()">Yes</button>
+                    <button class="btn btn-default" id="btnConfirmCloseProcedureResult" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/utilities")
     <script type="text/javascript">
         // global variables
         var procedureCollectionView;
         var procedureFlexGrid;
+
+        var procedureResultCollectionView;
+        var procedureResultFlexGrid;
+
         var btnFirstPageGrid;
         var btnPreviousPageGrid;
         var btnNextPageGrid;
@@ -125,6 +268,11 @@
 
         var currentUserName;
         var userType;
+
+        var cboModalityProcedure;
+        var cboDoctor;
+
+        var procedureResultId;
 
         // get procedure
         function getProcedureData() {
@@ -140,6 +288,7 @@
                             var txDate = new Date(procedureListResult[i]["TransactionDateTime"]);
 
                             procedureArray.push({
+                                ViewButton: "<button id='viewButton' class='btn btn-primary btn-xs btn-block' onclick='btnViewProcedureOnclick()' " + lockElement('viewButton') + "><i class='fa fa-eye fa-fw'></i> View</button>",
                                 EditButton: "<button id='editButton' class='btn btn-primary btn-xs btn-block' onclick='btnEditProcedureOnclick()' " + lockElement('editButton') + "><i class='fa fa-edit fa-fw'></i> Edit</button>",
                                 DeleteButton: "<button id-'deleteButton' class='btn btn-danger btn-xs btn-block'  onclick='btnDeleteProcedureOnclick()' " + lockElement('deleteButton') + "><i class='fa fa-trash fa-fw'></i> Delete</button>",
                                 Id: procedureListResult[i]["Id"],
@@ -167,6 +316,192 @@
                 }
             });
             return procedureArray;
+        }
+
+        // get procedure result
+        function getProcedureResultData(Id) {
+            var procedureResultArray = new wijmo.collections.ObservableArray;
+            $.ajax({
+                url: '/api/procedureResult/listByProcedureId/' + Id,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (procedureResultListResult) {
+                    if (procedureResultListResult.length > 0) {
+                        for (i = 0; i < procedureResultListResult.length; i++) {
+                            procedureResultArray.push({
+                                EditButton: "<button id='editResultButton' class='btn btn-primary btn-xs btn-block' onclick='btnEditProcedureResultOnclick()' " + lockElement('editResultButton') + "><i class='fa fa-edit fa-fw'></i> Edit</button>",
+                                DeleteButton: "<button id='deleteResultButton' class='btn btn-danger btn-xs btn-block'  onclick='btnDeleteProcedureResultOnclick()' " + lockElement('deleteResultButton') + "><i class='fa fa-trash fa-fw'></i> Delete</button>",
+                                PrintButton: "<button id='printResultButton' class='btn btn-primary btn-xs btn-block' onclick='btnPrintProcedureResultOnclick(" + procedureResultListResult[i]["Id"] + ")' " + lockElement('printResultButton') + "><i class='fa fa-print fa-fw'></i> Print</button>",
+                                Id: procedureResultListResult[i]["Id"],
+                                ProcedureId: procedureResultListResult[i]["ProcedureId"],
+                                ModalityProcedureId: procedureResultListResult[i]["ModalityProcedureId"],
+                                ModalityProcedure: procedureResultListResult[i]["ModalityProcedure"],
+                                Result: procedureResultListResult[i]["Result"],
+                                DoctorId: procedureResultListResult[i]["DoctorId"],
+                                Doctor: procedureResultListResult[i]["Doctor"],
+                                DoctorDateTime: procedureResultListResult[i]["DoctorDateTime"],
+                                DoctorTime: procedureResultListResult[i]["DoctorTime"]
+                            });
+                        }
+                    }
+
+                    NProgress.done();
+                }
+            });
+            return procedureResultArray;
+        }
+
+        // get modality procedure data
+        function getModalityProcedureData() {
+            var modalityProcedureArray = new wijmo.collections.ObservableArray;
+            $.ajax({
+                url: '/api/modalityProcedure/listByUserName/' + currentUserName,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (modalityProcedureListResult) {
+                    var disabled = false;
+                    if (modalityProcedureListResult.length > 0) {
+                        for (i = 0; i < modalityProcedureListResult.length; i++) {
+                            modalityProcedureArray.push({
+                                Id: modalityProcedureListResult[i]["Id"],
+                                ModalityProcedure: modalityProcedureListResult[i]["ModalityProcedure"],
+                                ModalityResultTemplate: modalityProcedureListResult[i]["ModalityResultTemplate"],
+                            });
+                        }
+                        disabled = false;
+                    } else {
+                        disabled = true;
+                    }
+
+                    cboModalityProcedure.dispose();
+                    cboModalityProcedure = new wijmo.input.ComboBox('#cboModalityProcedure', {
+                        disabled: disabled,
+                        placeholder: "Select",
+                        itemsSource: modalityProcedureArray,
+                        isEditable: false,
+                        required: true,
+                        displayMemberPath: "ModalityProcedure",
+                        selectedValuePath: "ModalityProcedure",
+                        onSelectedIndexChanged: function () {
+                            document.getElementById("procedureResult").value = this.selectedItem["ModalityResultTemplate"]
+                        }
+                    });
+                }
+            });
+        }
+
+        // get get doctor data
+        function getDoctorData() {
+            var doctorArray = new wijmo.collections.ObservableArray;
+            $.ajax({
+                url: '/api/userDoctor/listByUserId',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (doctorListResult) {
+                    var disabled = false;
+                    if (doctorListResult.length > 0) {
+                        for (i = 0; i < doctorListResult.length; i++) {
+                            doctorArray.push({
+                                Id: doctorListResult[i]["Id"],
+                                DoctorId: doctorListResult[i]["DoctorId"],
+                                Doctor: doctorListResult[i]["Doctor"],
+                            });
+                        }
+                        disabled = false;
+                    } else {
+                        disabled = true;
+                    }
+
+                    cboDoctor.dispose();
+                    cboDoctor = new wijmo.input.ComboBox('#cboDoctor', {
+                        disabled: disabled,
+                        placeholder: "Select",
+                        itemsSource: doctorArray,
+                        isEditable: false,
+                        required: true,
+                        displayMemberPath: "Doctor",
+                        selectedValuePath: "Doctor"
+                    });
+                }
+            });
+        }
+
+        // make procedure result grid
+        function makeProcedureResultGrid(Id) {
+            procedureResultCollectionView = new wijmo.collections.CollectionView(getProcedureResultData(Id));
+            procedureResultCollectionView.pageSize = 15;
+
+            procedureResultFlexGrid.dispose();
+            procedureResultFlexGrid = new wijmo.grid.FlexGrid('#procedureResultFlexGrid');
+            procedureResultFlexGrid.initialize({
+                columns: [
+                            {
+                                "header": "Edit",
+                                "binding": "EditButton",
+                                "width": 75,
+                                "align": "center",
+                                "allowResizing": false,
+                                "isContentHtml": true
+                            },
+                            {
+                                "header": "Print",
+                                "binding": "PrintButton",
+                                "width": 75,
+                                "align": "center",
+                                "allowResizing": false,
+                                "isContentHtml": true
+                            },
+                            {
+                                "header": "Delete",
+                                "binding": "DeleteButton",
+                                "width": 75,
+                                "align": "center",
+                                "allowResizing": false,
+                                "isContentHtml": true
+                            },
+                            {
+                                "header": "Procedure",
+                                "binding": "ModalityProcedure",
+                                "allowSorting": true,
+                                "width": "1.5*",
+                            },
+                            {
+                                "header": "Result",
+                                "binding": "Result",
+                                "allowSorting": true,
+                                "width": "3*",
+                            },
+                            {
+                                "header": "Doctor",
+                                "binding": "Doctor",
+                                "allowSorting": true,
+                                "width": "2*",
+                            },
+                            {
+                                "header": "Date",
+                                "binding": "DoctorDateTime",
+                                "allowSorting": true,
+                                "width": "1*",
+                            },
+                            {
+                                "header": "Time",
+                                "binding": "DoctorTime",
+                                "allowSorting": true,
+                                "width": "1*",
+                            }
+                ],
+                autoGenerateColumns: false,
+                itemsSource: procedureResultCollectionView,
+                isReadOnly: true,
+                autoSizeMode: wijmo.grid.AutoSizeMode.Both,
+                allowDragging: wijmo.grid.AllowDragging.None,
+                selectionMode: wijmo.grid.SelectionMode.Row
+            });
+
+            procedureResultFlexGrid.trackChanges = true;
         }
 
         var date;
@@ -323,6 +658,335 @@
             });
         }
 
+        // view procedure
+        function btnViewProcedureOnclick() {
+            $('#ModalProcedureDetail').modal({
+                show: true,
+                backdrop: false
+            });
+
+            document.getElementById('procedureTransactionNumber').value = procedureCollectionView.currentItem.TransactionNumber;
+            document.getElementById('procedureTransactionDateTime').value = procedureCollectionView.currentItem.TransactionDateTime;
+            document.getElementById('procedureTransactionTime').value = procedureCollectionView.currentItem.TransactionTime;
+            document.getElementById('procedureDICOMFile').value = procedureCollectionView.currentItem.DICOMFileName;
+            document.getElementById('procedureExamTaken').value = procedureCollectionView.currentItem.Modality;
+            document.getElementById('procedureBodyPart').value = procedureCollectionView.currentItem.BodyPart;
+            document.getElementById('procedurePatient').value = procedureCollectionView.currentItem.PatientName;
+            document.getElementById('procedureGender').value = procedureCollectionView.currentItem.Gender;
+            document.getElementById('procedureDateOfBirth').value = procedureCollectionView.currentItem.DateOfBirth;
+            document.getElementById('procedureAge').value = procedureCollectionView.currentItem.Age;
+            document.getElementById('procedureParticulars').value = procedureCollectionView.currentItem.Particulars;
+
+            makeProcedureResultGrid(procedureCollectionView.currentItem.Id);
+        }
+
+        // view procedure dicom
+        function btnViewProcedureDicomOnClick() {
+            var DicomFile = procedureCollectionView.currentItem.DICOMFileName;
+
+            DicomFile = "C" + DicomFile.substring(1, DicomFile.length);
+
+            myObject = new ActiveXObject("Scripting.FileSystemObject");
+            if (myObject.FileExists(DicomFile)) {
+                var DicomFiles = DicomFile.split(';');
+                var NumberOfFiles = DicomFiles.length;
+                if (NumberOfFiles > 1) {
+                    for (index = 0; index < DicomFiles.length; index++) {
+                        utilities.runDicomFileC(DicomFiles[index]);
+                    }
+                } else {
+                    utilities.runDicomFileC(DicomFile);
+                }
+            } else {
+                DicomFile = "D" + DicomFile.substring(1, DicomFile.length);
+                if (DicomFile != "") {
+                    var DicomFiles = DicomFile.split(';');
+                    var NumberOfFiles = DicomFiles.length;
+                    if (NumberOfFiles > 1) {
+                        for (index = 0; index < DicomFiles.length; index++) {
+                            utilities.runDicomFileD(DicomFiles[index]);
+                        }
+                    } else {
+                        utilities.runDicomFileD(DicomFile);
+                    }
+                }
+            }
+        }
+
+        // print procedure result
+        function btnPrintProcedureResultOnclick(Id) {
+            if (Id > 0) {
+                window.open(
+                  '/api/PDF?Report=ProcedureResult&Id=' + Id,
+                  '_blank' 
+                );
+            }
+        }
+
+        // open procedure result detail to add
+        function btnAddProcedureResultOnclick() {
+            $('#ModalProcedureResultDetail').modal({
+                show: true,
+                backdrop: false
+            });
+
+            document.getElementById("btnSaveProcedureResult").innerHTML = "<i class='fa fa-save fa-fw'></i> Save";
+
+            $("#btnSaveProcedureResult").prop("disabled", false);
+            $("#btnCancelProcedureResult").prop("disabled", false);
+
+            $('.requireProcedureResult').each(function () {
+                $(this).css({
+                    "border": "",
+                });
+            });
+
+            procedureResultId = 0;
+            getModalityProcedureData();
+            document.getElementById("procedureResult").value = cboModalityProcedure.selectedItem["ModalityResultTemplate"];
+            getDoctorData();
+        }
+
+        // open procedure result detail to edit
+        function btnEditProcedureResultOnclick() {
+            var procedureId = procedureCollectionView.currentItem.Id;
+            $.ajax({
+                url: '/api/procedureResult/listByProcedureId/' + procedureId,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (result.length > 0) {
+                        if (result[0].Doctor == currentUserName) {
+                            btnConfirmEditProcedureResultOnclick();
+                        } else {
+                            toastr.error("Edit not allowed");
+                        }
+                    } else {
+                        toastr.error("Edit not allowed");
+                    }
+                },
+                fail: function () {
+                    toastr.error("Error editing.");
+                }
+            });
+        }
+
+        // confirmed edit procedure result
+        function btnConfirmEditProcedureResultOnclick() {
+            $("#ModalProcedureResultDetail").modal({
+                "show": true,
+                "backdrop": "static"
+            });
+
+            document.getElementById("btnSaveProcedureResult").innerHTML = "<i class='fa fa-save fa-fw'></i> Save Changes";
+            $("#btnSaveProcedureResult").prop("disabled", false);
+            $("#btnCancelProcedureResult").prop("disabled", false);
+
+            $('.requireProcedureResult').each(function () {
+                $(this).css({
+                    "border": "",
+                });
+            });
+
+            procedureResultCollectionView.editItem(procedureResultCollectionView.currentItem);
+            var currentItem = procedureResultCollectionView.currentEditItem;
+
+            procedureResultId = currentItem.Id;
+            cboModalityProcedure.selectedValue = currentItem.ModalityProcedure;
+            document.getElementById("procedureResult").value = currentItem.Result;
+            cboDoctor.selectedValue = currentItem.Doctor;
+        }
+
+        // validated procedure result
+        function inputValidationForProcedureResult() {
+            var isValid = true;
+            $('.requireProcedureResult').each(function () {
+                if ($.trim($(this).val()) == '') {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red"
+                    });
+                } else {
+                    $(this).css({
+                        "border": "",
+                    });
+                }
+            });
+
+            return isValid;
+        }
+
+        // save procedure result
+        function btnSaveProcedureResultOnclick() {
+            if (inputValidationForProcedureResult()) {
+                document.getElementById("btnSaveProcedureResult").innerHTML = "<i class='fa fa-spinner fa-spin fa-fw'></i> Saving Changes";
+
+                $("#btnSaveProcedureResult").prop("disabled", true);
+                $("#btnCancelProcedureResult").prop("disabled", true);
+
+                var procedureResultObject = new Object();
+                procedureResultObject.ProcedureId = procedureCollectionView.currentItem.Id;
+                procedureResultObject.ModalityProcedureId = cboModalityProcedure.selectedItem["Id"];
+                procedureResultObject.Result = document.getElementById('procedureResult').value;
+                procedureResultObject.DoctorId = cboDoctor.selectedItem["DoctorId"];
+                var procedureResultData = JSON.stringify(procedureResultObject);
+
+                if (procedureResultId == 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/api/procedureResult/add',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: procedureResultData,
+                        statusCode: {
+                            200: function () {
+                                toastr.success("Save Successful");
+
+                                document.getElementById("btnSaveProcedureResult").innerHTML = "<i class='fa fa-save fa-fw'></i> Save Changes";
+                                $("#btnSaveProcedureResult").prop("disabled", false);
+                                $("#btnCancelProcedureResult").prop("disabled", false);
+
+                                makeProcedureResultGrid(procedureCollectionView.currentItem.Id);
+                            },
+                            400: function () {
+                                toastr.error("Bad Request");
+
+                                document.getElementById("btnSaveProcedureResult").innerHTML = "<i class='fa fa-save fa-fw'></i> Save Changes";
+                                $("#btnSaveProcedureResult").prop("disabled", false);
+                                $("#btnCancelProcedureResult").prop("disabled", false);
+                            }
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: "PUT",
+                        url: '/api/procedureResult/update/' + procedureResultId,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: procedureResultData,
+                        statusCode: {
+                            200: function () {
+                                toastr.success("Update Successful");
+
+                                document.getElementById("btnSaveProcedureResult").innerHTML = "<i class='fa fa-save fa-fw'></i> Save Changes";
+                                $("#btnSaveProcedureResult").prop("disabled", false);
+                                $("#btnCancelProcedureResult").prop("disabled", false);
+
+                                makeProcedureResultGrid(procedureCollectionView.currentItem.Id);
+                            },
+                            404: function () {
+                                toastr.error("Not Found");
+
+                                document.getElementById("btnSaveProcedureResult").innerHTML = "<i class='fa fa-save fa-fw'></i> Save Changes";
+                                $("#btnSaveProcedureResult").prop("disabled", false);
+                                $("#btnCancelProcedureResult").prop("disabled", false);
+                            },
+                            400: function () {
+                                toastr.error("Bad Request");
+
+                                document.getElementById("btnSaveProcedureResult").innerHTML = "<i class='fa fa-save fa-fw'></i> Save Changes";
+                                $("#btnSaveProcedureResult").prop("disabled", false);
+                                $("#btnCancelProcedureResult").prop("disabled", false);
+                            }
+                        }
+                    });
+                }
+            } else {
+                toastr.error("Invalid Entry");
+
+                document.getElementById("btnSaveProcedureResult").innerHTML = "<i class='fa fa-save fa-fw'></i> Save Changes";
+                $("#btnSaveProcedureResult").prop("disabled", false);
+                $("#btnCancelProcedureResult").prop("disabled", false);
+            }
+        }
+
+        // delete procedure result
+        function btnDeleteProcedureResultOnclick() {
+            var procedureId = procedureCollectionView.currentItem.Id;
+            $.ajax({
+                url: '/api/procedureResult/listByProcedureId/' + procedureId,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+                    if (result.length > 0) {
+                        if (result[0].Doctor == currentUserName) {
+                            $("#deleteConfirmationProcedureResultModal").modal({
+                                "show": true,
+                                "backdrop": "static"
+                            });
+
+                            document.getElementById("btnConfirmDeleteProcedureResult").innerHTML = "Yes";
+                            $("#btnConfirmDeleteProcedureResult").prop("disabled", false);
+                            $("#btnConfirmCloseProcedureResult").prop("disabled", false);
+                        } else {
+                            toastr.error("Delete not allowed");
+                        }
+                    } else {
+                        toastr.error("Delete not allowed");
+                    }
+                },
+                fail: function () {
+                    toastr.error("Delete editing.");
+                }
+            });
+        }
+
+        // confirmed delete procedure result
+        function btnConfirmDeleteProcedureResultOnclick() {
+            document.getElementById("btnConfirmDeleteProcedureResult").innerHTML = "<i class='fa fa-spinner fa-spin fa-fw'></i> Deleting";
+            $("#btnConfirmDeleteProcedureResult").prop("disabled", true);
+            $("#btnConfirmCloseProcedureResult").prop("disabled", true);
+
+            procedureResultCollectionView.editItem(procedureResultCollectionView.currentItem);
+            var currentItem = procedureResultCollectionView.currentEditItem;
+
+            $.ajax({
+                type: "DELETE",
+                url: '/api/procedureResult/delete/' + currentItem.Id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                statusCode: {
+                    200: function () {
+                        toastr.success("Delete Successful");
+
+                        $("#deleteConfirmationProcedureResultModal").modal("hide");
+
+                        document.getElementById("btnConfirmDeleteProcedureResult").innerHTML = "Yes";
+                        $("#btnConfirmDeleteProcedureResult").prop("disabled", false);
+                        $("#btnConfirmCloseProcedureResult").prop("disabled", false);
+
+                        var rowIndex = procedureResultFlexGrid.selection.row;
+                        if (rowIndex > -1) {
+                            var dataItem = procedureResultFlexGrid.rows[rowIndex].dataItem;
+                            if (dataItem) {
+                                procedureResultFlexGrid.collectionView.remove(dataItem);
+                            }
+                        }
+                    },
+                    404: function () {
+                        toastr.error("Not Found");
+
+                        $("#deleteConfirmationProcedureResultModal").modal("hide");
+
+                        document.getElementById("btnConfirmDeleteProcedureResult").innerHTML = "Yes";
+                        $("#btnConfirmDeleteProcedureResult").prop("disabled", false);
+                        $("#btnConfirmCloseProcedureResult").prop("disabled", false);
+                    },
+                    400: function () {
+                        toastr.error("Bad Request");
+
+                        $("#deleteConfirmationProcedureResultModal").modal("hide");
+
+                        document.getElementById("btnConfirmDeleteProcedureResult").innerHTML = "Yes";
+                        $("#btnConfirmDeleteProcedureResult").prop("disabled", false);
+                        $("#btnConfirmCloseProcedureResult").prop("disabled", false);
+                    }
+                }
+            });
+        }
+
         // navigation button for flexgrid
         function updateNavigateButtons() {
             if (procedureCollectionView.pageSize <= 0) {
@@ -399,6 +1063,7 @@
                             if (!!document.getElementById('addButton')) document.getElementById('addButton').removeAttribute('disabled');
                         } else if (userType == 'Doctor') {
                             if (!!document.getElementById('editButton')) document.getElementById('editButton').removeAttribute('disabled');
+                            if (!!document.getElementById('addResultButton')) document.getElementById('addResultButton').removeAttribute('disabled');
                         }
                     }
                 }
@@ -406,10 +1071,16 @@
         }
 
         function lockElement(element) {
-            if (userType == 'Administrator' || userType == 'Facility') {
+            if (userType == 'Administrator') {
                 return "";
+            } else if (userType == 'Facility') {
+                if (element == 'editResultButton' || element == 'deleteResultButton') {
+                    return "disabled";
+                } else {
+                    return "";
+                }
             } else if (userType == 'Doctor') {
-                if (element == 'editButton') {
+                if (element == 'editButton' || element == 'viewButton' || element == 'editResultButton' || element == 'deleteResultButton' || element == 'printResultButton') {
                     return "";
                 } else {
                     return "disabled";
@@ -453,9 +1124,16 @@
             procedureFlexGrid.initialize({
                 columns: [
                             {
+                                "header": "View",
+                                "binding": "ViewButton",
+                                "width": 75,
+                                "align": "center",
+                                "allowResizing": false,
+                                "isContentHtml": true
+                            }, {
                                 "header": "Edit",
                                 "binding": "EditButton",
-                                "width": 80,
+                                "width": 75,
                                 "align": "center",
                                 "allowResizing": false,
                                 "isContentHtml": true
@@ -463,7 +1141,7 @@
                             {
                                 "header": "Delete",
                                 "binding": "DeleteButton",
-                                "width": 80,
+                                "width": 75,
                                 "align": "center",
                                 "allowResizing": false,
                                 "isContentHtml": true
@@ -472,19 +1150,19 @@
                                 "header": "Tx Number",
                                 "binding": "TransactionNumber",
                                 "allowSorting": true,
-                                "width": "1.5*",
+                                "width": "1*",
                             },
                             {
-                                "header": "Tx Date",
+                                "header": "Date",
                                 "binding": "TransactionDateTime",
                                 "allowSorting": true,
                                 "width": "1*",
                             },
                             {
-                                "header": "Tx Time",
+                                "header": "Time",
                                 "binding": "TransactionTime",
                                 "allowSorting": true,
-                                "width": "1*",
+                                "width": "0.5*",
                             },
                             {
                                 "header": "Patient",
@@ -496,7 +1174,7 @@
                                 "header": "Gender",
                                 "binding": "Gender",
                                 "allowSorting": true,
-                                "width": "0.7*",
+                                "width": "0.5*",
                             },
                             {
                                 "header": "Age",
@@ -505,22 +1183,22 @@
                                 "width": "0.5*",
                             },
                             {
-                                "header": "Exam Taken",
+                                "header": "Mod",
                                 "binding": "Modality",
                                 "allowSorting": true,
-                                "width": "1.2*",
+                                "width": "0.5*",
                             },
                             {
                                 "header": "Body Part",
                                 "binding": "BodyPart",
                                 "allowSorting": true,
-                                "width": "1*",
+                                "width": "0.5*",
                             },
                             {
                                 "header": "Doctor",
                                 "binding": "Doctor",
                                 "allowSorting": true,
-                                "width": "2*",
+                                "width": "0.8*",
                             }
                 ],
                 autoGenerateColumns: false,
@@ -534,7 +1212,7 @@
 
             procedureFlexGrid.trackChanges = true;
 
-            //Navigation button
+            // Navigation button
             btnFirstPageGrid = document.getElementById('btnMoveToFirstPageGrid');
             btnPreviousPageGrid = document.getElementById('btnMoveToPreviousPageGrid');
             btnNextPageGrid = document.getElementById('btnMoveToNextPageGrid');
@@ -561,6 +1239,14 @@
             });
 
             getUserFacilityData();
+
+            // Initiate procedure result grid
+            procedureResultFlexGrid = new wijmo.grid.FlexGrid('#procedureResultFlexGrid');
+
+            cboModalityProcedure = new wijmo.input.ComboBox('#cboModalityProcedure');
+            cboDoctor = new wijmo.input.ComboBox('#cboDoctor');
+            getModalityProcedureData();
+            getDoctorData();
         }
 
     </script>
