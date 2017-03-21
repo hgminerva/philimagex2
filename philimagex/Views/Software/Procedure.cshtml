@@ -429,6 +429,25 @@
             });
         }
 
+        // update procedure data
+        function updateProcedureListData(Id) {
+            $.ajax({
+                url: '/api/procedure/getById/' + Id + "/" + getUrlParameter("facilityId"),
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (procedureDetailResult) {
+                    if (procedureDetailResult != null) {
+                        procedureCollectionView.editItem(procedureCollectionView.currentItem);
+                        var currentItem = procedureCollectionView.currentEditItem;
+                        currentItem.Doctor = procedureDetailResult.Doctor;
+                        procedureFlexGrid.collectionView.refresh();
+                        procedureFlexGrid.invalidate();
+                    } 
+                }
+            });
+        }
+
         // make procedure result grid
         function makeProcedureResultGrid(Id) {
             procedureResultCollectionView = new wijmo.collections.CollectionView(getProcedureResultData(Id));
@@ -848,6 +867,8 @@
                                 $("#btnCancelProcedureResult").prop("disabled", false);
 
                                 makeProcedureResultGrid(procedureCollectionView.currentItem.Id);
+
+                                updateProcedureListData(procedureCollectionView.currentItem.Id);
                             },
                             400: function () {
                                 toastr.error("Bad Request");
@@ -874,6 +895,8 @@
                                 $("#btnCancelProcedureResult").prop("disabled", false);
 
                                 makeProcedureResultGrid(procedureCollectionView.currentItem.Id);
+
+                                updateProcedureListData(procedureCollectionView.currentItem.Id);
                             },
                             404: function () {
                                 toastr.error("Not Found");
@@ -964,6 +987,8 @@
                                 procedureResultFlexGrid.collectionView.remove(dataItem);
                             }
                         }
+
+                        updateProcedureListData(procedureCollectionView.currentItem.Id);
                     },
                     404: function () {
                         toastr.error("Not Found");
