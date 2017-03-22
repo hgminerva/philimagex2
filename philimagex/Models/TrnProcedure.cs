@@ -26,5 +26,10 @@ namespace philimagex.Models
         public Int32 UserId { get; set; }
         public String User { get; set; }
         public String Doctor { get; set; }
+        public String PatientAddress { get; set; }
+        public String ReferringPhysician { get; set; }
+        public String StudyDate { get; set; }
+        public String HospitalNumber { get; set; }
+        public String HospitalWardNumber { get; set; }
     }
 }

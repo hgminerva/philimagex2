@@ -237,8 +237,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Data\philimagexdb.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>philimagexdb.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>philimagexdb1.designer.cs</LastGenOutput>
     </Content>
     <Content Include="Images\dmtipacs_stations.png" />
     <Content Include="Images\Logo\alcantara.jpg" />

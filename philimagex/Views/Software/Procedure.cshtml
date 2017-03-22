@@ -125,6 +125,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#ProcedureInformation">Procedure</a></li>
                             <li><a data-toggle="tab" href="#ProcedureParticulars">Particulars</a></li>
+                            <li><a data-toggle="tab" href="#ProcedureOtherInformation">Other Information</a></li>
                             <li><a data-toggle="tab" href="#ProcedureDicomFile">DICOM File</a></li>
                         </ul>
                         <div class="tab-content">
@@ -171,6 +172,22 @@
                                     <dl class="dl-horizontal">
                                         <dt>Particulars</dt>
                                         <dd><textarea class="form-control requiredProcedure" rows="10" id="procedureParticulars" placeholder="Particulars" disabled></textarea></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div id="ProcedureOtherInformation" class="tab-pane">
+                                <div class="col-lg-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>Study Date</dt>
+                                        <dd><input type="text" class="form-control" id="procedureStudyDate" placeholder="Study Date" disabled /></dd>
+                                        <dt>Patient Address</dt>
+                                        <dd><input type="text" class="form-control" id="procedurePatientAddress" placeholder="Patient Address" disabled /></dd>
+                                        <dt>Referring Physician</dt>
+                                        <dd><input type="text" class="form-control" id="procedureReferringPhysician" placeholder="Referring Physician" disabled /></dd>
+                                        <dt>Hospital Number</dt>
+                                        <dd><input type="text" class="form-control" id="procedureHospitalNumber" placeholder="Hospital Number" disabled /></dd>
+                                        <dt>Hospital Ward Number</dt>
+                                        <dd><input type="text" class="form-control" id="procedureHospitalWardNumber" placeholder="Hospital Ward Number" disabled /></dd>
                                     </dl>
                                 </div>
                             </div>
@@ -307,7 +324,12 @@
                                 BodyPart: procedureListResult[i]["BodyPart"],
                                 UserId: procedureListResult[i]["UserId"],
                                 User: procedureListResult[i]["User"],
-                                Doctor: procedureListResult[i]["Doctor"]
+                                Doctor: procedureListResult[i]["Doctor"],
+                                StudyDate: procedureListResult[i]["StudyDate"],
+                                PatientAddress: procedureListResult[i]["PatientAddress"],
+                                ReferringPhysician: procedureListResult[i]["ReferringPhysician"],
+                                HospitalNumber: procedureListResult[i]["HospitalNumber"],
+                                HospitalWardNumber: procedureListResult[i]["HospitalWardNumber"]
                             });
                         }
                     }
@@ -528,7 +550,7 @@
             function pad(n) { return n < 10 ? '0' + n : n }
             return date.getUTCFullYear() + '-'
             + pad(date.getUTCMonth() + 1) + '-'
-            + pad(date.getUTCDate())
+            + pad(date.getUTCDate() + 1)
         }
 
         function ConvertTimeformat(format, str) {
@@ -695,6 +717,11 @@
             document.getElementById('procedureDateOfBirth').value = procedureCollectionView.currentItem.DateOfBirth;
             document.getElementById('procedureAge').value = procedureCollectionView.currentItem.Age;
             document.getElementById('procedureParticulars').value = procedureCollectionView.currentItem.Particulars;
+            document.getElementById('procedureStudyDate').value = procedureCollectionView.currentItem.StudyDate;
+            document.getElementById('procedurePatientAddress').value = procedureCollectionView.currentItem.PatientAddress;
+            document.getElementById('procedureReferringPhysician').value = procedureCollectionView.currentItem.ReferringPhysician;
+            document.getElementById('procedureHospitalNumber').value = procedureCollectionView.currentItem.HospitalNumber;
+            document.getElementById('procedureHospitalWardNumber').value = procedureCollectionView.currentItem.HospitalWardNumber;
 
             makeProcedureResultGrid(procedureCollectionView.currentItem.Id);
         }

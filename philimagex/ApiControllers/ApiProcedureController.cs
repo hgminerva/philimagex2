@@ -40,7 +40,12 @@ namespace philimagex.ApiControllers
                                 BodyPart = d.MstBodyPart.BodyPart,
                                 UserId = d.UserId,
                                 User = d.MstUser.UserName,
-                                Doctor = (from r in db.TrnProcedureResults where r.ProcedureId == d.Id select r.MstUser.UserName).FirstOrDefault()
+                                Doctor = (from r in db.TrnProcedureResults where r.ProcedureId == d.Id select r.MstUser.UserName).FirstOrDefault(),
+                                PatientAddress = d.PatientAddress == null ? "NA" : d.PatientAddress,
+                                ReferringPhysician = d.ReferringPhysician == null ? "NA" : d.ReferringPhysician,
+                                StudyDate = d.StudyDate == null ? "NA" : d.StudyDate,
+                                HospitalNumber = d.HospitalNumber == null ? "NA" : d.HospitalNumber,
+                                HospitalWardNumber = d.HospitalWardNumber == null ? "NA" : d.HospitalWardNumber
                             };
 
             return procedures.ToList();
@@ -73,7 +78,12 @@ namespace philimagex.ApiControllers
                                  BodyPart = d.MstBodyPart.BodyPart,
                                  UserId = d.UserId,
                                  User = d.MstUser.UserName,
-                                 Doctor = (from r in db.TrnProcedureResults where r.ProcedureId == d.Id select r.MstUser.UserName).FirstOrDefault()
+                                 Doctor = (from r in db.TrnProcedureResults where r.ProcedureId == d.Id select r.MstUser.UserName).FirstOrDefault(),
+                                 PatientAddress = d.PatientAddress == null ? "NA" : d.PatientAddress,
+                                 ReferringPhysician = d.ReferringPhysician == null ? "NA" : d.ReferringPhysician,
+                                 StudyDate = d.StudyDate == null ? "NA" : d.StudyDate,
+                                 HospitalNumber = d.HospitalNumber == null ? "NA" : d.HospitalNumber,
+                                 HospitalWardNumber = d.HospitalWardNumber == null ? "NA" : d.HospitalWardNumber
                              };
 
             return (Models.TrnProcedure)procedures.FirstOrDefault();
@@ -91,7 +101,13 @@ namespace philimagex.ApiControllers
 
                 Data.TrnProcedure newProcedure = new Data.TrnProcedure();
                 newProcedure.TransactionNumber = "NA";
-                newProcedure.TransactionDateTime = DateTime.Now;
+
+                TimeZoneInfo timeZoneInfo;
+                DateTime dateTime;
+                timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
+                dateTime = TimeZoneInfo.ConvertTime(DateTime.Now, timeZoneInfo);
+                newProcedure.TransactionDateTime = dateTime;
+
                 newProcedure.DICOMFileName = "NA";
                 newProcedure.PatientName = "NA";
                 newProcedure.Gender = "M";
@@ -101,6 +117,11 @@ namespace philimagex.ApiControllers
                 newProcedure.ModalityId = (from d in db.MstModalities select d.Id).FirstOrDefault();
                 newProcedure.BodyPartId = (from d in db.MstBodyParts select d.Id).FirstOrDefault();
                 newProcedure.UserId = userId;
+                newProcedure.PatientAddress = "NA";
+                newProcedure.ReferringPhysician = "NA";
+                newProcedure.StudyDate = "NA";
+                newProcedure.HospitalNumber = "NA";
+                newProcedure.HospitalWardNumber = "NA";
 
                 db.TrnProcedures.InsertOnSubmit(newProcedure);
                 db.SubmitChanges();
@@ -138,6 +159,11 @@ namespace philimagex.ApiControllers
                     updateProcedure.ModalityId = procedure.ModalityId;
                     updateProcedure.BodyPartId = procedure.BodyPartId;
                     updateProcedure.UserId = userId;
+                    updateProcedure.PatientAddress = procedure.PatientAddress;
+                    updateProcedure.ReferringPhysician = procedure.ReferringPhysician;
+                    updateProcedure.StudyDate = procedure.StudyDate;
+                    updateProcedure.HospitalNumber = procedure.HospitalNumber;
+                    updateProcedure.HospitalWardNumber = procedure.HospitalWardNumber;
 
                     db.SubmitChanges();
 
@@ -210,7 +236,12 @@ namespace philimagex.ApiControllers
                                  BodyPart = d.MstBodyPart.BodyPart,
                                  UserId = d.UserId,
                                  User = d.MstUser.UserName,
-                                 Doctor = (from r in db.TrnProcedureResults where r.ProcedureId == d.Id select r.MstUser.UserName).FirstOrDefault()
+                                 Doctor = (from r in db.TrnProcedureResults where r.ProcedureId == d.Id select r.MstUser.UserName).FirstOrDefault(),
+                                 PatientAddress = d.PatientAddress == null ? "NA" : d.PatientAddress,
+                                 ReferringPhysician = d.ReferringPhysician == null ? "NA" : d.ReferringPhysician,
+                                 StudyDate = d.StudyDate == null ? "NA" : d.StudyDate,
+                                 HospitalNumber = d.HospitalNumber == null ? "NA" : d.HospitalNumber,
+                                 HospitalWardNumber = d.HospitalWardNumber == null ? "NA" : d.HospitalWardNumber
                              };
 
             return procedures.ToList();

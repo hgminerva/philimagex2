@@ -66,12 +66,12 @@ namespace philimagex.Data
     partial void InsertMstUserType(MstUserType instance);
     partial void UpdateMstUserType(MstUserType instance);
     partial void DeleteMstUserType(MstUserType instance);
-    partial void InsertTrnProcedure(TrnProcedure instance);
-    partial void UpdateTrnProcedure(TrnProcedure instance);
-    partial void DeleteTrnProcedure(TrnProcedure instance);
     partial void InsertMstModalityProcedure(MstModalityProcedure instance);
     partial void UpdateMstModalityProcedure(MstModalityProcedure instance);
     partial void DeleteMstModalityProcedure(MstModalityProcedure instance);
+    partial void InsertTrnProcedure(TrnProcedure instance);
+    partial void UpdateTrnProcedure(TrnProcedure instance);
+    partial void DeleteTrnProcedure(TrnProcedure instance);
     #endregion
 		
 		public philimagexdbDataContext() : 
@@ -200,19 +200,19 @@ namespace philimagex.Data
 			}
 		}
 		
-		public System.Data.Linq.Table<TrnProcedure> TrnProcedures
-		{
-			get
-			{
-				return this.GetTable<TrnProcedure>();
-			}
-		}
-		
 		public System.Data.Linq.Table<MstModalityProcedure> MstModalityProcedures
 		{
 			get
 			{
 				return this.GetTable<MstModalityProcedure>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TrnProcedure> TrnProcedures
+		{
+			get
+			{
+				return this.GetTable<TrnProcedure>();
 			}
 		}
 	}
@@ -351,9 +351,9 @@ namespace philimagex.Data
 		
 		private EntityRef<MstUser> _MstUser;
 		
-		private EntityRef<TrnProcedure> _TrnProcedure;
-		
 		private EntityRef<MstModalityProcedure> _MstModalityProcedure;
+		
+		private EntityRef<TrnProcedure> _TrnProcedure;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -376,8 +376,8 @@ namespace philimagex.Data
 		public TrnProcedureResult()
 		{
 			this._MstUser = default(EntityRef<MstUser>);
-			this._TrnProcedure = default(EntityRef<TrnProcedure>);
 			this._MstModalityProcedure = default(EntityRef<MstModalityProcedure>);
+			this._TrnProcedure = default(EntityRef<TrnProcedure>);
 			OnCreated();
 		}
 		
@@ -547,40 +547,6 @@ namespace philimagex.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TrnProcedure_TrnProcedureResult", Storage="_TrnProcedure", ThisKey="ProcedureId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
-		public TrnProcedure TrnProcedure
-		{
-			get
-			{
-				return this._TrnProcedure.Entity;
-			}
-			set
-			{
-				TrnProcedure previousValue = this._TrnProcedure.Entity;
-				if (((previousValue != value) 
-							|| (this._TrnProcedure.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TrnProcedure.Entity = null;
-						previousValue.TrnProcedureResults.Remove(this);
-					}
-					this._TrnProcedure.Entity = value;
-					if ((value != null))
-					{
-						value.TrnProcedureResults.Add(this);
-						this._ProcedureId = value.Id;
-					}
-					else
-					{
-						this._ProcedureId = default(int);
-					}
-					this.SendPropertyChanged("TrnProcedure");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstModalityProcedure_TrnProcedureResult", Storage="_MstModalityProcedure", ThisKey="ModalityProcedureId", OtherKey="Id", IsForeignKey=true)]
 		public MstModalityProcedure MstModalityProcedure
 		{
@@ -611,6 +577,40 @@ namespace philimagex.Data
 						this._ModalityProcedureId = default(int);
 					}
 					this.SendPropertyChanged("MstModalityProcedure");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TrnProcedure_TrnProcedureResult", Storage="_TrnProcedure", ThisKey="ProcedureId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public TrnProcedure TrnProcedure
+		{
+			get
+			{
+				return this._TrnProcedure.Entity;
+			}
+			set
+			{
+				TrnProcedure previousValue = this._TrnProcedure.Entity;
+				if (((previousValue != value) 
+							|| (this._TrnProcedure.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TrnProcedure.Entity = null;
+						previousValue.TrnProcedureResults.Remove(this);
+					}
+					this._TrnProcedure.Entity = value;
+					if ((value != null))
+					{
+						value.TrnProcedureResults.Add(this);
+						this._ProcedureId = value.Id;
+					}
+					else
+					{
+						this._ProcedureId = default(int);
+					}
+					this.SendPropertyChanged("TrnProcedure");
 				}
 			}
 		}
@@ -1716,9 +1716,9 @@ namespace philimagex.Data
 		
 		private string _Modality;
 		
-		private EntitySet<TrnProcedure> _TrnProcedures;
-		
 		private EntitySet<MstModalityProcedure> _MstModalityProcedures;
+		
+		private EntitySet<TrnProcedure> _TrnProcedures;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1732,8 +1732,8 @@ namespace philimagex.Data
 		
 		public MstModality()
 		{
-			this._TrnProcedures = new EntitySet<TrnProcedure>(new Action<TrnProcedure>(this.attach_TrnProcedures), new Action<TrnProcedure>(this.detach_TrnProcedures));
 			this._MstModalityProcedures = new EntitySet<MstModalityProcedure>(new Action<MstModalityProcedure>(this.attach_MstModalityProcedures), new Action<MstModalityProcedure>(this.detach_MstModalityProcedures));
+			this._TrnProcedures = new EntitySet<TrnProcedure>(new Action<TrnProcedure>(this.attach_TrnProcedures), new Action<TrnProcedure>(this.detach_TrnProcedures));
 			OnCreated();
 		}
 		
@@ -1777,19 +1777,6 @@ namespace philimagex.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstModality_TrnProcedure", Storage="_TrnProcedures", ThisKey="Id", OtherKey="ModalityId")]
-		public EntitySet<TrnProcedure> TrnProcedures
-		{
-			get
-			{
-				return this._TrnProcedures;
-			}
-			set
-			{
-				this._TrnProcedures.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstModality_MstModalityProcedure", Storage="_MstModalityProcedures", ThisKey="Id", OtherKey="ModalityId")]
 		public EntitySet<MstModalityProcedure> MstModalityProcedures
 		{
@@ -1800,6 +1787,19 @@ namespace philimagex.Data
 			set
 			{
 				this._MstModalityProcedures.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstModality_TrnProcedure", Storage="_TrnProcedures", ThisKey="Id", OtherKey="ModalityId")]
+		public EntitySet<TrnProcedure> TrnProcedures
+		{
+			get
+			{
+				return this._TrnProcedures;
+			}
+			set
+			{
+				this._TrnProcedures.Assign(value);
 			}
 		}
 		
@@ -1823,18 +1823,6 @@ namespace philimagex.Data
 			}
 		}
 		
-		private void attach_TrnProcedures(TrnProcedure entity)
-		{
-			this.SendPropertyChanging();
-			entity.MstModality = this;
-		}
-		
-		private void detach_TrnProcedures(TrnProcedure entity)
-		{
-			this.SendPropertyChanging();
-			entity.MstModality = null;
-		}
-		
 		private void attach_MstModalityProcedures(MstModalityProcedure entity)
 		{
 			this.SendPropertyChanging();
@@ -1842,6 +1830,18 @@ namespace philimagex.Data
 		}
 		
 		private void detach_MstModalityProcedures(MstModalityProcedure entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstModality = null;
+		}
+		
+		private void attach_TrnProcedures(TrnProcedure entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstModality = this;
+		}
+		
+		private void detach_TrnProcedures(TrnProcedure entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstModality = null;
@@ -1876,9 +1876,9 @@ namespace philimagex.Data
 		
 		private EntitySet<MstUserRate> _MstUserRates;
 		
-		private EntitySet<TrnProcedure> _TrnProcedures;
-		
 		private EntitySet<MstModalityProcedure> _MstModalityProcedures;
+		
+		private EntitySet<TrnProcedure> _TrnProcedures;
 		
 		private EntityRef<AspNetUser> _AspNetUser;
 		
@@ -1910,8 +1910,8 @@ namespace philimagex.Data
 			this._MstUserDoctors = new EntitySet<MstUserDoctor>(new Action<MstUserDoctor>(this.attach_MstUserDoctors), new Action<MstUserDoctor>(this.detach_MstUserDoctors));
 			this._MstUserDoctors1 = new EntitySet<MstUserDoctor>(new Action<MstUserDoctor>(this.attach_MstUserDoctors1), new Action<MstUserDoctor>(this.detach_MstUserDoctors1));
 			this._MstUserRates = new EntitySet<MstUserRate>(new Action<MstUserRate>(this.attach_MstUserRates), new Action<MstUserRate>(this.detach_MstUserRates));
-			this._TrnProcedures = new EntitySet<TrnProcedure>(new Action<TrnProcedure>(this.attach_TrnProcedures), new Action<TrnProcedure>(this.detach_TrnProcedures));
 			this._MstModalityProcedures = new EntitySet<MstModalityProcedure>(new Action<MstModalityProcedure>(this.attach_MstModalityProcedures), new Action<MstModalityProcedure>(this.detach_MstModalityProcedures));
+			this._TrnProcedures = new EntitySet<TrnProcedure>(new Action<TrnProcedure>(this.attach_TrnProcedures), new Action<TrnProcedure>(this.detach_TrnProcedures));
 			this._AspNetUser = default(EntityRef<AspNetUser>);
 			this._MstUserType = default(EntityRef<MstUserType>);
 			OnCreated();
@@ -2117,19 +2117,6 @@ namespace philimagex.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_TrnProcedure", Storage="_TrnProcedures", ThisKey="Id", OtherKey="UserId")]
-		public EntitySet<TrnProcedure> TrnProcedures
-		{
-			get
-			{
-				return this._TrnProcedures;
-			}
-			set
-			{
-				this._TrnProcedures.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstModalityProcedure", Storage="_MstModalityProcedures", ThisKey="Id", OtherKey="DoctorId")]
 		public EntitySet<MstModalityProcedure> MstModalityProcedures
 		{
@@ -2140,6 +2127,19 @@ namespace philimagex.Data
 			set
 			{
 				this._MstModalityProcedures.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_TrnProcedure", Storage="_TrnProcedures", ThisKey="Id", OtherKey="UserId")]
+		public EntitySet<TrnProcedure> TrnProcedures
+		{
+			get
+			{
+				return this._TrnProcedures;
+			}
+			set
+			{
+				this._TrnProcedures.Assign(value);
 			}
 		}
 		
@@ -2279,18 +2279,6 @@ namespace philimagex.Data
 			entity.MstUser = null;
 		}
 		
-		private void attach_TrnProcedures(TrnProcedure entity)
-		{
-			this.SendPropertyChanging();
-			entity.MstUser = this;
-		}
-		
-		private void detach_TrnProcedures(TrnProcedure entity)
-		{
-			this.SendPropertyChanging();
-			entity.MstUser = null;
-		}
-		
 		private void attach_MstModalityProcedures(MstModalityProcedure entity)
 		{
 			this.SendPropertyChanging();
@@ -2298,6 +2286,18 @@ namespace philimagex.Data
 		}
 		
 		private void detach_MstModalityProcedures(MstModalityProcedure entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = null;
+		}
+		
+		private void attach_TrnProcedures(TrnProcedure entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = this;
+		}
+		
+		private void detach_TrnProcedures(TrnProcedure entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstUser = null;
@@ -2922,483 +2922,6 @@ namespace philimagex.Data
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TrnProcedure")]
-	public partial class TrnProcedure : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _TransactionNumber;
-		
-		private System.DateTime _TransactionDateTime;
-		
-		private string _DICOMFileName;
-		
-		private string _PatientName;
-		
-		private string _Gender;
-		
-		private System.DateTime _DateOfBirth;
-		
-		private int _Age;
-		
-		private string _Particulars;
-		
-		private int _ModalityId;
-		
-		private int _BodyPartId;
-		
-		private int _UserId;
-		
-		private EntitySet<TrnProcedureResult> _TrnProcedureResults;
-		
-		private EntityRef<MstBodyPart> _MstBodyPart;
-		
-		private EntityRef<MstModality> _MstModality;
-		
-		private EntityRef<MstUser> _MstUser;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnTransactionNumberChanging(string value);
-    partial void OnTransactionNumberChanged();
-    partial void OnTransactionDateTimeChanging(System.DateTime value);
-    partial void OnTransactionDateTimeChanged();
-    partial void OnDICOMFileNameChanging(string value);
-    partial void OnDICOMFileNameChanged();
-    partial void OnPatientNameChanging(string value);
-    partial void OnPatientNameChanged();
-    partial void OnGenderChanging(string value);
-    partial void OnGenderChanged();
-    partial void OnDateOfBirthChanging(System.DateTime value);
-    partial void OnDateOfBirthChanged();
-    partial void OnAgeChanging(int value);
-    partial void OnAgeChanged();
-    partial void OnParticularsChanging(string value);
-    partial void OnParticularsChanged();
-    partial void OnModalityIdChanging(int value);
-    partial void OnModalityIdChanged();
-    partial void OnBodyPartIdChanging(int value);
-    partial void OnBodyPartIdChanged();
-    partial void OnUserIdChanging(int value);
-    partial void OnUserIdChanged();
-    #endregion
-		
-		public TrnProcedure()
-		{
-			this._TrnProcedureResults = new EntitySet<TrnProcedureResult>(new Action<TrnProcedureResult>(this.attach_TrnProcedureResults), new Action<TrnProcedureResult>(this.detach_TrnProcedureResults));
-			this._MstBodyPart = default(EntityRef<MstBodyPart>);
-			this._MstModality = default(EntityRef<MstModality>);
-			this._MstUser = default(EntityRef<MstUser>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransactionNumber", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string TransactionNumber
-		{
-			get
-			{
-				return this._TransactionNumber;
-			}
-			set
-			{
-				if ((this._TransactionNumber != value))
-				{
-					this.OnTransactionNumberChanging(value);
-					this.SendPropertyChanging();
-					this._TransactionNumber = value;
-					this.SendPropertyChanged("TransactionNumber");
-					this.OnTransactionNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransactionDateTime", DbType="DateTime NOT NULL")]
-		public System.DateTime TransactionDateTime
-		{
-			get
-			{
-				return this._TransactionDateTime;
-			}
-			set
-			{
-				if ((this._TransactionDateTime != value))
-				{
-					this.OnTransactionDateTimeChanging(value);
-					this.SendPropertyChanging();
-					this._TransactionDateTime = value;
-					this.SendPropertyChanged("TransactionDateTime");
-					this.OnTransactionDateTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DICOMFileName", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string DICOMFileName
-		{
-			get
-			{
-				return this._DICOMFileName;
-			}
-			set
-			{
-				if ((this._DICOMFileName != value))
-				{
-					this.OnDICOMFileNameChanging(value);
-					this.SendPropertyChanging();
-					this._DICOMFileName = value;
-					this.SendPropertyChanged("DICOMFileName");
-					this.OnDICOMFileNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PatientName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string PatientName
-		{
-			get
-			{
-				return this._PatientName;
-			}
-			set
-			{
-				if ((this._PatientName != value))
-				{
-					this.OnPatientNameChanging(value);
-					this.SendPropertyChanging();
-					this._PatientName = value;
-					this.SendPropertyChanged("PatientName");
-					this.OnPatientNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="NVarChar(1) NOT NULL", CanBeNull=false)]
-		public string Gender
-		{
-			get
-			{
-				return this._Gender;
-			}
-			set
-			{
-				if ((this._Gender != value))
-				{
-					this.OnGenderChanging(value);
-					this.SendPropertyChanging();
-					this._Gender = value;
-					this.SendPropertyChanged("Gender");
-					this.OnGenderChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateOfBirth", DbType="DateTime NOT NULL")]
-		public System.DateTime DateOfBirth
-		{
-			get
-			{
-				return this._DateOfBirth;
-			}
-			set
-			{
-				if ((this._DateOfBirth != value))
-				{
-					this.OnDateOfBirthChanging(value);
-					this.SendPropertyChanging();
-					this._DateOfBirth = value;
-					this.SendPropertyChanged("DateOfBirth");
-					this.OnDateOfBirthChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Age", DbType="Int NOT NULL")]
-		public int Age
-		{
-			get
-			{
-				return this._Age;
-			}
-			set
-			{
-				if ((this._Age != value))
-				{
-					this.OnAgeChanging(value);
-					this.SendPropertyChanging();
-					this._Age = value;
-					this.SendPropertyChanged("Age");
-					this.OnAgeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Particulars", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Particulars
-		{
-			get
-			{
-				return this._Particulars;
-			}
-			set
-			{
-				if ((this._Particulars != value))
-				{
-					this.OnParticularsChanging(value);
-					this.SendPropertyChanging();
-					this._Particulars = value;
-					this.SendPropertyChanged("Particulars");
-					this.OnParticularsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModalityId", DbType="Int NOT NULL")]
-		public int ModalityId
-		{
-			get
-			{
-				return this._ModalityId;
-			}
-			set
-			{
-				if ((this._ModalityId != value))
-				{
-					if (this._MstModality.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnModalityIdChanging(value);
-					this.SendPropertyChanging();
-					this._ModalityId = value;
-					this.SendPropertyChanged("ModalityId");
-					this.OnModalityIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BodyPartId", DbType="Int NOT NULL")]
-		public int BodyPartId
-		{
-			get
-			{
-				return this._BodyPartId;
-			}
-			set
-			{
-				if ((this._BodyPartId != value))
-				{
-					if (this._MstBodyPart.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnBodyPartIdChanging(value);
-					this.SendPropertyChanging();
-					this._BodyPartId = value;
-					this.SendPropertyChanged("BodyPartId");
-					this.OnBodyPartIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
-		public int UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					if (this._MstUser.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUserIdChanging(value);
-					this.SendPropertyChanging();
-					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TrnProcedure_TrnProcedureResult", Storage="_TrnProcedureResults", ThisKey="Id", OtherKey="ProcedureId")]
-		public EntitySet<TrnProcedureResult> TrnProcedureResults
-		{
-			get
-			{
-				return this._TrnProcedureResults;
-			}
-			set
-			{
-				this._TrnProcedureResults.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstBodyPart_TrnProcedure", Storage="_MstBodyPart", ThisKey="BodyPartId", OtherKey="Id", IsForeignKey=true)]
-		public MstBodyPart MstBodyPart
-		{
-			get
-			{
-				return this._MstBodyPart.Entity;
-			}
-			set
-			{
-				MstBodyPart previousValue = this._MstBodyPart.Entity;
-				if (((previousValue != value) 
-							|| (this._MstBodyPart.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._MstBodyPart.Entity = null;
-						previousValue.TrnProcedures.Remove(this);
-					}
-					this._MstBodyPart.Entity = value;
-					if ((value != null))
-					{
-						value.TrnProcedures.Add(this);
-						this._BodyPartId = value.Id;
-					}
-					else
-					{
-						this._BodyPartId = default(int);
-					}
-					this.SendPropertyChanged("MstBodyPart");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstModality_TrnProcedure", Storage="_MstModality", ThisKey="ModalityId", OtherKey="Id", IsForeignKey=true)]
-		public MstModality MstModality
-		{
-			get
-			{
-				return this._MstModality.Entity;
-			}
-			set
-			{
-				MstModality previousValue = this._MstModality.Entity;
-				if (((previousValue != value) 
-							|| (this._MstModality.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._MstModality.Entity = null;
-						previousValue.TrnProcedures.Remove(this);
-					}
-					this._MstModality.Entity = value;
-					if ((value != null))
-					{
-						value.TrnProcedures.Add(this);
-						this._ModalityId = value.Id;
-					}
-					else
-					{
-						this._ModalityId = default(int);
-					}
-					this.SendPropertyChanged("MstModality");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_TrnProcedure", Storage="_MstUser", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
-		public MstUser MstUser
-		{
-			get
-			{
-				return this._MstUser.Entity;
-			}
-			set
-			{
-				MstUser previousValue = this._MstUser.Entity;
-				if (((previousValue != value) 
-							|| (this._MstUser.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._MstUser.Entity = null;
-						previousValue.TrnProcedures.Remove(this);
-					}
-					this._MstUser.Entity = value;
-					if ((value != null))
-					{
-						value.TrnProcedures.Add(this);
-						this._UserId = value.Id;
-					}
-					else
-					{
-						this._UserId = default(int);
-					}
-					this.SendPropertyChanged("MstUser");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_TrnProcedureResults(TrnProcedureResult entity)
-		{
-			this.SendPropertyChanging();
-			entity.TrnProcedure = this;
-		}
-		
-		private void detach_TrnProcedureResults(TrnProcedureResult entity)
-		{
-			this.SendPropertyChanging();
-			entity.TrnProcedure = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstModalityProcedure")]
 	public partial class MstModalityProcedure : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3692,6 +3215,603 @@ namespace philimagex.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstModalityProcedure = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TrnProcedure")]
+	public partial class TrnProcedure : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _TransactionNumber;
+		
+		private System.DateTime _TransactionDateTime;
+		
+		private string _DICOMFileName;
+		
+		private string _PatientName;
+		
+		private string _Gender;
+		
+		private System.DateTime _DateOfBirth;
+		
+		private int _Age;
+		
+		private string _Particulars;
+		
+		private int _ModalityId;
+		
+		private int _BodyPartId;
+		
+		private int _UserId;
+		
+		private string _PatientAddress;
+		
+		private string _ReferringPhysician;
+		
+		private string _StudyDate;
+		
+		private string _HospitalNumber;
+		
+		private string _HospitalWardNumber;
+		
+		private EntitySet<TrnProcedureResult> _TrnProcedureResults;
+		
+		private EntityRef<MstBodyPart> _MstBodyPart;
+		
+		private EntityRef<MstModality> _MstModality;
+		
+		private EntityRef<MstUser> _MstUser;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnTransactionNumberChanging(string value);
+    partial void OnTransactionNumberChanged();
+    partial void OnTransactionDateTimeChanging(System.DateTime value);
+    partial void OnTransactionDateTimeChanged();
+    partial void OnDICOMFileNameChanging(string value);
+    partial void OnDICOMFileNameChanged();
+    partial void OnPatientNameChanging(string value);
+    partial void OnPatientNameChanged();
+    partial void OnGenderChanging(string value);
+    partial void OnGenderChanged();
+    partial void OnDateOfBirthChanging(System.DateTime value);
+    partial void OnDateOfBirthChanged();
+    partial void OnAgeChanging(int value);
+    partial void OnAgeChanged();
+    partial void OnParticularsChanging(string value);
+    partial void OnParticularsChanged();
+    partial void OnModalityIdChanging(int value);
+    partial void OnModalityIdChanged();
+    partial void OnBodyPartIdChanging(int value);
+    partial void OnBodyPartIdChanged();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnPatientAddressChanging(string value);
+    partial void OnPatientAddressChanged();
+    partial void OnReferringPhysicianChanging(string value);
+    partial void OnReferringPhysicianChanged();
+    partial void OnStudyDateChanging(string value);
+    partial void OnStudyDateChanged();
+    partial void OnHospitalNumberChanging(string value);
+    partial void OnHospitalNumberChanged();
+    partial void OnHospitalWardNumberChanging(string value);
+    partial void OnHospitalWardNumberChanged();
+    #endregion
+		
+		public TrnProcedure()
+		{
+			this._TrnProcedureResults = new EntitySet<TrnProcedureResult>(new Action<TrnProcedureResult>(this.attach_TrnProcedureResults), new Action<TrnProcedureResult>(this.detach_TrnProcedureResults));
+			this._MstBodyPart = default(EntityRef<MstBodyPart>);
+			this._MstModality = default(EntityRef<MstModality>);
+			this._MstUser = default(EntityRef<MstUser>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransactionNumber", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string TransactionNumber
+		{
+			get
+			{
+				return this._TransactionNumber;
+			}
+			set
+			{
+				if ((this._TransactionNumber != value))
+				{
+					this.OnTransactionNumberChanging(value);
+					this.SendPropertyChanging();
+					this._TransactionNumber = value;
+					this.SendPropertyChanged("TransactionNumber");
+					this.OnTransactionNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransactionDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime TransactionDateTime
+		{
+			get
+			{
+				return this._TransactionDateTime;
+			}
+			set
+			{
+				if ((this._TransactionDateTime != value))
+				{
+					this.OnTransactionDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._TransactionDateTime = value;
+					this.SendPropertyChanged("TransactionDateTime");
+					this.OnTransactionDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DICOMFileName", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string DICOMFileName
+		{
+			get
+			{
+				return this._DICOMFileName;
+			}
+			set
+			{
+				if ((this._DICOMFileName != value))
+				{
+					this.OnDICOMFileNameChanging(value);
+					this.SendPropertyChanging();
+					this._DICOMFileName = value;
+					this.SendPropertyChanged("DICOMFileName");
+					this.OnDICOMFileNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PatientName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string PatientName
+		{
+			get
+			{
+				return this._PatientName;
+			}
+			set
+			{
+				if ((this._PatientName != value))
+				{
+					this.OnPatientNameChanging(value);
+					this.SendPropertyChanging();
+					this._PatientName = value;
+					this.SendPropertyChanged("PatientName");
+					this.OnPatientNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="NVarChar(1) NOT NULL", CanBeNull=false)]
+		public string Gender
+		{
+			get
+			{
+				return this._Gender;
+			}
+			set
+			{
+				if ((this._Gender != value))
+				{
+					this.OnGenderChanging(value);
+					this.SendPropertyChanging();
+					this._Gender = value;
+					this.SendPropertyChanged("Gender");
+					this.OnGenderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateOfBirth", DbType="DateTime NOT NULL")]
+		public System.DateTime DateOfBirth
+		{
+			get
+			{
+				return this._DateOfBirth;
+			}
+			set
+			{
+				if ((this._DateOfBirth != value))
+				{
+					this.OnDateOfBirthChanging(value);
+					this.SendPropertyChanging();
+					this._DateOfBirth = value;
+					this.SendPropertyChanged("DateOfBirth");
+					this.OnDateOfBirthChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Age", DbType="Int NOT NULL")]
+		public int Age
+		{
+			get
+			{
+				return this._Age;
+			}
+			set
+			{
+				if ((this._Age != value))
+				{
+					this.OnAgeChanging(value);
+					this.SendPropertyChanging();
+					this._Age = value;
+					this.SendPropertyChanged("Age");
+					this.OnAgeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Particulars", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Particulars
+		{
+			get
+			{
+				return this._Particulars;
+			}
+			set
+			{
+				if ((this._Particulars != value))
+				{
+					this.OnParticularsChanging(value);
+					this.SendPropertyChanging();
+					this._Particulars = value;
+					this.SendPropertyChanged("Particulars");
+					this.OnParticularsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModalityId", DbType="Int NOT NULL")]
+		public int ModalityId
+		{
+			get
+			{
+				return this._ModalityId;
+			}
+			set
+			{
+				if ((this._ModalityId != value))
+				{
+					if (this._MstModality.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnModalityIdChanging(value);
+					this.SendPropertyChanging();
+					this._ModalityId = value;
+					this.SendPropertyChanged("ModalityId");
+					this.OnModalityIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BodyPartId", DbType="Int NOT NULL")]
+		public int BodyPartId
+		{
+			get
+			{
+				return this._BodyPartId;
+			}
+			set
+			{
+				if ((this._BodyPartId != value))
+				{
+					if (this._MstBodyPart.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnBodyPartIdChanging(value);
+					this.SendPropertyChanging();
+					this._BodyPartId = value;
+					this.SendPropertyChanged("BodyPartId");
+					this.OnBodyPartIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					if (this._MstUser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PatientAddress", DbType="NVarChar(MAX)")]
+		public string PatientAddress
+		{
+			get
+			{
+				return this._PatientAddress;
+			}
+			set
+			{
+				if ((this._PatientAddress != value))
+				{
+					this.OnPatientAddressChanging(value);
+					this.SendPropertyChanging();
+					this._PatientAddress = value;
+					this.SendPropertyChanged("PatientAddress");
+					this.OnPatientAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReferringPhysician", DbType="NVarChar(MAX)")]
+		public string ReferringPhysician
+		{
+			get
+			{
+				return this._ReferringPhysician;
+			}
+			set
+			{
+				if ((this._ReferringPhysician != value))
+				{
+					this.OnReferringPhysicianChanging(value);
+					this.SendPropertyChanging();
+					this._ReferringPhysician = value;
+					this.SendPropertyChanged("ReferringPhysician");
+					this.OnReferringPhysicianChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StudyDate", DbType="NVarChar(100)")]
+		public string StudyDate
+		{
+			get
+			{
+				return this._StudyDate;
+			}
+			set
+			{
+				if ((this._StudyDate != value))
+				{
+					this.OnStudyDateChanging(value);
+					this.SendPropertyChanging();
+					this._StudyDate = value;
+					this.SendPropertyChanged("StudyDate");
+					this.OnStudyDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HospitalNumber", DbType="NVarChar(255)")]
+		public string HospitalNumber
+		{
+			get
+			{
+				return this._HospitalNumber;
+			}
+			set
+			{
+				if ((this._HospitalNumber != value))
+				{
+					this.OnHospitalNumberChanging(value);
+					this.SendPropertyChanging();
+					this._HospitalNumber = value;
+					this.SendPropertyChanged("HospitalNumber");
+					this.OnHospitalNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HospitalWardNumber", DbType="NVarChar(255)")]
+		public string HospitalWardNumber
+		{
+			get
+			{
+				return this._HospitalWardNumber;
+			}
+			set
+			{
+				if ((this._HospitalWardNumber != value))
+				{
+					this.OnHospitalWardNumberChanging(value);
+					this.SendPropertyChanging();
+					this._HospitalWardNumber = value;
+					this.SendPropertyChanged("HospitalWardNumber");
+					this.OnHospitalWardNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TrnProcedure_TrnProcedureResult", Storage="_TrnProcedureResults", ThisKey="Id", OtherKey="ProcedureId")]
+		public EntitySet<TrnProcedureResult> TrnProcedureResults
+		{
+			get
+			{
+				return this._TrnProcedureResults;
+			}
+			set
+			{
+				this._TrnProcedureResults.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstBodyPart_TrnProcedure", Storage="_MstBodyPart", ThisKey="BodyPartId", OtherKey="Id", IsForeignKey=true)]
+		public MstBodyPart MstBodyPart
+		{
+			get
+			{
+				return this._MstBodyPart.Entity;
+			}
+			set
+			{
+				MstBodyPart previousValue = this._MstBodyPart.Entity;
+				if (((previousValue != value) 
+							|| (this._MstBodyPart.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstBodyPart.Entity = null;
+						previousValue.TrnProcedures.Remove(this);
+					}
+					this._MstBodyPart.Entity = value;
+					if ((value != null))
+					{
+						value.TrnProcedures.Add(this);
+						this._BodyPartId = value.Id;
+					}
+					else
+					{
+						this._BodyPartId = default(int);
+					}
+					this.SendPropertyChanged("MstBodyPart");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstModality_TrnProcedure", Storage="_MstModality", ThisKey="ModalityId", OtherKey="Id", IsForeignKey=true)]
+		public MstModality MstModality
+		{
+			get
+			{
+				return this._MstModality.Entity;
+			}
+			set
+			{
+				MstModality previousValue = this._MstModality.Entity;
+				if (((previousValue != value) 
+							|| (this._MstModality.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstModality.Entity = null;
+						previousValue.TrnProcedures.Remove(this);
+					}
+					this._MstModality.Entity = value;
+					if ((value != null))
+					{
+						value.TrnProcedures.Add(this);
+						this._ModalityId = value.Id;
+					}
+					else
+					{
+						this._ModalityId = default(int);
+					}
+					this.SendPropertyChanged("MstModality");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_TrnProcedure", Storage="_MstUser", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser
+		{
+			get
+			{
+				return this._MstUser.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser.Entity = null;
+						previousValue.TrnProcedures.Remove(this);
+					}
+					this._MstUser.Entity = value;
+					if ((value != null))
+					{
+						value.TrnProcedures.Add(this);
+						this._UserId = value.Id;
+					}
+					else
+					{
+						this._UserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TrnProcedureResults(TrnProcedureResult entity)
+		{
+			this.SendPropertyChanging();
+			entity.TrnProcedure = this;
+		}
+		
+		private void detach_TrnProcedureResults(TrnProcedureResult entity)
+		{
+			this.SendPropertyChanging();
+			entity.TrnProcedure = null;
 		}
 	}
 }

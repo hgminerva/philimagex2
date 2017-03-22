@@ -79,6 +79,14 @@ var utilities = (function () {
                 var BirthDate = "";
                 var Age = "";
                 var Gender = "";
+                var BodyPart = "";
+                var Particulars = "";
+                var StudyDate = "";
+                var PatientAddress = "";
+                var ReferringPhysician = "";
+                var HospitalNumber = "";
+                var HospitalWardNumber = "";
+
                 for(var i=0;!eNum.atEnd();eNum.moveNext())
                 {
                     var DICOMFile = ThePath + "\\" + eNum.item().Name;
@@ -136,6 +144,13 @@ var utilities = (function () {
                             }
                         }
 
+                        // Body Part
+                        if (str.indexOf("Body Part Examined") > -1) {
+                            if (returnFlag == false) {
+                                BodyPart = str.substring(74).replace(/\s+/g, '');
+                            }
+                        }
+
                         // Patient's Birth Date
                         if (str.indexOf("Patient's Birth Date") > -1) {
                             if (returnFlag == false) {
@@ -144,7 +159,7 @@ var utilities = (function () {
                         }
 
                         // Patient's Sex
-                        if (str.indexOf("Patient's Sex") > -1) {
+                        if (str.indexOf("(0010),(0040)") > -1) {
                             if (returnFlag == false) {
                                 Gender = str.substring(74).replace(/\s+/g, '');
                             }
@@ -154,6 +169,41 @@ var utilities = (function () {
                         if (str.indexOf("Patient's Age") > -1) {
                             if (returnFlag == false) {
                                 Age = str.substring(74).replace(/\s+/g, '');
+                            }
+                        }
+
+                        // Particulars (Clinical Information)
+                        if (str.indexOf("Series Description") > -1) {
+                            if (returnFlag == false) {
+                                Particulars = str.substring(74).replace(/\s+/g, '');
+                            }
+                        }
+
+                        // Study Date
+                        if (str.indexOf("Study Date") > -1) {
+                            if (returnFlag == false) {
+                                StudyDate = str.substring(74).replace(/\s+/g, '');
+                            }
+                        }
+
+                        // Referring Physician
+                        if (str.indexOf("Performing Physician’s Name") > -1) {
+                            if (returnFlag == false) {
+                                ReferringPhysician = str.substring(74).replace(/\s+/g, '');
+                            }
+                        }
+
+                        // Hospital Number
+                        if (str.indexOf("(0010),(0020)") > -1) { // Patient Id
+                            if (returnFlag == false) {
+                                HospitalNumber = str.substring(74).replace(/\s+/g, '');
+                            }
+                        }
+
+                        // HospitalWardNumber
+                        if (str.indexOf("Current Patient Location") > -1) {
+                            if (returnFlag == false) {
+                                HospitalWardNumber = str.substring(74).replace(/\s+/g, '');
                             }
                         }
                     }
@@ -172,7 +222,14 @@ var utilities = (function () {
                         "PatientId": PatientId,
                         "BirthDate": BirthDate,
                         "Gender": Gender,
-                        "Age": Age
+                        "Age": Age,
+                        "BodyPart": BodyPart,
+                        "Particulars": Particulars,
+                        "StudyDate": StudyDate,
+                        "PatientAddress": "NA",
+                        "ReferringPhysician": ReferringPhysician,
+                        "HospitalNumber": HospitalNumber,
+                        "HospitalWardNumber": HospitalWardNumber
                     };
                     return PatientInfo;
                 }
@@ -183,7 +240,14 @@ var utilities = (function () {
                 "PatientId": "NA",
                 "BirthDate": "NA",
                 "Gender": "NA",
-                "Age": "NA"
+                "Age": "NA",
+                "BodyPart": "NA",
+                "Particulars": "NA",
+                "StudyDate": "NA",
+                "PatientAddress": "NA",
+                "ReferringPhysician": "NA",
+                "HospitalNumber": "NA",
+                "HospitalWardNumber": "NA"
             };
             return EmptyPatientInfo;
         },
