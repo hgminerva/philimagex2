@@ -173,9 +173,16 @@ var utilities = (function () {
                         }
 
                         // Particulars (Clinical Information)
-                        if (str.indexOf("Series Description") > -1) {
+                        if (str.indexOf("(0019),(10D3)") > -1) {
                             if (returnFlag == false) {
                                 Particulars = str.substring(74).replace(/\s+/g, '');
+                            }
+                        }
+
+                        // Patient's Address
+                        if (str.indexOf("(0019),(10D4)") > -1) {
+                            if (returnFlag == false) {
+                                PatientAddress = str.substring(74).replace(/\s+/g, '');
                             }
                         }
 
@@ -187,7 +194,7 @@ var utilities = (function () {
                         }
 
                         // Referring Physician
-                        if (str.indexOf("Performing Physician’s Name") > -1) {
+                        if (str.indexOf("(0008),(0090)") > -1) {
                             if (returnFlag == false) {
                                 ReferringPhysician = str.substring(74).replace(/\s+/g, '');
                             }
@@ -226,7 +233,7 @@ var utilities = (function () {
                         "BodyPart": BodyPart,
                         "Particulars": Particulars,
                         "StudyDate": StudyDate,
-                        "PatientAddress": "NA",
+                        "PatientAddress": PatientAddress,
                         "ReferringPhysician": ReferringPhysician,
                         "HospitalNumber": HospitalNumber,
                         "HospitalWardNumber": HospitalWardNumber

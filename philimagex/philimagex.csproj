@@ -175,7 +175,9 @@
     <Compile Include="ApiControllers\ApiModalityController.cs" />
     <Compile Include="ApiControllers\ApiModalityProcedureController.cs" />
     <Compile Include="ApiControllers\ApiProcedureController.cs" />
+    <Compile Include="ApiControllers\ApiProcedureExternalController.cs" />
     <Compile Include="ApiControllers\ApiProcedureResultController.cs" />
+    <Compile Include="ApiControllers\ApiResultController.cs" />
     <Compile Include="ApiControllers\ApiUserController.cs" />
     <Compile Include="ApiControllers\ApiUserDoctorController.cs" />
     <Compile Include="ApiControllers\ApiUserRateController.cs" />
@@ -247,6 +249,7 @@
     <Content Include="Images\Logo\lrmedical.jpg" />
     <Content Include="Images\Logo\margosatubig-rad.jpg" />
     <Content Include="Images\Logo\margosatubig.jpg" />
+    <Content Include="Images\Logo\mcitpf-1.jpg" />
     <Content Include="Images\Logo\mcitpf.jpg" />
     <Content Include="Images\Signature\adiones.png" />
     <Content Include="Images\Signature\alex.png" />

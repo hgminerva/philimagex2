@@ -549,8 +549,8 @@
         function DateFormat(date) {
             function pad(n) { return n < 10 ? '0' + n : n }
             return date.getUTCFullYear() + '-'
-            + pad(date.getUTCMonth() + 1) + '-'
-            + pad(date.getUTCDate() + 1)
+            + pad(date.getMonth() + 1) + '-'
+            + pad(date.getDate())
         }
 
         function ConvertTimeformat(format, str) {
@@ -732,28 +732,45 @@
 
             DicomFile = "C" + DicomFile.substring(1, DicomFile.length);
 
-            myObject = new ActiveXObject("Scripting.FileSystemObject");
-            if (myObject.FileExists(DicomFile)) {
-                var DicomFiles = DicomFile.split(';');
-                var NumberOfFiles = DicomFiles.length;
-                if (NumberOfFiles > 1) {
-                    for (index = 0; index < DicomFiles.length; index++) {
-                        utilities.runDicomFileC(DicomFiles[index]);
+            var DicomFiles = DicomFile.split(';');
+            var NumberOfFiles = DicomFiles.length;
+
+            var myObject = new ActiveXObject("Scripting.FileSystemObject");
+
+            var files = "";
+            var fileDrive = "C";
+
+            if (NumberOfFiles > 1) {
+                for (index = 0; index < DicomFiles.length; index++) {
+                    DicomFiles[index] = "C" + DicomFiles[index].substring(1, DicomFiles[index].length);
+                    if (myObject.FileExists(DicomFiles[index])) {
+                        //utilities.runDicomFileC(DicomFiles[index]);
+                        files = files + " " + DicomFiles[index];
+                    } else {
+                        DicomFiles[index] = "D" + DicomFiles[index].substring(1, DicomFiles[index].length);
+                        if (myObject.FileExists(DicomFiles[index])) {
+                            //utilities.runDicomFileD(DicomFiles[index]);
+                            files = files + " " + DicomFiles[index];
+                            fileDrive = "D";
+                        } else {
+                            toastr.error("Cannot find DICOM file.");
+                        }
                     }
+                }
+                if (fileDrive == "C") {
+                    utilities.runDicomFileC(files);
                 } else {
-                    utilities.runDicomFileC(DicomFile);
+                    utilities.runDicomFileD(files);
                 }
             } else {
-                DicomFile = "D" + DicomFile.substring(1, DicomFile.length);
-                if (DicomFile != "") {
-                    var DicomFiles = DicomFile.split(';');
-                    var NumberOfFiles = DicomFiles.length;
-                    if (NumberOfFiles > 1) {
-                        for (index = 0; index < DicomFiles.length; index++) {
-                            utilities.runDicomFileD(DicomFiles[index]);
-                        }
-                    } else {
+                if (myObject.FileExists(DicomFile)) {
+                    utilities.runDicomFileC(DicomFile);
+                } else {
+                    DicomFile = "D" + DicomFile.substring(1, DicomFile.length);
+                    if (myObject.FileExists(DicomFile)) {
                         utilities.runDicomFileD(DicomFile);
+                    } else {
+                        toastr.error("Cannot find DICOM file.");
                     }
                 }
             }

@@ -22,7 +22,7 @@
                         <h1>DMTiPACS</h1>
                         <h2>Image Solutions</h2>
                         <br />
-                        <div class="title-description">DMTiPACS provides one workspace for the clinical tools and applications for physicians and radiologists need for convenient local and remote reporting.</div>
+                        <div class="title-description">Complete Software-as-a-Service (SaaS) Telerad Application with unlimited and independent cloud storage.</div>
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li>
@@ -47,7 +47,20 @@
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
                     <h2 class="section-heading">DMTiPACS Image Solutions</h2>
-                    <p class="lead">DMTiPACS provides one workspace for the clinical tools and applications for physicians and radiologists need for convenient local and remote reporting.</p>
+                    <p class="lead">Complete Software-as-a-Service (SaaS) Telerad Application with unlimited and independent cloud storage.</p>
+                    <p class="lead">DMTiPACS is an end-to-end cloud-based Telerad Application that covers medical equipment integration to remote reading and printing of results.</p>
+                    <p>Features:</p>
+                    <p>
+                        <ul>
+                            <li>100% Cloud Application with independent storage.</li>
+                            <li>Fully integrated PACS recording and real-time cloud study entries.</li>
+                            <li>Customizable DICOM code entries.</li>
+                            <li>Customizable doctor's template.</li>
+                            <li>Customizable result reports.</li>
+                            <li>Multi-level security with physician electronic signature.</li>
+                            <li>Online management reports, e.g., Billing Transactions.</li>
+                        </ul>
+                    </p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive" src="~/Images/dmtipacs_stations.png" alt="">
@@ -64,16 +77,17 @@
                     <br /><br />
                     <div class="col-lg-3"><img class="img-responsive" src="~/Images/logo/alcantara.jpg" alt=""></div>
                     <div class="col-lg-3"><img class="img-responsive" src="~/Images/logo/lrmedical.jpg" alt=""></div>
-                    <div class="col-lg-3"><img class="img-responsive" src="~/Images/logo/mcitpf.jpg" alt=""></div>
+                    <div class="col-lg-3"><img class="img-responsive" src="~/Images/logo/mcitpf-1.jpg" alt=""></div>
+                    <div class="col-lg-3"><img class="img-responsive" src="~/Images/logo/margosatubig.jpg" alt=""></div>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
                     <h2 class="section-heading">Customers</h2>
                     <p class="lead">Join our growing customers.</p>
-                    <ul>
-                        <li> 3 Hospitals / Healthcare Facilities</li>
-                        <li> 5 Radiologist / Doctors </li>
+                    <ul id="homePageStatus">
+                        @*<li> 3 Hospitals / Healthcare Facilities</li>
+                        <li> 5 Radiologist / Doctors </li>*@
                     </ul>
                     <p class="lead"><a href="~/Images/TeleradBrochure.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> - Download Brochure</a></p>
                 </div>
@@ -159,6 +173,24 @@
     <!-- Scripts -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: '/api/user/listHomePageStatus',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (results) {
+                    for (i = 0; i < results.length; i++) {
+                        $('#homePageStatus').append('<li>' + results[i] + '</li>');
+                    }
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
 

@@ -13,48 +13,48 @@ using System.Web.Http;
 
 namespace philimagex.Controllers
 {
-    public class PDFController : ApiController
+    public class PDFController
     {
         private Data.philimagexdbDataContext db = new Data.philimagexdbDataContext();
 
-        public HttpResponseMessage Get()
-        {
-            NameValueCollection nvc = HttpUtility.ParseQueryString(Request.RequestUri.Query);
-            string Report = nvc["Report"].ToString();
-            Int32 Id = Convert.ToInt32(nvc["Id"]);
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
+        //public HttpResponseMessage Get()
+        //{
+        //    NameValueCollection nvc = HttpUtility.ParseQueryString(Request.RequestUri.Query);
+        //    string Report = nvc["Report"].ToString();
+        //    Int32 Id = Convert.ToInt32(nvc["Id"]);
+        //    var response = new HttpResponseMessage(HttpStatusCode.OK);
 
-            switch (Report)
-            {
-                case "ProcedureResult":
-                    response.Content = new StreamContent(this.ProcedureResult(Id));
-                    response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                    break;
-            }
+        //    switch (Report)
+        //    {
+        //        case "ProcedureResult":
+        //            response.Content = new StreamContent(this.ProcedureResult(Id));
+        //            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+        //            break;
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
 
-        private PdfPCell CreateRightAlignedCell(string text, Font font, int span)
+        public PdfPCell CreateRightAlignedCell(string text, Font font, int span)
         {
             PdfPCell cell = new PdfPCell(new Phrase(text, font)) { HorizontalAlignment = PdfPCell.ALIGN_RIGHT };
             cell.Colspan = span;
             return cell;
         }
-        private PdfPCell CreateLeftAlignedCell(string text, Font font, int span)
+        public PdfPCell CreateLeftAlignedCell(string text, Font font, int span)
         {
             PdfPCell cell = new PdfPCell(new Phrase(text, font)) { HorizontalAlignment = PdfPCell.ALIGN_LEFT };
             cell.Colspan = span;
             return cell;
         }
-        private PdfPCell CreateCenterAlignedCell(string text, Font font, int span)
+        public PdfPCell CreateCenterAlignedCell(string text, Font font, int span)
         {
             PdfPCell cell = new PdfPCell(new Phrase(text, font)) { HorizontalAlignment = PdfPCell.ALIGN_CENTER };
             cell.Colspan = span;
             return cell;
         }
 
-        private MemoryStream ProcedureResult(Int32 Id)
+        public MemoryStream ProcedureResult(Int32 Id)
         {
             var doc = new Document(PageSize.LETTER, 50, 50, 25, 25);
             var stream = new MemoryStream();
@@ -243,7 +243,8 @@ namespace philimagex.Controllers
                     FooterTable.AddCell(new PdfPCell(new Phrase("Radiologist:", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
-                    FooterTable.AddCell(new PdfPCell(signatureCellImage) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(signatureCellImage) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(signatureCellImage) { Border = 0, PaddingTop = 2f, PaddingBottom = 0, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(ProcedureResults.First().MstUser.FullName, TableHeaderFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });

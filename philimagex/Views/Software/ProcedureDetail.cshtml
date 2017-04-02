@@ -96,7 +96,7 @@
                                         <dd><input type="text" class="form-control requiredProcedure" id="procedureAge" placeholder="Age" /></dd>
                                         <dt>Particulars</dt>
                                         <dd>
-                                            <textarea class="form-control requiredProcedure" rows="10" id="procedureParticulars" placeholder="DICOM File"></textarea>
+                                            <textarea class="form-control requiredProcedure" rows="10" id="procedureParticulars" placeholder="Particulars"></textarea>
                                         </dd>
                                     </dl>
                                 </div>
@@ -561,7 +561,7 @@
                         }
                     }
                     // Particulars
-                    document.getElementById("procedureParticulars").value = PatientInfo.Particulars;
+                    document.getElementById("procedureParticulars").value = PatientInfo.Particulars == "" ? "NA" : PatientInfo.Particulars;
                     // Study Date
                     document.getElementById("procedureStudyDate").value = PatientInfo.StudyDate;
                     // Patient Address

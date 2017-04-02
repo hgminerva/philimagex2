@@ -184,5 +184,43 @@ namespace philimagex.ApiControllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
+
+        // home page report
+        [HttpGet]
+        [Route("api/user/listHomePageStatus")]
+        public List<String> listHomePageStatus()
+        {
+            List<String> status = new List<String>();
+
+            var doctors = from d in db.MstUsers where d.UserTypeId == 2 select d;
+            if (doctors.Any())
+            {
+                long numberOfDoctors = doctors.Count();
+                status.Add("Total number of Physicians: " + numberOfDoctors.ToString("N0"));
+            }
+
+            var facilities = from d in db.MstUsers where d.UserTypeId == 1 select d;
+            if (facilities.Any())
+            {
+                long numberOfFacilities = facilities.Count();
+                status.Add("Total number of Hospitals / Healthcare Facilities: " + numberOfFacilities.ToString("N0"));
+            }
+
+            var studies = from d in db.TrnProcedures select d;
+            if (studies.Any())
+            {
+                long numberOfStudies = studies.Count();
+                status.Add("Total number of Studies / Procedures performed: " + numberOfStudies.ToString("N0"));
+            }
+
+            var results = from d in db.TrnProcedureResults select d;
+            if (results.Any())
+            {
+                long numberOfResults= results.Count();
+                status.Add("Total number of Results given: " + numberOfResults.ToString("N0"));
+            }
+
+            return status;
+        }
     }
 }
