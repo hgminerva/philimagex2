@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 
 namespace philimagex.ApiControllers
@@ -12,6 +14,9 @@ namespace philimagex.ApiControllers
     {
         // data
         private Data.philimagexdbDataContext db = new Data.philimagexdbDataContext();
+
+        // pdf report
+        private Controllers.PDFController pdf = new Controllers.PDFController();
 
         // body procedure result
         [Authorize]
@@ -55,6 +60,8 @@ namespace philimagex.ApiControllers
                 db.TrnProcedureResults.InsertOnSubmit(newProcedureResult);
                 db.SubmitChanges();
 
+                if (newProcedureResult.TrnProcedure.UserId == 24) sendPDFEmail(newProcedureResult.Id); 
+
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch
@@ -82,6 +89,8 @@ namespace philimagex.ApiControllers
                     updaterPocedureResult.DoctorDateTime = DateTime.Now;
 
                     db.SubmitChanges();
+
+                    if (updaterPocedureResult.TrnProcedure.UserId==24) sendPDFEmail(updaterPocedureResult.Id);
 
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }
@@ -163,6 +172,53 @@ namespace philimagex.ApiControllers
             {
                 Debug.WriteLine(e);
                 return null;
+            }
+        }
+
+        private void sendPDFEmail(Int32 procedureResultId)
+        {
+            var pocedureResults = from d in db.TrnProcedureResults where d.Id == procedureResultId select d;
+
+            if (pocedureResults.Any())
+            {
+                var procedureResult = pocedureResults.FirstOrDefault();
+
+                MemoryStream attachmentPDF = pdf.ProcedureResult(procedureResult.Id);
+
+                string sender = "dmtipacs.margosatubig@gmail.com";
+                string receiver = "margosatubig.bsi@gmail.com";
+
+                MailMessage mm = new MailMessage(sender, receiver);
+
+                //string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + procedureResult.TrnProcedure.TransactionNumber + ".pdf";
+                //string fileName = procedureResult.TrnProcedure.PatientName.Replace(" ", "^") + "_" +
+                //                  procedureResult.TrnProcedure.StudyDate == null ? "" : procedureResult.TrnProcedure.StudyDate + "_" + 
+                //                  procedureResult.TrnProcedure.StudyInstanceId == null ? "" : procedureResult.TrnProcedure.StudyInstanceId + "_" + 
+                //                  DateTime.Now.ToString("yyyyMMddHHmmss") + ".pdf";
+
+                string patientName = procedureResult.TrnProcedure.PatientName == null ? "NA" : procedureResult.TrnProcedure.PatientName.Replace(" ","^");
+                string studyUId = procedureResult.TrnProcedure.StudyInstanceId == null ? "NA" : procedureResult.TrnProcedure.StudyInstanceId;
+                string fileName = patientName + "_" + studyUId + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".pdf";
+
+                mm.Subject = fileName;
+                mm.Body = fileName;
+
+                mm.Attachments.Add(new Attachment(attachmentPDF, fileName));
+
+                mm.IsBodyHtml = true;
+
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+
+                NetworkCredential NetworkCred = new NetworkCredential();
+                NetworkCred.UserName = "dmtipacs.margosatubig@gmail.com";
+                NetworkCred.Password = "@dmtipacs1";
+
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = 587;
+                smtp.Send(mm);
             }
         }
 

@@ -3,7 +3,7 @@
   <Table Name="dbo.AspNetRoles" Member="AspNetRoles">
     <Type Name="AspNetRole">
       <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Association Name="AspNetRole_AspNetUserRole" Member="AspNetUserRoles" ThisKey="Id" OtherKey="RoleId" Type="AspNetUserRole" />
     </Type>
   </Table>
@@ -15,25 +15,26 @@
       <Column Name="Result" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="DoctorId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DoctorDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="MstUser_TrnProcedureResult" Member="MstUser" ThisKey="DoctorId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstModalityProcedure_TrnProcedureResult" Member="MstModalityProcedure" ThisKey="ModalityProcedureId" OtherKey="Id" Type="MstModalityProcedure" IsForeignKey="true" />
+      <Association Name="MstUser_TrnProcedureResult" Member="MstUser" ThisKey="DoctorId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="TrnProcedure_TrnProcedureResult" Member="TrnProcedure" ThisKey="ProcedureId" OtherKey="Id" Type="TrnProcedure" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.AspNetUserClaims" Member="AspNetUserClaims">
     <Type Name="AspNetUserClaim">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
       <Column Name="ClaimType" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="ClaimValue" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="AspNetUser_AspNetUserClaim" Member="AspNetUser" ThisKey="UserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Column Name="User_Id" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Association Name="AspNetUser_AspNetUserClaim" Member="AspNetUser" ThisKey="User_Id" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.AspNetUserLogins" Member="AspNetUserLogins">
     <Type Name="AspNetUserLogin">
+      <Column Name="UserId" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="LoginProvider" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="ProviderKey" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="AspNetUser_AspNetUserLogin" Member="AspNetUser" ThisKey="UserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
@@ -48,19 +49,20 @@
   <Table Name="dbo.AspNetUsers" Member="AspNetUsers">
     <Type Name="AspNetUser">
       <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SecurityStamp" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Discriminator" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
       <Column Name="FullName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
       <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="SecurityStamp" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="PhoneNumberConfirmed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="TwoFactorEnabled" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="LockoutEndDateUtc" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="LockoutEnabled" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="AccessFailedCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="AspNetUser_AspNetUserClaim" Member="AspNetUserClaims" ThisKey="Id" OtherKey="UserId" Type="AspNetUserClaim" />
+      <Association Name="AspNetUser_AspNetUserClaim" Member="AspNetUserClaims" ThisKey="Id" OtherKey="User_Id" Type="AspNetUserClaim" />
       <Association Name="AspNetUser_AspNetUserLogin" Member="AspNetUserLogins" ThisKey="Id" OtherKey="UserId" Type="AspNetUserLogin" />
       <Association Name="AspNetUser_AspNetUserRole" Member="AspNetUserRoles" ThisKey="Id" OtherKey="UserId" Type="AspNetUserRole" />
       <Association Name="AspNetUser_MstUser" Member="MstUsers" ThisKey="Id" OtherKey="AspNetUserId" Type="MstUser" />
@@ -81,6 +83,19 @@
       <Association Name="MstModality_TrnProcedure" Member="TrnProcedures" ThisKey="Id" OtherKey="ModalityId" Type="TrnProcedure" />
     </Type>
   </Table>
+  <Table Name="dbo.MstModalityProcedure" Member="MstModalityProcedures">
+    <Type Name="MstModalityProcedure">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ModalityId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ModalityProcedure" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ModalityResultTemplate" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DoctorId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="MstModalityProcedure_TrnProcedureResult" Member="TrnProcedureResults" ThisKey="Id" OtherKey="ModalityProcedureId" Type="TrnProcedureResult" />
+      <Association Name="MstModalityProcedure_MstUserRate" Member="MstUserRates" ThisKey="Id" OtherKey="ModalityProcedureId" Type="MstUserRate" />
+      <Association Name="MstModality_MstModalityProcedure" Member="MstModality" ThisKey="ModalityId" OtherKey="Id" Type="MstModality" IsForeignKey="true" />
+      <Association Name="MstUser_MstModalityProcedure" Member="MstUser" ThisKey="DoctorId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.MstUser" Member="MstUsers">
     <Type Name="MstUser">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -91,10 +106,10 @@
       <Column Name="UserTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AspNetUserId" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
       <Association Name="MstUser_TrnProcedureResult" Member="TrnProcedureResults" ThisKey="Id" OtherKey="DoctorId" Type="TrnProcedureResult" />
+      <Association Name="MstUser_MstModalityProcedure" Member="MstModalityProcedures" ThisKey="Id" OtherKey="DoctorId" Type="MstModalityProcedure" />
       <Association Name="MstUser_MstUserDoctor" Member="MstUserDoctors" ThisKey="Id" OtherKey="UserId" Type="MstUserDoctor" />
       <Association Name="MstUser_MstUserDoctor1" Member="MstUserDoctors1" ThisKey="Id" OtherKey="DoctorId" Type="MstUserDoctor" />
       <Association Name="MstUser_MstUserRate" Member="MstUserRates" ThisKey="Id" OtherKey="UserId" Type="MstUserRate" />
-      <Association Name="MstUser_MstModalityProcedure" Member="MstModalityProcedures" ThisKey="Id" OtherKey="DoctorId" Type="MstModalityProcedure" />
       <Association Name="MstUser_TrnProcedure" Member="TrnProcedures" ThisKey="Id" OtherKey="UserId" Type="TrnProcedure" />
       <Association Name="AspNetUser_MstUser" Member="AspNetUser" ThisKey="AspNetUserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" />
       <Association Name="MstUserType_MstUser" Member="MstUserType" ThisKey="UserTypeId" OtherKey="Id" Type="MstUserType" IsForeignKey="true" />
@@ -119,8 +134,8 @@
       <Column Name="DoctorRate" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
       <Column Name="ImageRate" Type="System.Decimal" DbType="Decimal(18,5) NOT NULL" CanBeNull="false" />
       <Column Name="Remarks" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Association Name="MstUser_MstUserRate" Member="MstUser" ThisKey="UserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstModalityProcedure_MstUserRate" Member="MstModalityProcedure" ThisKey="ModalityProcedureId" OtherKey="Id" Type="MstModalityProcedure" IsForeignKey="true" />
+      <Association Name="MstUser_MstUserRate" Member="MstUser" ThisKey="UserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstUserType" Member="MstUserTypes">
@@ -128,19 +143,6 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="UserType" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="MstUserType_MstUser" Member="MstUsers" ThisKey="Id" OtherKey="UserTypeId" Type="MstUser" />
-    </Type>
-  </Table>
-  <Table Name="dbo.MstModalityProcedure" Member="MstModalityProcedures">
-    <Type Name="MstModalityProcedure">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ModalityId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ModalityProcedure" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="ModalityResultTemplate" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="DoctorId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="MstModalityProcedure_TrnProcedureResult" Member="TrnProcedureResults" ThisKey="Id" OtherKey="ModalityProcedureId" Type="TrnProcedureResult" />
-      <Association Name="MstModalityProcedure_MstUserRate" Member="MstUserRates" ThisKey="Id" OtherKey="ModalityProcedureId" Type="MstUserRate" />
-      <Association Name="MstModality_MstModalityProcedure" Member="MstModality" ThisKey="ModalityId" OtherKey="Id" Type="MstModality" IsForeignKey="true" />
-      <Association Name="MstUser_MstModalityProcedure" Member="MstUser" ThisKey="DoctorId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.TrnProcedure" Member="TrnProcedures">
@@ -162,6 +164,7 @@
       <Column Name="StudyDate" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="HospitalNumber" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="HospitalWardNumber" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="StudyInstanceId" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Association Name="TrnProcedure_TrnProcedureResult" Member="TrnProcedureResults" ThisKey="Id" OtherKey="ProcedureId" Type="TrnProcedureResult" />
       <Association Name="MstBodyPart_TrnProcedure" Member="MstBodyPart" ThisKey="BodyPartId" OtherKey="Id" Type="MstBodyPart" IsForeignKey="true" />
       <Association Name="MstModality_TrnProcedure" Member="MstModality" ThisKey="ModalityId" OtherKey="Id" Type="MstModality" IsForeignKey="true" />

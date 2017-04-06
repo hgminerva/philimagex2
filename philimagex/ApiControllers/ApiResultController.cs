@@ -15,6 +15,7 @@ namespace philimagex.ApiControllers
         Controllers.PDFController pdf = new Controllers.PDFController();
         private Data.philimagexdbDataContext db = new Data.philimagexdbDataContext();
 
+        [Authorize]
         [HttpGet]
         [Route("api/pdf")]
         public HttpResponseMessage GetPDF()
@@ -35,6 +36,7 @@ namespace philimagex.ApiControllers
             return response;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("api/pdf/download")]
         public HttpResponseMessage GetPDFDownload()
@@ -74,5 +76,7 @@ namespace philimagex.ApiControllers
 
             return response;
         }
+
+
     }
 }

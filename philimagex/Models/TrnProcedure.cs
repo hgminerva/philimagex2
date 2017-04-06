@@ -31,5 +31,6 @@ namespace philimagex.Models
         public String StudyDate { get; set; }
         public String HospitalNumber { get; set; }
         public String HospitalWardNumber { get; set; }
+        public String StudyInstanceId { get; set; }
     }
 }

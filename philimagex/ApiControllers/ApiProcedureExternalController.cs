@@ -22,7 +22,22 @@ namespace philimagex.ApiControllers
 
                 if (procedures.Any())
                 {
-                    return "Transaction number already exist.";
+                    string newDicomFile = procedure.DICOMFileName.Replace("\\", "\\\\");
+
+                    Data.TrnProcedure updateProcedure = procedures.FirstOrDefault();
+
+                    if (updateProcedure.DICOMFileName.IndexOf(newDicomFile) == -1)
+                    {
+                        updateProcedure.DICOMFileName = updateProcedure.DICOMFileName + ";" + newDicomFile;
+
+                        db.SubmitChanges();
+
+                        return "Success";
+                    }
+                    else
+                    {
+                        return "Duplicate found.";
+                    }
                 }
                 else
                 {
@@ -85,6 +100,8 @@ namespace philimagex.ApiControllers
 
                     newProcedure.HospitalWardNumber = procedure.HospitalWardNumber == "" || procedure.HospitalWardNumber == null ? "NA" : procedure.HospitalWardNumber;
 
+                    newProcedure.StudyInstanceId = procedure.StudyInstanceId == "" || procedure.StudyInstanceId == null ? "NA" : procedure.StudyInstanceId;
+
                     db.TrnProcedures.InsertOnSubmit(newProcedure);
 
                     db.SubmitChanges();
@@ -119,6 +136,7 @@ namespace philimagex.ApiControllers
         public string ReferringPhysician;
         public string HospitalNumber;
         public string HospitalWardNumber;
+        public string StudyInstanceId;
 
         public int UserId;
     }

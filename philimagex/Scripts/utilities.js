@@ -86,6 +86,7 @@ var utilities = (function () {
                 var ReferringPhysician = "";
                 var HospitalNumber = "";
                 var HospitalWardNumber = "";
+                var StudyInstanceId = "";
 
                 for(var i=0;!eNum.atEnd();eNum.moveNext())
                 {
@@ -112,27 +113,14 @@ var utilities = (function () {
                         }
                         
                         // Patient’s Name
-                        if (str.indexOf("Patient’s Name") > -1) {
+                        if (str.indexOf("(0010),(0010)") > -1) {
                             if (returnFlag == false) {
                                 PatientName = str.substring(74).replace(/\s+/g, '').replace(/\^/g, ' ');
                             }
                         }
 
-                        // Patient ID
-                        //if (str.indexOf("Patient ID") > -1) {
-                        //    PatientId = str.substring(74).replace(/\s+/g, '');
-                        //    if (GivenPatientId == PatientId) {
-                        //        if (Files == "") {
-                        //            Files = FileName;
-                        //        } else {
-                        //            Files = Files + ";" + FileName;
-                        //        }
-                        //        foundFlag = true;
-                        //    } 
-                        //}
-
                         // Accession Number
-                        if (str.indexOf("Accession Number") > -1) {
+                        if (str.indexOf("(0008),(0050)") > -1) {
                             PatientId = str.substring(74).replace(/\s+/g, '');
                             if (GivenPatientId == PatientId) {
                                 if (Files == "") {
@@ -145,14 +133,14 @@ var utilities = (function () {
                         }
 
                         // Body Part
-                        if (str.indexOf("Body Part Examined") > -1) {
+                        if (str.indexOf("(0018),(0015)") > -1) {
                             if (returnFlag == false) {
                                 BodyPart = str.substring(74).replace(/\s+/g, '');
                             }
                         }
 
                         // Patient's Birth Date
-                        if (str.indexOf("Patient's Birth Date") > -1) {
+                        if (str.indexOf("(0010),(0030)") > -1) {
                             if (returnFlag == false) {
                                 BirthDate = str.substring(74).replace(/\s+/g, '');
                             }  
@@ -173,46 +161,54 @@ var utilities = (function () {
                         }
 
                         // Particulars (Clinical Information)
-                        if (str.indexOf("(0019),(10D3)") > -1) {
+                        if (str.indexOf("(0019),(10d3)") > -1) {
                             if (returnFlag == false) {
                                 Particulars = str.substring(74).replace(/\s+/g, '');
                             }
                         }
 
                         // Patient's Address
-                        if (str.indexOf("(0019),(10D4)") > -1) {
+                        if (str.indexOf("(0019),(10d4)") > -1) {
                             if (returnFlag == false) {
                                 PatientAddress = str.substring(74).replace(/\s+/g, '');
                             }
                         }
 
                         // Study Date
-                        if (str.indexOf("Study Date") > -1) {
+                        if (str.indexOf("(0008),(0020)") > -1) {
                             if (returnFlag == false) {
                                 StudyDate = str.substring(74).replace(/\s+/g, '');
                             }
                         }
 
                         // Referring Physician
-                        if (str.indexOf("(0008),(0090)") > -1) {
+                        if (str.indexOf("(0019),(10d2)") > -1) {
                             if (returnFlag == false) {
                                 ReferringPhysician = str.substring(74).replace(/\s+/g, '');
                             }
                         }
 
                         // Hospital Number
-                        if (str.indexOf("(0010),(0020)") > -1) { // Patient Id
+                        if (str.indexOf("(0010),(0020)") > -1) {
                             if (returnFlag == false) {
                                 HospitalNumber = str.substring(74).replace(/\s+/g, '');
                             }
                         }
 
-                        // HospitalWardNumber
-                        if (str.indexOf("Current Patient Location") > -1) {
+                        // Hospital Ward Number
+                        if (str.indexOf("(0038),(0300)") > -1) {
                             if (returnFlag == false) {
                                 HospitalWardNumber = str.substring(74).replace(/\s+/g, '');
                             }
                         }
+
+                        // Study Instance Id
+                        if (str.indexOf("(0020),(000d)") > -1) {
+                            if (returnFlag == false) {
+                                StudyInstanceId = str.substring(74).replace(/\s+/g, '');
+                            }
+                        }
+
                     }
                     iStream.Close();
                     i++;
@@ -236,7 +232,8 @@ var utilities = (function () {
                         "PatientAddress": PatientAddress,
                         "ReferringPhysician": ReferringPhysician,
                         "HospitalNumber": HospitalNumber,
-                        "HospitalWardNumber": HospitalWardNumber
+                        "HospitalWardNumber": HospitalWardNumber,
+                        "StudyInstanceId": StudyInstanceId
                     };
                     return PatientInfo;
                 }
@@ -254,7 +251,8 @@ var utilities = (function () {
                 "PatientAddress": "NA",
                 "ReferringPhysician": "NA",
                 "HospitalNumber": "NA",
-                "HospitalWardNumber": "NA"
+                "HospitalWardNumber": "NA",
+                "StudyInstanceId": "NA"
             };
             return EmptyPatientInfo;
         },

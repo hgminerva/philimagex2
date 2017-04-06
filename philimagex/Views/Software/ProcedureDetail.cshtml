@@ -118,6 +118,8 @@
                                             <dd><input type="text" class="form-control" id="procedureHospitalNumber" placeholder="Hospital Number" disabled /></dd>
                                             <dt>Hospital Ward Number</dt>
                                             <dd><input type="text" class="form-control" id="procedureHospitalWardNumber" placeholder="Hospital Ward Number" disabled /></dd>
+                                            <dt>Study Instance Id</dt>
+                                            <dd><input type="text" class="form-control" id="procedureStudyInstanceId" placeholder="Study Instance Id" disabled /></dd>
                                         </dl>
                                     </div>
                                 </div>
@@ -572,7 +574,8 @@
                     document.getElementById("procedureHospitalNumber").value = PatientInfo.HospitalNumber;
                     // Hospital Ward Number
                     document.getElementById("procedureHospitalWardNumber").value = PatientInfo.HospitalWardNumber;
-
+                    // Study Instance Id
+                    document.getElementById("procedureStudyInstanceId").value = PatientInfo.StudyInstanceId;
                 } else {
                     toastr.error("Cannot locate DICOM file.");
                 }

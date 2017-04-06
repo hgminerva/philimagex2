@@ -1,215 +1,215 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14.25, 14.875" name="philimagexdb">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14.5, 16.5" name="philimagexdb">
   <DataContextMoniker Name="/philimagexdbDataContext" />
   <nestedChildShapes>
-    <classShape Id="18d42f09-b70d-4e85-9053-587bb665d3b4" absoluteBounds="0.75, 5.875, 2, 1.1939925130208344">
+    <classShape Id="0d60271b-40e6-4819-9804-89a5e60febdc" absoluteBounds="0.75, 6.625, 2, 1.1939925130208344">
       <DataClassMoniker Name="/philimagexdbDataContext/AspNetRole" />
       <nestedChildShapes>
-        <elementListCompartment Id="8ffea0c4-886f-4fbd-a444-513e2b9ee62a" absoluteBounds="0.765, 6.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8b5364b2-85a8-4638-9a1c-16feecbc14db" absoluteBounds="0.765, 7.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="67dff59b-d40d-46ff-a9bc-8fe6d92d9209" absoluteBounds="9.25, 6.5, 2, 1.9631982421874996">
+    <classShape Id="872de6f8-0df6-4047-87a4-0ed7dcca7da0" absoluteBounds="12, 8.75, 2, 1.9631982421874987">
       <DataClassMoniker Name="/philimagexdbDataContext/TrnProcedureResult" />
       <nestedChildShapes>
-        <elementListCompartment Id="299f0129-b272-4a1f-86ff-b0faafa460b2" absoluteBounds="9.265, 6.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="db9948a1-c298-4b26-b6f1-17840edb1643" absoluteBounds="12.015, 9.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="85a9ef10-6b2f-4680-a08f-d3eaa2d13efe" absoluteBounds="3.5, 12.625, 2, 1.5785953776041666">
+    <classShape Id="a6eb9ec7-22a8-49af-b176-c2a977e91db7" absoluteBounds="3.5, 13.25, 2, 1.7708968098958344">
       <DataClassMoniker Name="/philimagexdbDataContext/AspNetUserClaim" />
       <nestedChildShapes>
-        <elementListCompartment Id="73cdca12-7a69-4d11-a621-c5c48f3ed8dc" absoluteBounds="3.515, 13.085, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="cfaceac5-6407-4e84-8fca-3ceca7fefdfe" absoluteBounds="3.515, 13.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="8c040b99-e579-4d13-888d-4c0f89fa86e3" absoluteBounds="3.5, 10.5, 2, 1.3862939453124987">
+    <classShape Id="d7a55ac7-fc19-40eb-961f-18bc92914e85" absoluteBounds="3.5, 11.125, 2, 1.3862939453124987">
       <DataClassMoniker Name="/philimagexdbDataContext/AspNetUserLogin" />
       <nestedChildShapes>
-        <elementListCompartment Id="1c48c3ec-d025-4ae5-ba31-de5f7789c30b" absoluteBounds="3.515, 10.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="bd57c302-6224-425a-a585-bc7685b6a0ca" absoluteBounds="3.515, 11.585, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="9eea9ec9-3f53-4ea8-8c3b-00c66d8531a3" absoluteBounds="3.5, 7.875, 2, 1.1939925130208344">
+    <classShape Id="b19f5f13-1bc3-4c03-81ff-b694280d018c" absoluteBounds="3.5, 8.625, 2, 1.1939925130208344">
       <DataClassMoniker Name="/philimagexdbDataContext/AspNetUserRole" />
       <nestedChildShapes>
-        <elementListCompartment Id="1b949910-87f0-4c75-93dc-15efdc2a2c09" absoluteBounds="3.515, 8.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="767ad376-99f6-4a84-a02c-fd71be98d6b6" absoluteBounds="3.515, 9.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="7e8ba36c-4bdc-480b-a9da-b845639218d5" absoluteBounds="0.75, 8.75, 2, 3.3093082682291666">
+    <classShape Id="8f08c378-fa3c-4368-b633-b25a1cac7eb9" absoluteBounds="0.75, 9.375, 2, 3.5016097005208344">
       <DataClassMoniker Name="/philimagexdbDataContext/AspNetUser" />
       <nestedChildShapes>
-        <elementListCompartment Id="b4c4cb18-5c70-4432-9da0-677f7422b727" absoluteBounds="0.765, 9.21, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="f53af12b-861a-4d3c-8c2b-2beb987e7bd9" absoluteBounds="0.765, 9.835, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="e5ae9179-19d6-40c1-9c50-36564db42849" absoluteBounds="9.5, 3.875, 2, 1.193992513020834">
+    <classShape Id="0a8c5e4a-ea19-4484-be2f-2b7d770dee1a" absoluteBounds="9.5, 13.625, 2, 1.1939925130208344">
       <DataClassMoniker Name="/philimagexdbDataContext/MstBodyPart" />
       <nestedChildShapes>
-        <elementListCompartment Id="64c3a914-7f2c-40f9-ba5c-acb8b7bba100" absoluteBounds="9.515, 4.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="73e5f563-06fc-4b04-bdc9-4f6fdc8d48c8" absoluteBounds="9.515, 14.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="024bd7bb-9faf-4853-90c5-0235ed664fb9" absoluteBounds="3.75, 2.875, 2, 1.193992513020834">
+    <classShape Id="d1f4df9d-3ff5-4181-8a72-af57bbaebc55" absoluteBounds="6.5, 7.625, 2, 1.1939925130208344">
       <DataClassMoniker Name="/philimagexdbDataContext/MstModality" />
       <nestedChildShapes>
-        <elementListCompartment Id="d0a5f44a-cbfc-4339-bc33-c2d1b111960b" absoluteBounds="3.765, 3.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8aa72f83-2220-4c54-8689-30ebc5270e4a" absoluteBounds="6.515, 8.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="ff2045e2-4ae8-4f79-a52f-6c37261c51f7" absoluteBounds="6.5, 9.375, 2, 2.1554996744791666">
-      <DataClassMoniker Name="/philimagexdbDataContext/MstUser" />
-      <nestedChildShapes>
-        <elementListCompartment Id="722e9565-70f1-4568-bb8a-d2d85b0f135c" absoluteBounds="6.515, 9.835, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="b3b9f781-cf7e-46b6-aca2-2e99d5e052ac" absoluteBounds="9.25, 9.75, 2, 1.3862939453124987">
-      <DataClassMoniker Name="/philimagexdbDataContext/MstUserDoctor" />
-      <nestedChildShapes>
-        <elementListCompartment Id="069f7cd1-6072-4d92-8afb-4230ffaa5c0b" absoluteBounds="9.265, 10.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="fdb8393c-0a24-4d30-adb7-847bbbd5aa49" absoluteBounds="9.25, 12.25, 2, 2.3478011067708344">
-      <DataClassMoniker Name="/philimagexdbDataContext/MstUserRate" />
-      <nestedChildShapes>
-        <elementListCompartment Id="b2c228d2-f611-4fef-8fab-c060406eba4f" absoluteBounds="9.265, 12.71, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="a45fe765-5166-4ffd-a865-930db0e10b08" absoluteBounds="3.75, 5.875, 2, 1.1939925130208344">
-      <DataClassMoniker Name="/philimagexdbDataContext/MstUserType" />
-      <nestedChildShapes>
-        <elementListCompartment Id="5d857735-9e04-4c0f-9ca0-0c453ef61158" absoluteBounds="3.765, 6.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(2.75 : 7.06899251302083); (3.125 : 7.44399251302083); (3.125 : 7.49908254422075); (3.50091745577925 : 7.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/AspNetRole/AspNetRole_AspNetUserRole" />
-      <nodes>
-        <classShapeMoniker Id="18d42f09-b70d-4e85-9053-587bb665d3b4" />
-        <classShapeMoniker Id="9eea9ec9-3f53-4ea8-8c3b-00c66d8531a3" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(1.75 : 12.0593082682292); (1.75 : 13.4142976888021); (3.5 : 13.4142976888021)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/AspNetUser/AspNetUser_AspNetUserClaim" />
-      <nodes>
-        <classShapeMoniker Id="7e8ba36c-4bdc-480b-a9da-b845639218d5" />
-        <classShapeMoniker Id="85a9ef10-6b2f-4680-a08f-d3eaa2d13efe" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 11.1931469726562); (3.5 : 11.1931469726562)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/AspNetUser/AspNetUser_AspNetUserLogin" />
-      <nodes>
-        <classShapeMoniker Id="7e8ba36c-4bdc-480b-a9da-b845639218d5" />
-        <classShapeMoniker Id="8c040b99-e579-4d13-888d-4c0f89fa86e3" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(1.75 : 8.75); (1.75 : 8.3124995); (3.5 : 8.3124995)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/AspNetUser/AspNetUser_AspNetUserRole" />
-      <nodes>
-        <classShapeMoniker Id="7e8ba36c-4bdc-480b-a9da-b845639218d5" />
-        <classShapeMoniker Id="9eea9ec9-3f53-4ea8-8c3b-00c66d8531a3" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(8 : 9.375); (8 : 8.00365118164062); (9.25 : 8.00365118164062)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_TrnProcedureResult" />
-      <nodes>
-        <classShapeMoniker Id="ff2045e2-4ae8-4f79-a52f-6c37261c51f7" />
-        <classShapeMoniker Id="67dff59b-d40d-46ff-a9bc-8fe6d92d9209" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 9.90625); (6.5 : 9.90625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/AspNetUser/AspNetUser_MstUser" />
-      <nodes>
-        <classShapeMoniker Id="7e8ba36c-4bdc-480b-a9da-b845639218d5" />
-        <classShapeMoniker Id="ff2045e2-4ae8-4f79-a52f-6c37261c51f7" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(8.5 : 10.4431469726562); (9.25 : 10.4431469726562)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_MstUserDoctor" />
-      <nodes>
-        <classShapeMoniker Id="ff2045e2-4ae8-4f79-a52f-6c37261c51f7" />
-        <classShapeMoniker Id="b3b9f781-cf7e-46b6-aca2-2e99d5e052ac" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(8.5 : 10.0340734863281); (9.25 : 10.0340734863281)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_MstUserDoctor1" />
-      <nodes>
-        <classShapeMoniker Id="ff2045e2-4ae8-4f79-a52f-6c37261c51f7" />
-        <classShapeMoniker Id="b3b9f781-cf7e-46b6-aca2-2e99d5e052ac" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(7.5 : 11.5304996744792); (7.5 : 12.8056977766927); (9.25 : 12.8056977766927)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_MstUserRate" />
-      <nodes>
-        <classShapeMoniker Id="ff2045e2-4ae8-4f79-a52f-6c37261c51f7" />
-        <classShapeMoniker Id="fdb8393c-0a24-4d30-adb7-847bbbd5aa49" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(5.65625 : 7.06899251302083); (5.65625 : 9.6093725); (6.5 : 9.6093725)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/MstUserType/MstUserType_MstUser" />
-      <nodes>
-        <classShapeMoniker Id="a45fe765-5166-4ffd-a865-930db0e10b08" />
-        <classShapeMoniker Id="ff2045e2-4ae8-4f79-a52f-6c37261c51f7" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="5d3357e8-bbfa-4bcc-b1ee-e75e650ab572" absoluteBounds="6.625, 2.375, 2, 1.7708968098958331">
+    <classShape Id="6e9bc0fb-3d2f-4f2c-9c7f-4126e4b287e4" absoluteBounds="9.25, 7.25, 2, 1.7708968098958335">
       <DataClassMoniker Name="/philimagexdbDataContext/MstModalityProcedure" />
       <nestedChildShapes>
-        <elementListCompartment Id="88b0eade-0e44-453a-884d-fbe50fcc1ca2" absoluteBounds="6.64, 2.835, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="5d56b5e3-dee5-488a-8cf3-f7e7e1d64a3d" absoluteBounds="9.265, 7.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(7.3125 : 4.14589680989583); (7.3125 : 7.22057309082031); (8.51041666666667 : 7.22057309082031 : JumpStart); (8.67708333333333 : 7.22057309082031 : JumpEnd); (9.25 : 7.22057309082031)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/MstModalityProcedure/MstModalityProcedure_TrnProcedureResult" />
-      <nodes>
-        <classShapeMoniker Id="5d3357e8-bbfa-4bcc-b1ee-e75e650ab572" />
-        <classShapeMoniker Id="67dff59b-d40d-46ff-a9bc-8fe6d92d9209" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(8.59375 : 4.14589680989583); (8.59375 : 13.7330019417318); (9.25 : 13.7330019417318)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/MstModalityProcedure/MstModalityProcedure_MstUserRate" />
-      <nodes>
-        <classShapeMoniker Id="5d3357e8-bbfa-4bcc-b1ee-e75e650ab572" />
-        <classShapeMoniker Id="fdb8393c-0a24-4d30-adb7-847bbbd5aa49" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(5.75 : 3.11099812825521); (6.625 : 3.11099812825521)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/MstModality/MstModality_MstModalityProcedure" />
-      <nodes>
-        <classShapeMoniker Id="024bd7bb-9faf-4853-90c5-0235ed664fb9" />
-        <classShapeMoniker Id="5d3357e8-bbfa-4bcc-b1ee-e75e650ab572" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(6.90625 : 9.375); (6.90625 : 4.14589680989583)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_MstModalityProcedure" />
-      <nodes>
-        <classShapeMoniker Id="ff2045e2-4ae8-4f79-a52f-6c37261c51f7" />
-        <classShapeMoniker Id="5d3357e8-bbfa-4bcc-b1ee-e75e650ab572" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="4e616899-8d3f-4d71-9010-9d480098bedf" absoluteBounds="12, 9.5, 2, 4.0785139973958326">
+    <classShape Id="8b2551be-fc19-456b-b8ae-eaf4b925d37f" absoluteBounds="6.5, 10.125, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/philimagexdbDataContext/MstUser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a97ae66d-e77b-4a2b-9b88-03c00a81c76d" absoluteBounds="6.515, 10.585, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7ce457eb-4a25-45c9-b759-e1f9459be989" absoluteBounds="9.25, 10.5, 2, 1.3862939453124987">
+      <DataClassMoniker Name="/philimagexdbDataContext/MstUserDoctor" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ce4ed530-9e2b-4a31-afc4-d9bcd93c7805" absoluteBounds="9.265, 10.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="54f636fa-49ea-4224-9b89-6c752a75a2f7" absoluteBounds="12, 5.625, 2, 2.3478011067708344">
+      <DataClassMoniker Name="/philimagexdbDataContext/MstUserRate" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8dc362ba-9a8f-4f28-91ce-98db342eedb8" absoluteBounds="12.015, 6.085, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="cd91de90-1eac-4a45-b9f8-9f7933ece382" absoluteBounds="3.75, 6.625, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/philimagexdbDataContext/MstUserType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="09cbda76-08a5-4f71-8f7c-796c7eb99522" absoluteBounds="3.765, 7.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="aa18f8bb-ff96-4089-82ba-4c9d16d79f4a" absoluteBounds="12.25, 12, 2, 4.2708154296874987">
       <DataClassMoniker Name="/philimagexdbDataContext/TrnProcedure" />
       <nestedChildShapes>
-        <elementListCompartment Id="8fcea2b1-bbf9-4fda-860c-85c18c5951d8" absoluteBounds="12.015, 9.96, 1.9700000000000002, 3.518513997395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="edca5d85-7f10-4bf6-b28d-1a7a75bb1a2a" absoluteBounds="12.265, 12.46, 1.9700000000000002, 3.7108154296875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(13 : 9.5); (13 : 7.48159912109375); (12.5520813333333 : 7.48159912109375 : JumpStart); (12.3854146666667 : 7.48159912109375 : JumpEnd); (11.4895833333333 : 7.48159912109375 : JumpStart); (11.3229166666667 : 7.48159912109375 : JumpEnd); (11.25 : 7.48159912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 7.81899251302083); (3.125 : 8.19399251302083); (3.125 : 8.25); (3.5 : 8.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/philimagexdbDataContext/AspNetRole/AspNetRole_AspNetUserRole" />
+      <nodes>
+        <classShapeMoniker Id="0d60271b-40e6-4819-9804-89a5e60febdc" />
+        <classShapeMoniker Id="b19f5f13-1bc3-4c03-81ff-b694280d018c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.75 : 12.8766097005208); (1.75 : 14.1354484049479); (3.5 : 14.1354484049479)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/AspNetUser/AspNetUser_AspNetUserClaim" />
+      <nodes>
+        <classShapeMoniker Id="8f08c378-fa3c-4368-b633-b25a1cac7eb9" />
+        <classShapeMoniker Id="a6eb9ec7-22a8-49af-b176-c2a977e91db7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 11.8181469726562); (3.5 : 11.8181469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/AspNetUser/AspNetUser_AspNetUserLogin" />
+      <nodes>
+        <classShapeMoniker Id="8f08c378-fa3c-4368-b633-b25a1cac7eb9" />
+        <classShapeMoniker Id="d7a55ac7-fc19-40eb-961f-18bc92914e85" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 9.59699625651042); (3.5 : 9.59699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/AspNetUser/AspNetUser_AspNetUserRole" />
+      <nodes>
+        <classShapeMoniker Id="8f08c378-fa3c-4368-b633-b25a1cac7eb9" />
+        <classShapeMoniker Id="b19f5f13-1bc3-4c03-81ff-b694280d018c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 9.02089680989583); (11.625 : 9.39589680989583); (11.625 : 8.375); (12 : 8.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/philimagexdbDataContext/MstModalityProcedure/MstModalityProcedure_TrnProcedureResult" />
+      <nodes>
+        <classShapeMoniker Id="6e9bc0fb-3d2f-4f2c-9c7f-4126e4b287e4" />
+        <classShapeMoniker Id="872de6f8-0df6-4047-87a4-0ed7dcca7da0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.5 : 8.22199625651042); (8.79166666666667 : 8.22199625651042 : JumpStart); (8.95833333333333 : 8.22199625651042 : JumpEnd); (8.97916666666667 : 8.22199625651042 : JumpStart); (9.14583333333333 : 8.22199625651042 : JumpEnd); (9.25 : 8.22199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/MstModality/MstModality_MstModalityProcedure" />
+      <nodes>
+        <classShapeMoniker Id="d1f4df9d-3ff5-4181-8a72-af57bbaebc55" />
+        <classShapeMoniker Id="6e9bc0fb-3d2f-4f2c-9c7f-4126e4b287e4" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.5 : 10.28125); (11.6666666666667 : 10.28125 : JumpStart); (11.8333333333333 : 10.28125 : JumpEnd); (12 : 10.28125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_TrnProcedureResult" />
+      <nodes>
+        <classShapeMoniker Id="8b2551be-fc19-456b-b8ae-eaf4b925d37f" />
+        <classShapeMoniker Id="872de6f8-0df6-4047-87a4-0ed7dcca7da0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.5 : 10.2203836153846); (9.0625 : 9.65788361538462); (9.0625 : 7.70474612825521); (9.25 : 7.70474612825521)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_MstModalityProcedure" />
+      <nodes>
+        <classShapeMoniker Id="8b2551be-fc19-456b-b8ae-eaf4b925d37f" />
+        <classShapeMoniker Id="6e9bc0fb-3d2f-4f2c-9c7f-4126e4b287e4" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 10.59375); (6.5 : 10.59375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/AspNetUser/AspNetUser_MstUser" />
+      <nodes>
+        <classShapeMoniker Id="8f08c378-fa3c-4368-b633-b25a1cac7eb9" />
+        <classShapeMoniker Id="8b2551be-fc19-456b-b8ae-eaf4b925d37f" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.5 : 11.1931469726562); (9.25 : 11.1931469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_MstUserDoctor" />
+      <nodes>
+        <classShapeMoniker Id="8b2551be-fc19-456b-b8ae-eaf4b925d37f" />
+        <classShapeMoniker Id="7ce457eb-4a25-45c9-b759-e1f9459be989" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.5 : 10.7840734863281); (9.25 : 10.7840734863281)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_MstUserDoctor1" />
+      <nodes>
+        <classShapeMoniker Id="8b2551be-fc19-456b-b8ae-eaf4b925d37f" />
+        <classShapeMoniker Id="7ce457eb-4a25-45c9-b759-e1f9459be989" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 7.61140055338542); (12 : 7.61140055338542)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/MstModalityProcedure/MstModalityProcedure_MstUserRate" />
+      <nodes>
+        <classShapeMoniker Id="6e9bc0fb-3d2f-4f2c-9c7f-4126e4b287e4" />
+        <classShapeMoniker Id="54f636fa-49ea-4224-9b89-6c752a75a2f7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.46769230769231 : 10.125); (8.875 : 9.71769230769231); (8.875 : 6.4062505); (12 : 6.4062505)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_MstUserRate" />
+      <nodes>
+        <classShapeMoniker Id="8b2551be-fc19-456b-b8ae-eaf4b925d37f" />
+        <classShapeMoniker Id="54f636fa-49ea-4224-9b89-6c752a75a2f7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.65625 : 7.81899251302083); (5.65625 : 10.3281225); (6.5 : 10.3281225)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/philimagexdbDataContext/MstUserType/MstUserType_MstUser" />
+      <nodes>
+        <classShapeMoniker Id="cd91de90-1eac-4a45-b9f8-9f7933ece382" />
+        <classShapeMoniker Id="8b2551be-fc19-456b-b8ae-eaf4b925d37f" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(13.125 : 12); (13.125 : 10.7131982421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/philimagexdbDataContext/TrnProcedure/TrnProcedure_TrnProcedureResult" />
       <nodes>
-        <classShapeMoniker Id="4e616899-8d3f-4d71-9010-9d480098bedf" />
-        <classShapeMoniker Id="67dff59b-d40d-46ff-a9bc-8fe6d92d9209" />
+        <classShapeMoniker Id="aa18f8bb-ff96-4089-82ba-4c9d16d79f4a" />
+        <classShapeMoniker Id="872de6f8-0df6-4047-87a4-0ed7dcca7da0" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(11.40625 : 5.06899251302083); (11.40625 : 11.6931469726562); (12 : 11.6931469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(11.5 : 14.2219962565104); (12.25 : 14.2219962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/philimagexdbDataContext/MstBodyPart/MstBodyPart_TrnProcedure" />
       <nodes>
-        <classShapeMoniker Id="e5ae9179-19d6-40c1-9c50-36564db42849" />
-        <classShapeMoniker Id="4e616899-8d3f-4d71-9010-9d480098bedf" />
+        <classShapeMoniker Id="0a8c5e4a-ea19-4484-be2f-2b7d770dee1a" />
+        <classShapeMoniker Id="aa18f8bb-ff96-4089-82ba-4c9d16d79f4a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.75 : 3.47199625651042); (6.375 : 3.47199625651042); (6.375 : 5.31899251302083); (6.82291666666667 : 5.31899251302083 : JumpStart); (6.98958333333333 : 5.31899251302083 : JumpEnd); (7.22916666666667 : 5.31899251302083 : JumpStart); (7.39583333333333 : 5.31899251302083 : JumpEnd); (8.51041666666667 : 5.31899251302083 : JumpStart); (8.67708333333333 : 5.31899251302083 : JumpEnd); (11.3229166666667 : 5.31899251302083 : JumpStart); (11.4895833333333 : 5.31899251302083 : JumpEnd); (12.468748 : 5.31899251302083); (12.468748 : 9.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.5 : 8.55174638476563); (8.75 : 8.55174638476563); (8.75 : 9.27089680989583); (8.79166666666667 : 9.27089680989583 : JumpStart); (8.95833333333333 : 9.27089680989583 : JumpEnd); (8.97916666666667 : 9.27089680989583 : JumpStart); (9.14583333333333 : 9.27089680989583 : JumpEnd); (11.4166666666667 : 9.27089680989583 : JumpStart); (11.7083333333333 : 9.27089680989583 : JumpEnd); (11.75 : 9.27089680989583); (11.75 : 10.9631982421875); (13.0416666666667 : 10.9631982421875 : JumpStart); (13.2083333333333 : 10.9631982421875 : JumpEnd); (13.718752 : 10.9631982421875); (13.718752 : 12)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/philimagexdbDataContext/MstModality/MstModality_TrnProcedure" />
       <nodes>
-        <classShapeMoniker Id="024bd7bb-9faf-4853-90c5-0235ed664fb9" />
-        <classShapeMoniker Id="4e616899-8d3f-4d71-9010-9d480098bedf" />
+        <classShapeMoniker Id="d1f4df9d-3ff5-4181-8a72-af57bbaebc55" />
+        <classShapeMoniker Id="aa18f8bb-ff96-4089-82ba-4c9d16d79f4a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.5 : 11.3646468098958); (8.51041666666667 : 11.3646468098958 : JumpStart); (8.67708333333333 : 11.3646468098958 : JumpEnd); (11.3229166666667 : 11.3646468098958 : JumpStart); (11.4895833333333 : 11.3646468098958 : JumpEnd); (12 : 11.3646468098958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(7.5 : 12.2804996744792); (7.5 : 15.5761539713542); (12.25 : 15.5761539713542)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/philimagexdbDataContext/MstUser/MstUser_TrnProcedure" />
       <nodes>
-        <classShapeMoniker Id="ff2045e2-4ae8-4f79-a52f-6c37261c51f7" />
-        <classShapeMoniker Id="4e616899-8d3f-4d71-9010-9d480098bedf" />
+        <classShapeMoniker Id="8b2551be-fc19-456b-b8ae-eaf4b925d37f" />
+        <classShapeMoniker Id="aa18f8bb-ff96-4089-82ba-4c9d16d79f4a" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>
