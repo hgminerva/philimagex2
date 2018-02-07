@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using System.Diagnostics;
+using System.Web;
+using System.Collections.Specialized;
 
 namespace philimagex.ApiControllers
 {
@@ -20,8 +22,17 @@ namespace philimagex.ApiControllers
         [Route("api/procedure/listByFacilityId/{facilityId}")]
         public List<Models.TrnProcedure> listProcedure(String facilityId)
         {
+            NameValueCollection nvc = HttpUtility.ParseQueryString(Request.RequestUri.Query);
+
+            String d1 = nvc["DateStart"] == "NA" ? d1 = DateTime.Now.ToString("yyyy-MM-dd") : nvc["DateStart"].ToString();
+            String d2 = nvc["DateEnd"] == "NA" ? d1 = DateTime.Now.ToString("yyyy-MM-dd") : nvc["DateEnd"].ToString();
+
+            DateTime DateStart = Convert.ToDateTime(d1);
+            DateTime DateEnd = Convert.ToDateTime(d2);
+
             var procedures = from d in db.TrnProcedures.OrderByDescending(d => d.TransactionNumber)
-                             where d.UserId == Convert.ToInt32(facilityId)
+                             where d.UserId == Convert.ToInt32(facilityId) &&
+                                  (d.TransactionDateTime >= DateStart && d.TransactionDateTime <= DateEnd.AddHours(24))
                              select new Models.TrnProcedure
                             {
                                 Id = d.Id,
@@ -87,6 +98,54 @@ namespace philimagex.ApiControllers
                              };
 
             return (Models.TrnProcedure)procedures.FirstOrDefault();
+        }
+
+        // get comparative procedure list
+        [Authorize]
+        [HttpGet]
+        [Route("api/procedure/getComparativeProcedureById/{id}/{facilityId}")]
+        public List<Models.TrnProcedure> listComparativeProcedure(String id, String facilityId)
+        {
+            var originalProcedure = from d in db.TrnProcedures where d.Id == Convert.ToInt32(id) select d;
+            if (originalProcedure.Any())
+            {
+                var procedures = from d in db.TrnProcedures.OrderByDescending(d => d.TransactionNumber)
+                                 where d.UserId == Convert.ToInt32(facilityId) &&
+                                       d.PatientName.Equals(originalProcedure.FirstOrDefault().PatientName) &&
+                                       d.Id != Convert.ToInt32(id)
+                                 select new Models.TrnProcedure
+                                 {
+                                    Id = d.Id,
+                                    TransactionNumber = d.TransactionNumber,
+                                    TransactionDateTime = d.TransactionDateTime.ToShortDateString(),
+                                    TransactionTime = d.TransactionDateTime.ToShortTimeString(),
+                                    DICOMFileName = d.DICOMFileName,
+                                    PatientName = d.PatientName,
+                                    Gender = d.Gender,
+                                    DateOfBirth = d.DateOfBirth.ToShortDateString(),
+                                    Age = d.Age,
+                                    Particulars = d.Particulars,
+                                    ModalityId = d.ModalityId,
+                                    Modality = d.MstModality.Modality,
+                                    BodyPartId = d.BodyPartId,
+                                    BodyPart = d.MstBodyPart.BodyPart,
+                                    UserId = d.UserId,
+                                    User = d.MstUser.UserName,
+                                    Doctor = (from r in db.TrnProcedureResults where r.ProcedureId == d.Id select r.MstUser.UserName).FirstOrDefault(),
+                                    PatientAddress = d.PatientAddress == null ? "NA" : d.PatientAddress,
+                                    ReferringPhysician = d.ReferringPhysician == null ? "NA" : d.ReferringPhysician,
+                                    StudyDate = d.StudyDate == null ? "NA" : d.StudyDate,
+                                    HospitalNumber = d.HospitalNumber == null ? "NA" : d.HospitalNumber,
+                                    HospitalWardNumber = d.HospitalWardNumber == null ? "NA" : d.HospitalWardNumber
+                                };
+
+                return procedures.ToList();
+            }
+            else
+            {
+                return new List<Models.TrnProcedure>();
+            }
+            
         }
 
         // add procedure

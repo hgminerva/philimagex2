@@ -50,7 +50,31 @@
                     </table>
                 </div>
                 <div class="panel-heading">
-                    <table style="width: 100%" border="0">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                <input type="text" class="form-control" id="inputFilter" placeholder="Search">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Date Start:</span>
+                                <div id="cboDateStart"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Date End:</span>
+                                <div id="cboDateEnd"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <button id="addButton" class="btn btn-primary pull-right" onclick="btnAddProcedureOnclick()"><i class="fa fa-plus fa-fw"></i>Add</button>
+                        </div>
+                    </div>
+
+                    @*<table style="width: 100%" border="0">
                         <tr>
                             <td style="width: 50%">
                                 <div class="input-group">
@@ -62,7 +86,7 @@
                                 <button id="addButton" class="btn btn-primary" onclick="btnAddProcedureOnclick()"><i class="fa fa-plus fa-fw"></i>Add</button>
                             </td>
                         </tr>
-                    </table>
+                    </table>*@
                 </div>
                 <div class="panel-body">
                     <div id="procedureFlexGrid" class="grid"></div>
@@ -121,12 +145,13 @@
                     <h4 id="ModalProcedureDetailTitle" class="modal-title">Procedure Detail</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row" id="procedureDetailTabs">
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#ProcedureInformation">Procedure</a></li>
                             <li><a data-toggle="tab" href="#ProcedureParticulars">Particulars</a></li>
                             <li><a data-toggle="tab" href="#ProcedureOtherInformation">Other Information</a></li>
                             <li><a data-toggle="tab" href="#ProcedureDicomFile">DICOM File</a></li>
+                            <li><a data-toggle="tab" href="#ProcedureHistory">History</a></li>
                         </ul>
                         <div class="tab-content">
                             <div id="ProcedureInformation" class="tab-pane active">
@@ -160,7 +185,7 @@
                                 <div class="col-lg-12">
                                     <span class="pull-right"><button class="btn btn-primary" id="addResultButton" onclick="btnAddProcedureResultOnclick()" disabled><i class="fa fa-plus fa-fw"></i>Add Result</button></span>
                                 </div>
-                                <div class ="col-lg-12">
+                                <div class="col-lg-12">
                                     &nbsp;
                                 </div>
                                 <div class="col-lg-12">
@@ -197,6 +222,20 @@
                                         <dt>DICOM File</dt>
                                         <dd><textarea class="form-control requiredProcedure" rows="10" id="procedureDICOMFile" placeholder="DICOM File" disabled></textarea></dd>
                                     </dl>
+                                </div>
+                            </div>
+                            <div id="ProcedureHistory" class="tab-pane">
+                                <div class="col-lg-12">
+                                    &nbsp;
+                                </div>
+                                <div class="col-lg-12">
+                                    <span class="pull-left"><button class="btn btn-success" id="btnViewProcedureAllDicom" onclick="btnViewProcedureAllDicomOnClick()"><i class="fa fa-eye fa-fw"></i>View All Images</button> - To view all images including historical studies for this patient.</span>
+                                </div>
+                                <div class="col-lg-12">
+                                    &nbsp;
+                                </div>
+                                <div class="col-lg-12">
+                                    <div id="procedureComparativeFlexGrid" class="grid"></div>
                                 </div>
                             </div>
                         </div>
@@ -277,6 +316,9 @@
         var procedureResultCollectionView;
         var procedureResultFlexGrid;
 
+        var procedureComparativeCollectionView;
+        var procedureComparativeFlexGrid;
+
         var btnFirstPageGrid;
         var btnPreviousPageGrid;
         var btnNextPageGrid;
@@ -291,11 +333,39 @@
 
         var procedureResultId;
 
+        var cboDateStart;
+        var cboDateEnd;
+
+        // create cbo Date Start
+        function createCboDateStart() {
+            cboDateStart = new wijmo.input.InputDate('#cboDateStart', {
+                format: 'yyyy-MM-dd',
+                value: new Date(), //new Date(Date.now() + -1*24*3600*1000),
+                mask: '9999-99-99',
+                onValueChanged: function () {
+                    makeProcedureGrid(cboDateStart.text, cboDateEnd.text);
+                }
+            });
+        }
+
+        // create cbo Date End
+        function createCboDateEnd() {
+            cboDateEnd = new wijmo.input.InputDate('#cboDateEnd', {
+                format: 'yyyy-MM-dd',
+                value: new Date(),
+                mask: '9999-99-99',
+                onValueChanged: function () {
+                    makeProcedureGrid(cboDateStart.text, cboDateEnd.text);
+                }
+            });
+        }
+
         // get procedure
-        function getProcedureData() {
+        function getProcedureData(dateStart, dateEnd) {
+            NProgress.start();
             var procedureArray = new wijmo.collections.ObservableArray;
             $.ajax({
-                url: '/api/procedure/listByFacilityId/' + getUrlParameter("facilityId"),
+                url: '/api/procedure/listByFacilityId/' + getUrlParameter("facilityId") + "?DateStart=" + dateStart + "&DateEnd=" + dateEnd,
                 cache: false,
                 type: 'GET',
                 contentType: 'application/json; charset=utf-8',
@@ -340,6 +410,135 @@
             return procedureArray;
         }
 
+        // make procedure grid
+        function makeProcedureGrid(dateStart, dateEnd) {
+            procedureCollectionView = new wijmo.collections.CollectionView(getProcedureData(dateStart, dateEnd));
+            procedureCollectionView.canFilter = true;
+            procedureCollectionView.pageSize = 15;
+
+            var filterText = '';
+            $('#inputFilter').keyup(function () {
+                filterText = this.value.toLowerCase();
+                procedureCollectionView.refresh();
+            });
+
+
+            procedureCollectionView.filter = function (item) {
+                return !filterText || (item.TransactionNumber.toLowerCase().indexOf(filterText) > -1)
+                                   || (item.PatientName.toLowerCase().indexOf(filterText) > -1)
+                                   || (item.Gender.toLowerCase().indexOf(filterText) > -1)
+                                   || (item.BodyPart.toLowerCase().indexOf(filterText) > -1)
+                                   || (item.Modality.toLowerCase().indexOf(filterText) > -1)
+                                   || (item.User.toLowerCase().indexOf(filterText) > -1);
+            }
+
+            procedureCollectionView.collectionChanged.addHandler(function (sender, args) {
+                updateNavigateButtons();
+            });
+
+            procedureFlexGrid.dispose();
+            procedureFlexGrid = new wijmo.grid.FlexGrid('#procedureFlexGrid');
+            procedureFlexGrid.initialize({
+                columns: [
+                            {
+                                "header": "View",
+                                "binding": "ViewButton",
+                                "width": 75,
+                                "align": "center",
+                                "allowResizing": false,
+                                "isContentHtml": true
+                            }, {
+                                "header": "Edit",
+                                "binding": "EditButton",
+                                "width": 75,
+                                "align": "center",
+                                "allowResizing": false,
+                                "isContentHtml": true
+                            },
+                            {
+                                "header": "Delete",
+                                "binding": "DeleteButton",
+                                "width": 75,
+                                "align": "center",
+                                "allowResizing": false,
+                                "isContentHtml": true
+                            },
+                            {
+                                "header": "Tx Number",
+                                "binding": "TransactionNumber",
+                                "allowSorting": true,
+                                "width": "1*",
+                            },
+                            {
+                                "header": "Date",
+                                "binding": "TransactionDateTime",
+                                "allowSorting": true,
+                                "width": "1*",
+                            },
+                            {
+                                "header": "Time",
+                                "binding": "TransactionTime",
+                                "allowSorting": true,
+                                "width": "0.5*",
+                            },
+                            {
+                                "header": "Patient",
+                                "binding": "PatientName",
+                                "allowSorting": true,
+                                "width": "2*",
+                            },
+                            {
+                                "header": "Gender",
+                                "binding": "Gender",
+                                "allowSorting": true,
+                                "width": "0.5*",
+                            },
+                            {
+                                "header": "Age",
+                                "binding": "Age",
+                                "allowSorting": true,
+                                "width": "0.5*",
+                            },
+                            {
+                                "header": "Mod",
+                                "binding": "Modality",
+                                "allowSorting": true,
+                                "width": "0.5*",
+                            },
+                            {
+                                "header": "Body Part",
+                                "binding": "BodyPart",
+                                "allowSorting": true,
+                                "width": "0.5*",
+                            },
+                            {
+                                "header": "Doctor",
+                                "binding": "Doctor",
+                                "allowSorting": true,
+                                "width": "0.8*",
+                            }
+                ],
+                autoGenerateColumns: false,
+                itemsSource: procedureCollectionView,
+                isReadOnly: true,
+                frozenColumns: 2,
+                autoSizeMode: wijmo.grid.AutoSizeMode.Both,
+                allowDragging: wijmo.grid.AllowDragging.None,
+                selectionMode: wijmo.grid.SelectionMode.Row
+            });
+
+            procedureFlexGrid.trackChanges = true;
+
+            // Navigation button
+            btnFirstPageGrid = document.getElementById('btnMoveToFirstPageGrid');
+            btnPreviousPageGrid = document.getElementById('btnMoveToPreviousPageGrid');
+            btnNextPageGrid = document.getElementById('btnMoveToNextPageGrid');
+            btnLastPageGrid = document.getElementById('btnMoveToLastPageGrid');
+            btnCurrentPageGrid = document.getElementById('btnCurrentPageGrid');
+
+            updateNavigateButtons();
+        }
+
         // get procedure result
         function getProcedureResultData(Id) {
             var procedureResultArray = new wijmo.collections.ObservableArray;
@@ -372,6 +571,51 @@
                 }
             });
             return procedureResultArray;
+        }
+
+        // get procedure comparative
+        function getProcedureComparativeData(Id) {
+            NProgress.start();
+            var procedureComparativeArray = new wijmo.collections.ObservableArray;
+            $.ajax({
+                url: '/api/procedure/getComparativeProcedureById/' + Id + '/' + getUrlParameter("facilityId"),
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (procedureListResult) {
+                    if (procedureListResult.length > 0) {
+                        for (i = 0; i < procedureListResult.length; i++) {
+                            var txDate = new Date(procedureListResult[i]["TransactionDateTime"]);
+                            procedureComparativeArray.push({
+                                Id: procedureListResult[i]["Id"],
+                                TransactionNumber: procedureListResult[i]["TransactionNumber"],
+                                TransactionDateTime: DateFormat(txDate),
+                                TransactionTime: ConvertTimeformat('00:00', procedureListResult[i]["TransactionTime"]),
+                                DICOMFileName: procedureListResult[i]["DICOMFileName"],
+                                PatientName: procedureListResult[i]["PatientName"].toUpperCase(),
+                                Gender: procedureListResult[i]["Gender"],
+                                DateOfBirth: procedureListResult[i]["DateOfBirth"],
+                                Age: procedureListResult[i]["Age"],
+                                Particulars: procedureListResult[i]["Particulars"],
+                                ModalityId: procedureListResult[i]["ModalityId"],
+                                Modality: procedureListResult[i]["Modality"],
+                                BodyPartId: procedureListResult[i]["BodyPartId"],
+                                BodyPart: procedureListResult[i]["BodyPart"],
+                                UserId: procedureListResult[i]["UserId"],
+                                User: procedureListResult[i]["User"],
+                                Doctor: procedureListResult[i]["Doctor"],
+                                StudyDate: procedureListResult[i]["StudyDate"],
+                                PatientAddress: procedureListResult[i]["PatientAddress"],
+                                ReferringPhysician: procedureListResult[i]["ReferringPhysician"],
+                                HospitalNumber: procedureListResult[i]["HospitalNumber"],
+                                HospitalWardNumber: procedureListResult[i]["HospitalWardNumber"]
+                            });
+                        }
+                    }
+                    NProgress.done();
+                }
+            });
+            return procedureComparativeArray;
         }
 
         // get modality procedure data
@@ -545,6 +789,82 @@
             procedureResultFlexGrid.trackChanges = true;
         }
 
+        // make procedure comparative grid
+        function makeProcedureComparativeGrid(Id) {
+            procedureComparativeCollectionView = new wijmo.collections.CollectionView(getProcedureComparativeData(Id));
+            procedureComparativeCollectionView.pageSize = 15;
+
+            procedureComparativeFlexGrid.dispose();
+            procedureComparativeFlexGrid = new wijmo.grid.FlexGrid('#procedureComparativeFlexGrid');
+            procedureComparativeFlexGrid.initialize({
+                columns: [
+                            {
+                                "header": "Tx Number",
+                                "binding": "TransactionNumber",
+                                "allowSorting": true,
+                                "width": "1*",
+                            },
+                            {
+                                "header": "Date",
+                                "binding": "TransactionDateTime",
+                                "allowSorting": true,
+                                "width": "1*",
+                            },
+                            {
+                                "header": "Time",
+                                "binding": "TransactionTime",
+                                "allowSorting": true,
+                                "width": "0.5*",
+                            },
+                            {
+                                "header": "Patient",
+                                "binding": "PatientName",
+                                "allowSorting": true,
+                                "width": "2*",
+                            },
+                            {
+                                "header": "Gender",
+                                "binding": "Gender",
+                                "allowSorting": true,
+                                "width": "0.5*",
+                            },
+                            {
+                                "header": "Age",
+                                "binding": "Age",
+                                "allowSorting": true,
+                                "width": "0.5*",
+                            },
+                            {
+                                "header": "Mod",
+                                "binding": "Modality",
+                                "allowSorting": true,
+                                "width": "0.5*",
+                            },
+                            {
+                                "header": "Body Part",
+                                "binding": "BodyPart",
+                                "allowSorting": true,
+                                "width": "0.5*",
+                            },
+                            {
+                                "header": "Doctor",
+                                "binding": "Doctor",
+                                "allowSorting": true,
+                                "width": "0.8*",
+                            }
+                ],
+                autoGenerateColumns: false,
+                itemsSource: procedureComparativeCollectionView,
+                isReadOnly: true,
+                autoSizeMode: wijmo.grid.AutoSizeMode.Both,
+                allowDragging: wijmo.grid.AllowDragging.None,
+                selectionMode: wijmo.grid.SelectionMode.Row
+            });
+
+            procedureComparativeFlexGrid.trackChanges = true;
+        }
+
+        // date formating in grid
         var date;
         function DateFormat(date) {
             function pad(n) { return n < 10 ? '0' + n : n }
@@ -553,6 +873,7 @@
             + pad(date.getDate())
         }
 
+        // convert time format
         function ConvertTimeformat(format, str) {
             var hours = Number(str.match(/^(\d+)/)[1]);
             var minutes = Number(str.match(/:(\d+)/)[1]);
@@ -650,7 +971,7 @@
 
                         $("#deleteConfirmationProcedureModal").modal("hide");
 
-                        procedureCollectionView = new wijmo.collections.CollectionView(getProcedureData());
+                        procedureCollectionView = new wijmo.collections.CollectionView(getProcedureData(cboDateStart.text, cboDateEnd.text));
                         procedureCollectionView.canFilter = true;
                         procedureCollectionView.pageSize = 15;
 
@@ -724,12 +1045,11 @@
             document.getElementById('procedureHospitalWardNumber').value = procedureCollectionView.currentItem.HospitalWardNumber;
 
             makeProcedureResultGrid(procedureCollectionView.currentItem.Id);
+            makeProcedureComparativeGrid(procedureCollectionView.currentItem.Id);
         }
 
-        // view procedure dicom
-        function btnViewProcedureDicomOnClick() {
-            var DicomFile = procedureCollectionView.currentItem.DICOMFileName;
-
+        // view dicom
+        function viewDicom(DicomFile) {
             DicomFile = "C" + DicomFile.substring(1, DicomFile.length);
 
             var DicomFiles = DicomFile.split(';');
@@ -774,6 +1094,20 @@
                     }
                 }
             }
+        }
+
+        // view procedure dicom
+        function btnViewProcedureDicomOnClick() {
+            viewDicom(procedureCollectionView.currentItem.DICOMFileName);
+        }
+
+        // view procedure dicom including historical dicom images
+        function btnViewProcedureAllDicomOnClick() {
+            var dicomString = procedureCollectionView.currentItem.DICOMFileName;
+            for (var i = 0; i < procedureComparativeCollectionView.items.length; i++) {
+                dicomString = dicomString + ";" + procedureComparativeCollectionView.items[i].DICOMFileName;
+            }
+            viewDicom(dicomString);
         }
 
         // print procedure result
@@ -1164,132 +1498,13 @@
             currentUserName = '@User.Identity.Name';
             lockPage();
 
-            NProgress.start();
-            procedureCollectionView = new wijmo.collections.CollectionView(getProcedureData());
-            procedureCollectionView.canFilter = true;
-            procedureCollectionView.pageSize = 15;
-
-            var filterText = '';
-            $('#inputFilter').keyup(function () {
-                filterText = this.value.toLowerCase();
-                procedureCollectionView.refresh();
-            });
-
-            procedureCollectionView.filter = function (item) {
-                return !filterText || (item.TransactionNumber.toLowerCase().indexOf(filterText) > -1)
-                                   || (item.PatientName.toLowerCase().indexOf(filterText) > -1)
-                                   || (item.Gender.toLowerCase().indexOf(filterText) > -1)
-                                   || (item.BodyPart.toLowerCase().indexOf(filterText) > -1)
-                                   || (item.Modality.toLowerCase().indexOf(filterText) > -1)
-                                   || (item.User.toLowerCase().indexOf(filterText) > -1);
-            }
-
-            procedureCollectionView.collectionChanged.addHandler(function (sender, args) {
-                updateNavigateButtons();
-            });
-
-            // Flex Grid
+            // Initiate procedure grid
             procedureFlexGrid = new wijmo.grid.FlexGrid('#procedureFlexGrid');
-            procedureFlexGrid.initialize({
-                columns: [
-                            {
-                                "header": "View",
-                                "binding": "ViewButton",
-                                "width": 75,
-                                "align": "center",
-                                "allowResizing": false,
-                                "isContentHtml": true
-                            }, {
-                                "header": "Edit",
-                                "binding": "EditButton",
-                                "width": 75,
-                                "align": "center",
-                                "allowResizing": false,
-                                "isContentHtml": true
-                            },
-                            {
-                                "header": "Delete",
-                                "binding": "DeleteButton",
-                                "width": 75,
-                                "align": "center",
-                                "allowResizing": false,
-                                "isContentHtml": true
-                            },
-                            {
-                                "header": "Tx Number",
-                                "binding": "TransactionNumber",
-                                "allowSorting": true,
-                                "width": "1*",
-                            },
-                            {
-                                "header": "Date",
-                                "binding": "TransactionDateTime",
-                                "allowSorting": true,
-                                "width": "1*",
-                            },
-                            {
-                                "header": "Time",
-                                "binding": "TransactionTime",
-                                "allowSorting": true,
-                                "width": "0.5*",
-                            },
-                            {
-                                "header": "Patient",
-                                "binding": "PatientName",
-                                "allowSorting": true,
-                                "width": "2*",
-                            },
-                            {
-                                "header": "Gender",
-                                "binding": "Gender",
-                                "allowSorting": true,
-                                "width": "0.5*",
-                            },
-                            {
-                                "header": "Age",
-                                "binding": "Age",
-                                "allowSorting": true,
-                                "width": "0.5*",
-                            },
-                            {
-                                "header": "Mod",
-                                "binding": "Modality",
-                                "allowSorting": true,
-                                "width": "0.5*",
-                            },
-                            {
-                                "header": "Body Part",
-                                "binding": "BodyPart",
-                                "allowSorting": true,
-                                "width": "0.5*",
-                            },
-                            {
-                                "header": "Doctor",
-                                "binding": "Doctor",
-                                "allowSorting": true,
-                                "width": "0.8*",
-                            }
-                ],
-                autoGenerateColumns: false,
-                itemsSource: procedureCollectionView,
-                isReadOnly: true,
-                frozenColumns: 2,
-                autoSizeMode: wijmo.grid.AutoSizeMode.Both,
-                allowDragging: wijmo.grid.AllowDragging.None,
-                selectionMode: wijmo.grid.SelectionMode.Row
-            });
 
-            procedureFlexGrid.trackChanges = true;
+            // Make procedure list
+            makeProcedureGrid("NA", "NA");
 
-            // Navigation button
-            btnFirstPageGrid = document.getElementById('btnMoveToFirstPageGrid');
-            btnPreviousPageGrid = document.getElementById('btnMoveToPreviousPageGrid');
-            btnNextPageGrid = document.getElementById('btnMoveToNextPageGrid');
-            btnLastPageGrid = document.getElementById('btnMoveToLastPageGrid');
-            btnCurrentPageGrid = document.getElementById('btnCurrentPageGrid');
-
-            updateNavigateButtons();
-
+            // Button listener
             btnFirstPageGrid.addEventListener('click', function () {
                 procedureCollectionView.moveToFirstPage();
                 updateNavigateButtons();
@@ -1316,6 +1531,20 @@
             cboDoctor = new wijmo.input.ComboBox('#cboDoctor');
             getModalityProcedureData();
             getDoctorData();
+
+            createCboDateStart();
+            createCboDateEnd();
+
+            // Initiate procedure comparative grid
+            procedureComparativeFlexGrid = new wijmo.grid.FlexGrid('#procedureComparativeFlexGrid');
+
+            // tab event to refresh grid
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var target = $(e.target).attr("href")
+                if (target == '#ProcedureHistory') {
+                    makeProcedureComparativeGrid(procedureCollectionView.currentItem.Id);
+                }
+            });
         }
 
     </script>

@@ -102,11 +102,23 @@ namespace philimagex.ApiControllers
 
                     newProcedure.StudyInstanceId = procedure.StudyInstanceId == "" || procedure.StudyInstanceId == null ? "NA" : procedure.StudyInstanceId;
 
-                    db.TrnProcedures.InsertOnSubmit(newProcedure);
-
-                    db.SubmitChanges();
-
-                    return "Success";
+                    if (procedure.TransactionNumber != "NA")
+                    {
+                        if (db.TrnProcedures.Where(d => d.UserId == procedure.UserId && d.TransactionNumber == procedure.TransactionNumber).Any())
+                        {
+                            return "Duplicate found.";
+                        }
+                        else
+                        {
+                            db.TrnProcedures.InsertOnSubmit(newProcedure);
+                            db.SubmitChanges();
+                            return "Success";
+                        }
+                    }
+                    else
+                    {
+                        return "Invalid transaction.";
+                    }
                 }
 
             }

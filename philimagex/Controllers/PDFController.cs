@@ -78,6 +78,9 @@ namespace philimagex.Controllers
 
                 var ProcedureResults = from d in db.TrnProcedureResults where d.Id == Id select d;
 
+                // ============
+                // Margosatubig
+                // ============
                 if (ProcedureResults.First().TrnProcedure.MstUser.UserName == "margosatubig")
                 {
                     writer.PageEvent = new PDFHeaderFooterMargosatubig(ProcedureResults.First().TrnProcedure.MstUser.FullName, Id);
@@ -269,6 +272,344 @@ namespace philimagex.Controllers
 
                     doc.Close();
                 }
+
+                // ======================
+                // Bacalso Medical Clinic
+                // ======================
+                else if (ProcedureResults.First().TrnProcedure.MstUser.UserName == "bacalsomedical")
+                {
+                    writer.PageEvent = new PDFHeaderFooter(ProcedureResults.First().TrnProcedure.MstUser.FullName, Id);
+
+                    doc.Open();
+
+                    // Header
+                    // doc.Add(new Paragraph(ProcedureResults.First().TrnProcedure.MstUser.FullName, TableHeaderFont));
+
+                    doc.Add(new Paragraph(ProcedureResults.First().TrnProcedure.MstUser.Address, SubHeaderFont));
+                    doc.Add(new Paragraph(ProcedureResults.First().TrnProcedure.MstUser.ContactNumber, SubHeaderFont));
+
+                    //// Detail - Header
+                    //var HeaderTable = new PdfPTable(2);
+                    //HeaderTable.HorizontalAlignment = 0;
+                    //HeaderTable.SpacingBefore = 20;
+                    //HeaderTable.SpacingAfter = 40;
+                    //HeaderTable.DefaultCell.Border = 0;
+                    //HeaderTable.SetWidths(new int[] { 2, 6 });
+                    //HeaderTable.AddCell(new Phrase("Transaction No.:", TableHeaderFont));
+                    //HeaderTable.AddCell(new Phrase(ProcedureResults.First().TrnProcedure.TransactionNumber, BodyFont));
+                    //HeaderTable.AddCell(new Phrase("Name:", TableHeaderFont));
+                    //HeaderTable.AddCell(new Phrase(ProcedureResults.First().TrnProcedure.PatientName, BodyFont));
+                    //HeaderTable.AddCell(new Phrase("Age:", TableHeaderFont));
+                    //HeaderTable.AddCell(new Phrase(ProcedureResults.First().TrnProcedure.Age.ToString(), BodyFont));
+                    //HeaderTable.AddCell(new Phrase("Sex:", TableHeaderFont));
+                    //HeaderTable.AddCell(new Phrase(ProcedureResults.First().TrnProcedure.Gender, BodyFont));
+                    //HeaderTable.AddCell(new Phrase("Procedure:", TableHeaderFont));
+                    //HeaderTable.AddCell(new Phrase(ProcedureResults.First().MstModalityProcedure.ModalityProcedure, BodyFont));
+                    //HeaderTable.AddCell(new Phrase("Transaction Date:", TableHeaderFont));
+                    //HeaderTable.AddCell(new Phrase(ProcedureResults.First().TrnProcedure.TransactionDateTime.ToShortDateString(), BodyFont));
+                    //doc.Add(HeaderTable);
+
+                    doc.Add(line);
+                    // Detail - Header
+                    PdfPTable HeaderTable = new PdfPTable(4);
+                    float[] HeaderTableWithCells = new float[] { 50f, 10f, 10f, 30f };
+                    HeaderTable.SetWidths(HeaderTableWithCells);
+                    HeaderTable.WidthPercentage = 100;
+
+                    // row = 1
+                    var nameLabelData = new Phrase();
+                    nameLabelData.Add(new Chunk("NAME: \n", fontArial12Bold));
+                    nameLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.PatientName, fontArial12));
+
+                    var ageLabelData = new Phrase();
+                    ageLabelData.Add(new Chunk("AGE: \n", fontArial12Bold));
+                    ageLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.Age.ToString(), fontArial12));
+
+                    var sexLabelData = new Phrase();
+                    sexLabelData.Add(new Chunk("SEX: \n", fontArial12Bold));
+                    sexLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.Gender, fontArial12));
+
+                    var accessionLabelData = new Phrase();
+                    accessionLabelData.Add(new Chunk("X-RAY NO.: \n", fontArial12Bold));
+                    accessionLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.TransactionNumber, fontArial12));
+
+                    // row = 2
+                    var addressLabelData = new Phrase();
+                    addressLabelData.Add(new Chunk("ADDRESS: \n", fontArial12Bold));
+                    addressLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.PatientAddress, fontArial12));
+
+                    var dateOfExamLabelData = new Phrase();
+                    dateOfExamLabelData.Add(new Chunk("DATE OF EXAM: \n", fontArial12Bold));
+                    dateOfExamLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.StudyDate, fontArial12));
+
+                    // row = 3
+                    var referredByLabelData = new Phrase();
+                    referredByLabelData.Add(new Chunk("REFERRED BY: \n", fontArial12Bold));
+                    referredByLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.ReferringPhysician, fontArial12));
+
+                    var hospitalNoLabelData = new Phrase();
+                    hospitalNoLabelData.Add(new Chunk("HOSPITAL NO.: \n", fontArial12Bold));
+                    hospitalNoLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.HospitalNumber, fontArial12));
+
+                    var wardRoomLabelData = new Phrase();
+                    wardRoomLabelData.Add(new Chunk("IN/OUT PATIENT: \n", fontArial12Bold));
+                    wardRoomLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.HospitalWardNumber, fontArial12));
+
+                    // row = 4
+                    var procedureLabelData = new Phrase();
+                    procedureLabelData.Add(new Chunk("PROCEDURE: \n", fontArial12Bold));
+                    procedureLabelData.Add(new Chunk(ProcedureResults.First().MstModalityProcedure.ModalityProcedure, fontArial12));
+
+                    // row = 5
+                    var clinicalInformationLabelData = new Phrase();
+                    clinicalInformationLabelData.Add(new Chunk("CLINICAL INFORMATION: \n", fontArial12Bold));
+                    clinicalInformationLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.Particulars, fontArial12));
+
+                    // add cells
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(nameLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(ageLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(sexLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(accessionLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(addressLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f, Colspan = 3 });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(dateOfExamLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f, Colspan = 1 });
+
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(referredByLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(hospitalNoLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f, Colspan = 2 });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(wardRoomLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(procedureLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f, Colspan = 4 });
+                    
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(clinicalInformationLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f, Colspan = 4 });
+                    
+                    doc.Add(HeaderTable);
+
+                    // Detail - Result
+                    var DetailTable = new PdfPTable(1);
+                    DetailTable.HorizontalAlignment = 0;
+                    DetailTable.SpacingAfter = 20;
+                    DetailTable.DefaultCell.Border = 0;
+                    DetailTable.SetWidths(new int[] { 6 });
+                    DetailTable.WidthPercentage = 100;
+
+                    PdfPCell detailCell1 = new PdfPCell(new Phrase(ProcedureResults.First().TrnProcedure.MstModality.Modality + " Result", TitleFont)) { HorizontalAlignment = PdfPCell.ALIGN_CENTER, VerticalAlignment = PdfPCell.ALIGN_BOTTOM, PaddingTop = 20f };
+                    detailCell1.Border = 0;
+
+                    PdfPCell detailCell2 = new PdfPCell(new Phrase(ProcedureResults.First().Result, BodyFont)) { HorizontalAlignment = PdfPCell.ALIGN_LEFT, VerticalAlignment = PdfPCell.ALIGN_BOTTOM };
+                    detailCell2.Border = 0;
+
+                    DetailTable.AddCell(detailCell1);
+                    DetailTable.AddCell(detailCell2);
+
+                    doc.Add(DetailTable);
+
+                    // Signature
+                    Image SignatureImage = Image.GetInstance(HttpContext.Current.Server.MapPath("/Images/Signature/" + ProcedureResults.First().MstUser.UserName + ".png"));
+                    SignatureImage.ScaleToFit(150f, 58f);
+
+                    Image signatureImage = Image.GetInstance(SignatureImage);
+                    PdfPCell signatureCellImage = new PdfPCell(signatureImage);
+
+                    // Detail - space
+                    PdfPTable spaceTable = new PdfPTable(1);
+                    float[] spaceWithCells = new float[] { 100f };
+                    spaceTable.SetWidths(spaceWithCells);
+                    spaceTable.WidthPercentage = 100;
+                    spaceTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 10f, PaddingLeft = 5f, PaddingRight = 5f });
+                    doc.Add(spaceTable);
+
+                    // Detail - footer
+                    PdfPTable FooterTable = new PdfPTable(3);
+                    float[] FooterTableWithCells = new float[] { 40f, 20f, 40f };
+                    FooterTable.SetWidths(FooterTableWithCells);
+                    FooterTable.WidthPercentage = 100;
+
+                    FooterTable.AddCell(new PdfPCell(new Phrase("Prepared by:", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase("Radiologist:", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(signatureCellImage) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase(ProcedureResults.First().MstUser.FullName, TableHeaderFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 1, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase(ProcedureResults.First().MstUser.ContactNumber, BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                    
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase("Release By: Leonidez C. Zafra, RRT", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase("Release Date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(), BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    
+                    doc.Add(FooterTable);
+                    doc.Add(spaceTable);
+
+                    // Detail - footer label
+                    PdfPTable FooterLabelTable = new PdfPTable(3);
+                    float[] FooterLabelTableWithCells = new float[] { 40f, 20f, 40f };
+                    FooterLabelTable.SetWidths(FooterLabelTableWithCells);
+                    FooterLabelTable.WidthPercentage = 100;
+
+                    FooterLabelTable.AddCell(new PdfPCell(new Phrase("NOT VALID UNLESS SIGNED", fontArial12Bold)) { Border = 0, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterLabelTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterLabelTable.AddCell(new PdfPCell(new Phrase("IMG FORM 03.00", fontArial12Bold)) { Border = 0, PaddingLeft = 5f, PaddingRight = 5f });
+
+                    doc.Add(FooterLabelTable);
+
+                    doc.Close();
+                }
+                
+                // ==========
+                // LifeHealth
+                // ==========
+                else if (ProcedureResults.First().TrnProcedure.MstUser.UserName == "lifehealth" || ProcedureResults.First().TrnProcedure.MstUser.UserName == "lifehealthmobile")
+                {
+                    //writer.PageEvent = new PDFHeaderFooter(ProcedureResults.First().TrnProcedure.MstUser.FullName, Id);
+
+                    doc.Open();
+
+                    // Header
+                    // doc.Add(new Paragraph(ProcedureResults.First().TrnProcedure.MstUser.FullName, TableHeaderFont));
+
+                    //doc.Add(new Paragraph(ProcedureResults.First().TrnProcedure.MstUser.Address, SubHeaderFont));
+                    //doc.Add(new Paragraph(ProcedureResults.First().TrnProcedure.MstUser.ContactNumber, SubHeaderFont));
+
+                    PdfPTable spaceTable = new PdfPTable(1);
+                    float[] spaceWithCells = new float[] { 100f };
+                    spaceTable.SetWidths(spaceWithCells);
+                    spaceTable.WidthPercentage = 100;
+                    spaceTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 70f, PaddingLeft = 5f, PaddingRight = 5f });
+                    doc.Add(spaceTable);
+
+
+                    doc.Add(line);
+                    // Detail - Header
+                    PdfPTable HeaderTable = new PdfPTable(4);
+                    float[] HeaderTableWithCells = new float[] { 50f, 10f, 10f, 30f };
+                    HeaderTable.SetWidths(HeaderTableWithCells);
+                    HeaderTable.WidthPercentage = 100;
+                    var nameLabelData = new Phrase();
+                    nameLabelData.Add(new Chunk("NAME: \n", fontArial12Bold));
+                    nameLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.PatientName, fontArial12));
+                    var ageLabelData = new Phrase();
+                    ageLabelData.Add(new Chunk("AGE: \n", fontArial12Bold));
+                    ageLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.Age.ToString(), fontArial12));
+                    var sexLabelData = new Phrase();
+                    sexLabelData.Add(new Chunk("SEX: \n", fontArial12Bold));
+                    sexLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.Gender, fontArial12));
+                    var accessionLabelData = new Phrase();
+                    accessionLabelData.Add(new Chunk("ACCESSION NO.: \n", fontArial12Bold));
+                    accessionLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.TransactionNumber, fontArial12));
+                    var addressLabelData = new Phrase();
+                    addressLabelData.Add(new Chunk("ADDRESS: \n", fontArial12Bold));
+                    addressLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.PatientAddress, fontArial12));
+                    var hospitalNoLabelData = new Phrase();
+                    hospitalNoLabelData.Add(new Chunk("HOSPITAL NO.: \n", fontArial12Bold));
+                    hospitalNoLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.HospitalNumber, fontArial12));
+                    var wardRoomLabelData = new Phrase();
+                    wardRoomLabelData.Add(new Chunk("WARD/ROOM: \n", fontArial12Bold));
+                    wardRoomLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.HospitalWardNumber, fontArial12));
+                    var referredByLabelData = new Phrase();
+                    referredByLabelData.Add(new Chunk("REFERRED BY: \n", fontArial12Bold));
+                    referredByLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.ReferringPhysician, fontArial12));
+                    var procedureLabelData = new Phrase();
+                    procedureLabelData.Add(new Chunk("PROCEDURE: \n", fontArial12Bold));
+                    procedureLabelData.Add(new Chunk(ProcedureResults.First().MstModalityProcedure.ModalityProcedure, fontArial12));
+                    var dateOfExamLabelData = new Phrase();
+                    dateOfExamLabelData.Add(new Chunk("DATE OF EXAM: \n", fontArial12Bold));
+                    dateOfExamLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.StudyDate, fontArial12));
+                    var clinicalInformationLabelData = new Phrase();
+                    clinicalInformationLabelData.Add(new Chunk("CLINICAL INFORMATION: \n", fontArial12Bold));
+                    clinicalInformationLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.Particulars, fontArial12));
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(nameLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(ageLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(sexLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(accessionLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(addressLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(hospitalNoLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f, Colspan = 2 });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(wardRoomLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(referredByLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(procedureLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f, Colspan = 2 });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(dateOfExamLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    HeaderTable.AddCell(new PdfPCell(new Phrase(clinicalInformationLabelData)) { PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f, Colspan = 4 });
+                    doc.Add(HeaderTable);
+
+                    // Detail - Result
+                    var DetailTable = new PdfPTable(1);
+                    DetailTable.HorizontalAlignment = 0;
+                    DetailTable.SpacingAfter = 20;
+                    DetailTable.DefaultCell.Border = 0;
+                    DetailTable.SetWidths(new int[] { 6 });
+                    DetailTable.WidthPercentage = 100;
+
+                    PdfPCell detailCell1 = new PdfPCell(new Phrase(ProcedureResults.First().TrnProcedure.MstModality.Modality + " Result", TitleFont)) { HorizontalAlignment = PdfPCell.ALIGN_CENTER, VerticalAlignment = PdfPCell.ALIGN_BOTTOM, PaddingTop = 20f };
+                    detailCell1.Border = 0;
+
+                    PdfPCell detailCell2 = new PdfPCell(new Phrase(ProcedureResults.First().Result, BodyFont)) { HorizontalAlignment = PdfPCell.ALIGN_LEFT, VerticalAlignment = PdfPCell.ALIGN_BOTTOM };
+                    detailCell2.Border = 0;
+
+                    DetailTable.AddCell(detailCell1);
+                    DetailTable.AddCell(detailCell2);
+
+                    doc.Add(DetailTable);
+
+                    // Signature
+                    //Image SignatureImage = Image.GetInstance(HttpContext.Current.Server.MapPath("/Images/Signature/" + ProcedureResults.First().MstUser.UserName + ".png"));
+                    //SignatureImage.ScaleToFit(150f, 58f);
+                    //Image signatureImage = Image.GetInstance(SignatureImage);
+                    //PdfPCell signatureCellImage = new PdfPCell(signatureImage);
+                    // Detail - space
+                    //PdfPTable spaceTable = new PdfPTable(1);
+                    //float[] spaceWithCells = new float[] { 100f };
+                    //spaceTable.SetWidths(spaceWithCells);
+                    //spaceTable.WidthPercentage = 100;
+                    //spaceTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 10f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //doc.Add(spaceTable);
+                    // Detail - footer
+                    //PdfPTable FooterTable = new PdfPTable(3);
+                    //float[] FooterTableWithCells = new float[] { 40f, 20f, 40f };
+                    //FooterTable.SetWidths(FooterTableWithCells);
+                    //FooterTable.WidthPercentage = 100;
+                    //FooterTable.AddCell(new PdfPCell(new Phrase("Prepared by:", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase("Radiologist:", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(signatureCellImage) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(ProcedureResults.First().MstUser.FullName, TableHeaderFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 1, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(ProcedureResults.First().MstUser.ContactNumber, BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase("OR No.:_________________________", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase("Release By:______________________", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase("Amount Paid: ____________________", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //FooterTable.AddCell(new PdfPCell(new Phrase("Release Date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(), BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    //doc.Add(FooterTable);
+                    //doc.Add(spaceTable);
+                    //// Detail - footer label
+                    //PdfPTable FooterLabelTable = new PdfPTable(1);
+                    //float[] FooterLabelTableWithCells = new float[] { 100f };
+                    //FooterLabelTable.SetWidths(FooterLabelTableWithCells);
+                    //FooterLabelTable.WidthPercentage = 100;
+                    //FooterLabelTable.AddCell(new PdfPCell(new Phrase("NOT VALID UNLESS SIGNED", fontArial12Bold)) { Border = 0, PaddingLeft = 5f, PaddingRight = 5f });
+                    //doc.Add(FooterLabelTable);
+
+                    doc.Close();
+                }
+
+                // Others
+                // ======
                 else
                 {
                     writer.PageEvent = new PDFHeaderFooter(ProcedureResults.First().TrnProcedure.MstUser.FullName, Id);
