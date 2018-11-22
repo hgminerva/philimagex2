@@ -244,22 +244,32 @@ namespace philimagex.Controllers
                     FooterTable.AddCell(new PdfPCell(new Phrase("Prepared by:", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase("Radiologist:", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     //FooterTable.AddCell(new PdfPCell(signatureCellImage) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(signatureCellImage) { Border = 0, PaddingTop = 2f, PaddingBottom = 0, PaddingLeft = 5f, PaddingRight = 5f });
+                    
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(ProcedureResults.First().MstUser.FullName, TableHeaderFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 1, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(ProcedureResults.First().MstUser.ContactNumber, BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
+                    
                     FooterTable.AddCell(new PdfPCell(new Phrase("OR No.:_________________________", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase("Release By:______________________", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+
                     FooterTable.AddCell(new PdfPCell(new Phrase("Amount Paid: ____________________", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase("Result Date: " + ProcedureResults.First().DoctorDateTime.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(), BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase("Release Date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(), BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    
                     doc.Add(FooterTable);
                     doc.Add(spaceTable);
                     // Detail - footer label
@@ -439,7 +449,7 @@ namespace philimagex.Controllers
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ", fontArial12Bold)) { Border = 1, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(ProcedureResults.First().MstUser.ContactNumber, BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 5f, PaddingLeft = 5f, PaddingRight = 5f });
-                    
+
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterTable.AddCell(new PdfPCell(new Phrase("Release By: Leonidez C. Zafra, RRT", BodyFont)) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
@@ -461,7 +471,16 @@ namespace philimagex.Controllers
                     FooterLabelTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
                     FooterLabelTable.AddCell(new PdfPCell(new Phrase("IMG FORM 03.00", fontArial12Bold)) { Border = 0, PaddingLeft = 5f, PaddingRight = 5f });
 
+                    FooterLabelTable.AddCell(new PdfPCell(Image.GetInstance(HttpContext.Current.Server.MapPath("/Images/Logo/bacalsomedicaltuv.jpg"))) { Border = 0, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterLabelTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingTop = 2f, PaddingBottom = 4f, PaddingLeft = 5f, PaddingRight = 5f });
+                    FooterLabelTable.AddCell(new PdfPCell(new Phrase(" ")) { Border = 0, PaddingLeft = 5f, PaddingRight = 5f });
+
                     doc.Add(FooterLabelTable);
+
+                    //Image image = Image.GetInstance(HttpContext.Current.Server.MapPath("/Images/Logo/bacalsomedicaltuv.jpg"));
+                    //image.ScaleToFit(200f, 100f);
+                    //image.SetAbsolutePosition(430, 650);
+                    //doc.Add(image);
 
                     doc.Close();
                 }

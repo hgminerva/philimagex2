@@ -1054,12 +1054,12 @@
 
             var DicomFiles = DicomFile.split(';');
             var NumberOfFiles = DicomFiles.length;
-
+           
             var myObject = new ActiveXObject("Scripting.FileSystemObject");
-
             var files = "";
             var fileDrive = "C";
 
+            // Multiple Files ;;
             if (NumberOfFiles > 1) {
                 for (index = 0; index < DicomFiles.length; index++) {
                     DicomFiles[index] = "C" + DicomFiles[index].substring(1, DicomFiles[index].length);
@@ -1082,17 +1082,46 @@
                 } else {
                     utilities.runDicomFileD(files);
                 }
+
+            // Single File (need to rescan the directory)
             } else {
+                // get the file drive
+                fileDrive = DicomFile.charAt(0);
                 if (myObject.FileExists(DicomFile)) {
-                    utilities.runDicomFileC(DicomFile);
+                    fileDrive = DicomFile.charAt(0);
                 } else {
-                    DicomFile = "D" + DicomFile.substring(1, DicomFile.length);
-                    if (myObject.FileExists(DicomFile)) {
-                        utilities.runDicomFileD(DicomFile);
-                    } else {
-                        toastr.error("Cannot find DICOM file.");
+                    if (DicomFile.charAt(0) == "C") {
+                        fileDrive = "D";
                     }
                 }
+                // get the directory
+                var path = DicomFile.substring(0, DicomFile.lastIndexOf("\\") + 1);
+                // get the files
+                var d = myObject.GetFolder(fileDrive + DicomFile.substring(1, path.length));
+                var f = new Enumerator(d.files);
+                var fc = 0;
+                for (; !f.atEnd() ; f.moveNext()) {
+                    files = files + " " + f.item();
+                    fc++;
+                }
+                // alert(files);
+                // open dicom viewer
+                if (fc > 0) {
+                    if (fileDrive == "C") utilities.runDicomFileC(files);
+                    if (fileDrive == "D") utilities.runDicomFileD(files);
+                } else {
+                    toastr.error("Cannot find DICOM file.");
+                }
+                //if (myObject.FileExists(DicomFile)) {
+                //    utilities.runDicomFileC(DicomFile);
+                //} else {
+                //    DicomFile = "D" + DicomFile.substring(1, DicomFile.length);
+                //    if (myObject.FileExists(DicomFile)) {
+                //        utilities.runDicomFileD(DicomFile);
+                //    } else {
+                //        toastr.error("Cannot find DICOM file.");
+                //    }
+                //}
             }
         }
 

@@ -240,6 +240,7 @@
     <Content Include="Images\dmtipacs_stations.png" />
     <Content Include="Images\Logo\alcantara.jpg" />
     <Content Include="Images\Logo\bacalsomedical.jpg" />
+    <Content Include="Images\Logo\bacalsomedicaltuv.jpg" />
     <Content Include="Images\Logo\dmtipacs-small.png" />
     <Content Include="Images\Logo\dmtipacs_logo.jpg" />
     <Content Include="Images\Logo\lifehealth.jpg" />
