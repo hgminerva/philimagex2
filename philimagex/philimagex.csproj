@@ -249,8 +249,11 @@
     <Content Include="Images\Logo\margosatubig.jpg" />
     <Content Include="Images\Logo\mcitpf-1.jpg" />
     <Content Include="Images\Logo\mcitpf.jpg" />
+    <Content Include="Images\Logo\myhealth.jpg" />
+    <Content Include="Images\Logo\radiopath.jpg" />
     <Content Include="Images\Signature\adiones.png" />
     <Content Include="Images\Signature\alex.png" />
+    <Content Include="Images\Signature\fradaza.png" />
     <Content Include="Images\Signature\gcadiz.png" />
     <Content Include="Images\Signature\gespino.png" />
     <Content Include="Images\Signature\jsarte.png" />
@@ -282,6 +285,8 @@
     </Content>
     <None Include="Properties\PublishProfiles\dmtipacs - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\dmtipacs - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\magentatrader2019 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\magentatrader2019 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\banner-bg.jpg" />
     <Content Include="Images\dog.png" />

@@ -271,15 +271,18 @@ var utilities = (function () {
             which = which.replace(/\\\\/g, '\\');
             //alert('C:\\Dropbox\\RadiAntViewer.exe -f ' + which);
             //WshShell.Run('"C:\\Program Files\\RadiAntViewer64bit\\RadiAntViewer.exe" -f ' + which);
-            WshShell.Run('"C:\\Dropbox\\RadiAntViewer.exe" -f ' + which);
+            //WshShell.Run('"C:\\Dropbox\\RadiAntViewer.exe" -f "' + which.trim() + '"');
             //WshShell.Run(which);
+            WshShell.Run('"C:\\Dropbox\\RadiAntViewer.exe" -f ' + which.trim() );
         },
 
         runDicomFileD: function (which) {
             var WshShell;
             WshShell = new ActiveXObject("WScript.Shell");
             which = which.replace(/\\\\/g, '\\');
-            WshShell.Run('"D:\\Dropbox\\RadiAntViewer.exe" -f ' + which);
+            x=1
+            //WshShell.Run('"D:\\Dropbox\\RadiAntViewer.exe" -f "' + which.trim() + '"' );
+            WshShell.Run('"D:\\Dropbox\\RadiAntViewer.exe" -f ' + which.trim() );
         },
 
         // Return a link from a data

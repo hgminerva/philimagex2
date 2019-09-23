@@ -63,9 +63,11 @@ namespace philimagex.Controllers
             {
                 BaseFont BaseFontTimesRoman = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, false);
                 Font TitleFont = new Font(BaseFontTimesRoman, 18, Font.BOLD);
+                Font TitleFont15 = new Font(BaseFontTimesRoman, 15, Font.BOLD);
                 Font SubTitleFont = new Font(BaseFontTimesRoman, 14, Font.BOLD);
                 Font TableHeaderFont = new Font(BaseFontTimesRoman, 12, Font.BOLD);
                 Font BodyFont = new Font(BaseFontTimesRoman, 12, Font.NORMAL);
+                Font BodyFont10 = new Font(BaseFontTimesRoman, 10, Font.NORMAL);
                 Font SubHeaderFont = new Font(BaseFontTimesRoman, 10, Font.NORMAL);
                 Font EndingMessageFont = new Font(BaseFontTimesRoman, 12, Font.ITALIC);
                 Font fontArial12Bold = new Font(BaseFontTimesRoman, 12, Font.BOLD);
@@ -694,7 +696,7 @@ namespace philimagex.Controllers
                     referredByLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.ReferringPhysician, fontArial12));
                     var procedureLabelData = new Phrase();
                     procedureLabelData.Add(new Chunk("PROCEDURE: \n", fontArial12Bold));
-                    procedureLabelData.Add(new Chunk(ProcedureResults.First().MstModalityProcedure.ModalityProcedure, fontArial12));
+                    procedureLabelData.Add(new Chunk(ProcedureResults.First().MstModalityProcedure.ModalityProcedure.Substring(0,23), new Font(BaseFontTimesRoman, 11)));
                     var dateOfExamLabelData = new Phrase();
                     dateOfExamLabelData.Add(new Chunk("DATE OF EXAM: \n", fontArial12Bold));
                     dateOfExamLabelData.Add(new Chunk(ProcedureResults.First().TrnProcedure.StudyDate, fontArial12));
@@ -727,10 +729,10 @@ namespace philimagex.Controllers
                     DetailTable.SetWidths(new int[] { 6 });
                     DetailTable.WidthPercentage = 100;
 
-                    PdfPCell detailCell1 = new PdfPCell(new Phrase(ProcedureResults.First().TrnProcedure.MstModality.Modality + " Result", TitleFont)) { HorizontalAlignment = PdfPCell.ALIGN_CENTER, VerticalAlignment = PdfPCell.ALIGN_BOTTOM, PaddingTop = 20f };
+                    PdfPCell detailCell1 = new PdfPCell(new Phrase(ProcedureResults.First().TrnProcedure.MstModality.Modality + " Result", TitleFont15)) { HorizontalAlignment = PdfPCell.ALIGN_CENTER, VerticalAlignment = PdfPCell.ALIGN_BOTTOM, PaddingTop = 20f };
                     detailCell1.Border = 0;
 
-                    PdfPCell detailCell2 = new PdfPCell(new Phrase(ProcedureResults.First().Result, BodyFont)) { HorizontalAlignment = PdfPCell.ALIGN_LEFT, VerticalAlignment = PdfPCell.ALIGN_BOTTOM };
+                    PdfPCell detailCell2 = new PdfPCell(new Phrase(ProcedureResults.First().Result, BodyFont10)) { HorizontalAlignment = PdfPCell.ALIGN_LEFT, VerticalAlignment = PdfPCell.ALIGN_BOTTOM };
                     detailCell2.Border = 0;
 
                     DetailTable.AddCell(detailCell1);

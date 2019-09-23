@@ -242,6 +242,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnViewProcedureDicomCT" onclick="btnViewProcedureDicomCTOnClick()">
+                        <i class="fa fa-eye fa-fw"></i> View CT Images
+                    </button>
                     <button type="button" class="btn btn-primary" id="btnViewProcedureDicom" onclick="btnViewProcedureDicomOnClick()">
                         <i class="fa fa-eye fa-fw"></i> View Image
                     </button>
@@ -1050,34 +1053,34 @@
 
         // view dicom
         function viewDicom(DicomFile) {
-            DicomFile = "C" + DicomFile.substring(1, DicomFile.length);
+            DicomFile = 'C' + DicomFile.substring(1, DicomFile.length);
 
             var DicomFiles = DicomFile.split(';');
             var NumberOfFiles = DicomFiles.length;
            
             var myObject = new ActiveXObject("Scripting.FileSystemObject");
-            var files = "";
-            var fileDrive = "C";
+            var files = '';
+            var fileDrive = 'C';
 
             // Multiple Files ;;
             if (NumberOfFiles > 1) {
                 for (index = 0; index < DicomFiles.length; index++) {
-                    DicomFiles[index] = "C" + DicomFiles[index].substring(1, DicomFiles[index].length);
+                    DicomFiles[index] = 'C' + DicomFiles[index].substring(1, DicomFiles[index].length);
                     if (myObject.FileExists(DicomFiles[index])) {
                         //utilities.runDicomFileC(DicomFiles[index]);
-                        files = files + " " + DicomFiles[index];
+                        files = files + ' "' + DicomFiles[index].trim() + '"';
                     } else {
-                        DicomFiles[index] = "D" + DicomFiles[index].substring(1, DicomFiles[index].length);
+                        DicomFiles[index] = 'D' + DicomFiles[index].substring(1, DicomFiles[index].length);
                         if (myObject.FileExists(DicomFiles[index])) {
                             //utilities.runDicomFileD(DicomFiles[index]);
-                            files = files + " " + DicomFiles[index];
-                            fileDrive = "D";
+                            files = files + ' "' + DicomFiles[index].trim() + '"';
+                            fileDrive = 'D';
                         } else {
                             toastr.error("Cannot find DICOM file.");
                         }
                     }
                 }
-                if (fileDrive == "C") {
+                if (fileDrive == 'C') {
                     utilities.runDicomFileC(files);
                 } else {
                     utilities.runDicomFileD(files);
@@ -1090,27 +1093,27 @@
                 if (myObject.FileExists(DicomFile)) {
                     fileDrive = DicomFile.charAt(0);
                 } else {
-                    if (DicomFile.charAt(0) == "C") {
-                        fileDrive = "D";
+                    if (DicomFile.charAt(0) == 'C') {
+                        fileDrive = 'D';
                     }
                 }
                 // get the directory
-                var path = DicomFile.substring(0, DicomFile.lastIndexOf("\\") + 1);
+                var path = DicomFile.substring(0, DicomFile.lastIndexOf('\\') + 1);
                 // get the files
                 var d = myObject.GetFolder(fileDrive + DicomFile.substring(1, path.length));
                 var f = new Enumerator(d.files);
                 var fc = 0;
                 for (; !f.atEnd() ; f.moveNext()) {
-                    files = files + " " + f.item();
+                    files = files + ' "' + f.item() + '"';
                     fc++;
                 }
                 // alert(files);
                 // open dicom viewer
                 if (fc > 0) {
-                    if (fileDrive == "C") utilities.runDicomFileC(files);
-                    if (fileDrive == "D") utilities.runDicomFileD(files);
+                    if (fileDrive == 'C') utilities.runDicomFileC(files);
+                    if (fileDrive == 'D') utilities.runDicomFileD(files);
                 } else {
-                    toastr.error("Cannot find DICOM file.");
+                    toastr.error('Cannot find DICOM file.');
                 }
                 //if (myObject.FileExists(DicomFile)) {
                 //    utilities.runDicomFileC(DicomFile);
@@ -1122,6 +1125,61 @@
                 //        toastr.error("Cannot find DICOM file.");
                 //    }
                 //}
+            }
+        }
+
+        // View procedure dicom ct
+        function btnViewProcedureDicomCTOnClick() {
+            var DicomFile = procedureCollectionView.currentItem.DICOMFileName;
+
+            DicomFile = 'C' + DicomFile.substring(1, DicomFile.length);
+
+            var DicomFiles = DicomFile.split(';');
+            var NumberOfFiles = DicomFiles.length;
+           
+            var myObject = new ActiveXObject("Scripting.FileSystemObject");
+            var folders = '';
+            var fileDrive = 'C';
+
+            // Multiple Files ;;
+            if (NumberOfFiles == 1) {
+                fileDrive = DicomFile.charAt(0);
+                if (myObject.FileExists(DicomFile)) {
+                    fileDrive = DicomFile.charAt(0);
+                } else {
+                    if (DicomFile.charAt(0) == 'C') {
+                        fileDrive = 'D';
+                    }
+                }
+                // get the directory
+                var path = DicomFile.substring(0, DicomFile.lastIndexOf('\\') + 1);
+                path = fileDrive + DicomFile.substring(1, path.length);
+
+                // get the files
+                var d = myObject.GetFolder(path);
+                var d1 = d.ShortPath.substring(0, d.ShortPath.lastIndexOf('\\') + 1);
+                var d2 = myObject.GetFolder(d1);
+
+                var f = new Enumerator(d2.SubFolders);
+                var fc = 0;
+                for (; !f.atEnd() ; f.moveNext()) {
+                    folders = folders + ' "' + f.item() + '"';
+                    fc++;
+                }
+
+                // open dicom viewer
+                if (fc > 0) {
+                    var WshShell;
+                    WshShell = new ActiveXObject("WScript.Shell");
+                    folders = folders.replace(/\\\\/g, '\\');
+
+                    if (fileDrive == 'C') WshShell.Run('"C:\\Dropbox\\RadiAntViewer.exe" -d ' + folders.trim());
+                    if (fileDrive == 'D') WshShell.Run('"D:\\Dropbox\\RadiAntViewer.exe" -d ' + folders.trim());
+                } else {
+                    toastr.error('Cannot find CT files.');
+                }
+            } else {
+                toastr.error('Invalid CT files.');
             }
         }
 
