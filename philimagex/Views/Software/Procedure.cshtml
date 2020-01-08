@@ -1131,55 +1131,52 @@
         // View procedure dicom ct
         function btnViewProcedureDicomCTOnClick() {
             var DicomFile = procedureCollectionView.currentItem.DICOMFileName;
-
-            DicomFile = 'C' + DicomFile.substring(1, DicomFile.length);
-
             var DicomFiles = DicomFile.split(';');
             var NumberOfFiles = DicomFiles.length;
-           
             var myObject = new ActiveXObject("Scripting.FileSystemObject");
             var folders = '';
             var fileDrive = 'C';
 
-            // Multiple Files ;;
-            if (NumberOfFiles == 1) {
+            // For CT Get the single file only then scan the directory
+            DicomFile = 'C' + DicomFile.substring(1, DicomFile.length);
+            if (NumberOfFiles > 1) {
+                DicomFile = 'C' + DicomFiles[0].substring(1, DicomFiles[0].length);
+            }
+
+            // Determine the Dropbox drive
+            fileDrive = DicomFile.charAt(0);
+            if (myObject.FileExists(DicomFile)) {
                 fileDrive = DicomFile.charAt(0);
-                if (myObject.FileExists(DicomFile)) {
-                    fileDrive = DicomFile.charAt(0);
-                } else {
-                    if (DicomFile.charAt(0) == 'C') {
-                        fileDrive = 'D';
-                    }
-                }
-                // get the directory
-                var path = DicomFile.substring(0, DicomFile.lastIndexOf('\\') + 1);
-                path = fileDrive + DicomFile.substring(1, path.length);
-
-                // get the files
-                var d = myObject.GetFolder(path);
-                var d1 = d.ShortPath.substring(0, d.ShortPath.lastIndexOf('\\') + 1);
-                var d2 = myObject.GetFolder(d1);
-
-                var f = new Enumerator(d2.SubFolders);
-                var fc = 0;
-                for (; !f.atEnd() ; f.moveNext()) {
-                    folders = folders + ' "' + f.item() + '"';
-                    fc++;
-                }
-
-                // open dicom viewer
-                if (fc > 0) {
-                    var WshShell;
-                    WshShell = new ActiveXObject("WScript.Shell");
-                    folders = folders.replace(/\\\\/g, '\\');
-
-                    if (fileDrive == 'C') WshShell.Run('"C:\\Dropbox\\RadiAntViewer.exe" -d ' + folders.trim());
-                    if (fileDrive == 'D') WshShell.Run('"D:\\Dropbox\\RadiAntViewer.exe" -d ' + folders.trim());
-                } else {
-                    toastr.error('Cannot find CT files.');
-                }
             } else {
-                toastr.error('Invalid CT files.');
+                if (DicomFile.charAt(0) == 'C') {
+                    fileDrive = 'D';
+                }
+            }
+            var path = DicomFile.substring(0, DicomFile.lastIndexOf('\\') + 1);
+            path = fileDrive + DicomFile.substring(1, path.length);
+
+            // get the files
+            var d = myObject.GetFolder(path);
+            var d1 = d.ShortPath.substring(0, d.ShortPath.lastIndexOf('\\') + 1);
+            var d2 = myObject.GetFolder(d1);
+
+            var f = new Enumerator(d2.SubFolders);
+            var fc = 0;
+            for (; !f.atEnd() ; f.moveNext()) {
+                folders = folders + ' "' + f.item() + '"';
+                fc++;
+            }
+
+            // open dicom viewer
+            if (fc > 0) {
+                var WshShell;
+                WshShell = new ActiveXObject("WScript.Shell");
+                folders = folders.replace(/\\\\/g, '\\');
+
+                if (fileDrive == 'C') WshShell.Run('"C:\\Dropbox\\RadiAntViewer.exe" -d ' + folders.trim());
+                if (fileDrive == 'D') WshShell.Run('"D:\\Dropbox\\RadiAntViewer.exe" -d ' + folders.trim());
+            } else {
+                toastr.error('Cannot find CT files.');
             }
         }
 

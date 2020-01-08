@@ -49,7 +49,7 @@ namespace philimagex.ApiControllers
                                             Id = d.Id,
                                             ModalityId = d.ModalityId,
                                             Modality = d.MstModality.Modality,
-                                            ModalityProcedure = d.ModalityProcedure + " - " + d.ModalityResultTemplate.Substring(0,30) + " ...",
+                                            ModalityProcedure = d.ModalityProcedure + " (" + d.MstModality.Modality + ") " + d.ModalityResultTemplate.Substring(0, 30) + " ...",
                                             ModalityResultTemplate = d.ModalityResultTemplate
                                          };
                 return modalityProcedures.ToList();
